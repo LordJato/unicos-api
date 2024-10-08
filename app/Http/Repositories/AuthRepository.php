@@ -23,6 +23,8 @@ class AuthRepository
             throw new Exception("Sorry, password does not match.", 401);
         }
 
+        return $data;
+
         $tokenInstance = $this->createAuthToken($user);
 
         return $this->getAuthData($user, $tokenInstance);
@@ -53,7 +55,7 @@ class AuthRepository
 
     public function createAuthToken(User $user): PersonalAccessTokenResult
     {
-        return $user->createToken('authToken');
+        return $user->createToken('Personal Access Token');
     }
 
     public function getAuthData(User $user, PersonalAccessTokenResult $tokenInstance): array

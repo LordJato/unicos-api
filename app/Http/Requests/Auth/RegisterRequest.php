@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Http\Requests\ApiFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends ApiFormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,8 +22,7 @@ class LoginRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|email|max:100',
-            'password' => 'required|min:6'
+            //
         ];
     }
 }
