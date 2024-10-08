@@ -10,7 +10,7 @@ use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthRepository
 {
-    public function login(array $data): array
+    public function login(array $data) : array
     {
         $user = $this->getUserByEmail($data['email']);
 
@@ -23,11 +23,9 @@ class AuthRepository
             throw new Exception("Sorry, password does not match.", 401);
         }
 
-        return $data;
-
         $tokenInstance = $this->createAuthToken($user);
 
-        return $this->getAuthData($user, $tokenInstance);
+        return $this->getAuthData($tokenInstance);
     }
 
     public function register(array $data): array
@@ -58,10 +56,9 @@ class AuthRepository
         return $user->createToken('Personal Access Token');
     }
 
-    public function getAuthData(User $user, PersonalAccessTokenResult $tokenInstance): array
+    public function getAuthData(PersonalAccessTokenResult $tokenInstance): array
     {
         return [
-            'user'         => $user,
             'access_token' => $tokenInstance->accessToken,
             'token_type'   => 'Bearer',
             'expires_at'   => Carbon::parse($tokenInstance->token->expires_at)->toDateTimeString()

@@ -25,19 +25,26 @@ class AuthController extends Controller
             $data = $this->auth->login($request->all()); 
 
             return $this->responseSuccess($data, 'Logged in successfully.');
+
         } catch (Exception $exception) {
+
             return $this->responseError([], $exception->getMessage());
+
         }
     }
 
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
+
             $data = $this->auth->register($request->all());
 
             return $this->responseSuccess($data, 'User registered successfully.');
+
         } catch (Exception $exception) {
+
             return $this->responseError([], $exception->getMessage());
+            
         }
     }
 }
