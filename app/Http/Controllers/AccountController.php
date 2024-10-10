@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AccountRequest;
+use Exception;
 use App\Models\Account;
 use Illuminate\Http\Request;
-use App\Repositories\AccountRepository;
 use App\Traits\ResponseTrait;
-use Exception;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\AccountRequest;
+use App\Http\Repositories\AccountRepository;
 
 class AccountController extends Controller
 {
