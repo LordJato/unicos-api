@@ -6,33 +6,28 @@ use App\Models\Account;
 use Exception;
 use Illuminate\Http\Response;
 
-class AccountRepository {
+class AccountRepository
+{
 
     public function getAll(object $request): array
     {
         $search = $request->get('search');
 
         //filters
-        $offset = $request->has('offset') ? (int)$request->get('offset') : 0;
-        $limit = $request->has('limit') ? (int)$request->get('limit') : 10;
-        $orderBy =  $request->has('orderBy') ? $request->get('orderBy') : 'id';
-        $orderDesc =  $request->get('orderDesc') === 'true' ? 'desc' : 'asc';
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $orderBy = $request->input('orderBy', 'id');
+        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
 
-        //$page =  $request->has('page') ? ((int)$request->get('page') - 1) * $limit : 0;
-
-        $accounts = Account::where(function ($q) use ($search) {
-            if ($search) {
-                $q->where('name', 'like', '%'. $search);
-            }
+        $accounts = Account::when($search, function ($query, $search) {
+            $query->where('name', 'like', '%' . $search . '%');
         })
-            ->limit($limit)                                           
-            ->offset($offset) 
             ->orderBy($orderBy, $orderDesc)
-            ->get();
+            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);  // Paginate instead of limit/offset
 
         $data = [
-            'total' => count($accounts),
-            'records' => $accounts,
+            'total' => $accounts->total(),  // Total count is handled by paginate
+            'records' => $accounts->items(), // Use items() for the current page records
             'offset' => $offset,
             'limit' => $limit
         ];
@@ -55,7 +50,7 @@ class AccountRepository {
     {
 
         $data = [
-            'name' => $params['name'],  
+            'name' => $params['name'],
             'is_active' => $params['is_active'] ?? 0
         ];
 
@@ -74,7 +69,7 @@ class AccountRepository {
 
         $account->name = $params['name'];
         $account->is_active = $params['is_active'];
-        
+
         if ($account->save()) {
             $account = $this->getById($id);
         }
