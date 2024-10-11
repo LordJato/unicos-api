@@ -21,10 +21,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-
             return $this->responseSuccess($this->userRepository->getAll(request()), "Users fetched successfully");
         } catch (Exception $e) {
-
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }

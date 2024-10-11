@@ -2,9 +2,11 @@
 
 namespace App\Http\Repositories;
 
-use App\Models\User;
-use Carbon\Carbon;
 use Exception;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\PersonalAccessTokenResult;
 
@@ -13,11 +15,6 @@ class AuthRepository
     public function login(array $data) : array
     {
         $user = $this->getUserByEmail($data['email']);
-
-        if (!$user) {
-            throw new Exception("Sorry, user does not exist.", 404);
-        }
-
 
         if (!$this->isValidPassword($user, $data)) {
             throw new Exception("Sorry, password does not match.", 401);
@@ -28,7 +25,7 @@ class AuthRepository
         return $this->getAuthData($tokenInstance);
     }
 
-    public function register(array $data): array
+    public function register(array $data): UserResource
     {
         $user = User::create($this->prepareDataForRegister($data));
 
@@ -36,9 +33,19 @@ class AuthRepository
             throw new Exception("Sorry, user does not registered, Please try again.", 500);
         }
 
-        $tokenInstance = $this->createAuthToken($user);
+        return new UserResource($user);
+    }
 
-        return $this->getAuthData($user, $tokenInstance);
+    public function logout() : bool {
+
+        if(Auth::check()){
+            $token = Auth::guard()->user()->token();
+            $token->revoke();
+            $token->delete();
+            return true;
+        }
+
+        return false;
     }
 
     public function getUserByEmail(string $email): ?User

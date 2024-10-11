@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         } catch (Exception $exception) {
 
-            return $this->responseError([], $exception->getMessage());
+            return $this->responseError([], $exception->getMessage(), $exception->getCode());
 
         }
     }
@@ -43,8 +43,22 @@ class AuthController extends Controller
 
         } catch (Exception $exception) {
 
-            return $this->responseError([], $exception->getMessage());
+            return $this->responseError([], $exception->getMessage(), $exception->getCode());
             
+        }
+    }
+
+    public function logout(): JsonResponse
+    {
+        try {
+            $this->auth->logout();
+
+            return $this->responseSuccess('', 'User logged out successfully !');
+
+        } catch (Exception $exception) {
+
+            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+
         }
     }
 }
