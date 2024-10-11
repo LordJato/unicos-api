@@ -10,6 +10,8 @@ Route::get('/user', function (Request $request) {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
+Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 
 
 Route::middleware('auth:api')->group(function () {
