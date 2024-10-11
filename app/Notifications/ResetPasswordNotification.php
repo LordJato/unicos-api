@@ -11,13 +11,17 @@ class ResetPasswordNotification extends Notification
 {
     use Queueable;
 
+    public $token, $name;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($token, $name)
     {
-        //
+        $this->token = $token;
+        $this->name = $name;
     }
+
 
     /**
      * Get the notification's delivery channels.
@@ -34,11 +38,15 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $resetPasswordUrl = env('SPA_URL') . "/" . env('SPA_URL_FORGOT_PASSWORD')."?token={$this->token}";
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->greeting('Hello ' . $this->name . ',')
+            ->line('You are receiving this email because we received a password reset request for your account.')
+            ->action('Click here', $resetPasswordUrl)
+            ->line('If you did not request a password reset, no further action is required.');
     }
+
 
     /**
      * Get the array representation of the notification.

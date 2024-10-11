@@ -65,7 +65,6 @@ class AuthController extends Controller
 
             return $this->responseSuccess($data, 'Email sent');
         } catch (Exception $exception) {
-            return $exception;
             return $this->responseError([], $exception->getMessage(), $exception->getCode());
         }
     }
@@ -78,8 +77,6 @@ class AuthController extends Controller
             return $this->responseSuccess($data, 'Password Reset Successfully');
 
         } catch (Exception $exception) {
-
-            return $exception;
 
             return $this->responseError([], $exception->getMessage(), $exception->getCode());
         }
