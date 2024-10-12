@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasPermissions;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +60,13 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->belongsToMany(Permission::class, 'users_permissions');
     }
+
+    
+    public function hasRole(...$roles)
+    {
+        return $this->roles()->whereIn('slug', $roles)->count();
+    }
+
 
     public function sendPasswordResetNotification($token) : void
     {

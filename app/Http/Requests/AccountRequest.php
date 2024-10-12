@@ -22,11 +22,13 @@ class AccountRequest extends ApiFormRequest
             if ($this->isMethod('post')) {
                 return $user->hasPermissionTo(['create-account']);
             }
-    
+
             if ($this->isMethod('put')) {
                 return $user->hasPermissionTo(['update-account']);
             }
-         }
+        }
+
+        return false;
     }
 
     /**
@@ -39,7 +41,7 @@ class AccountRequest extends ApiFormRequest
         if ($this->isMethod('get')) {
             return [
                 'id' => 'required',
-            ]; 
+            ];
         }
 
         if ($this->isMethod('post')) {
@@ -50,7 +52,7 @@ class AccountRequest extends ApiFormRequest
 
         if ($this->isMethod('put')) {
             return [
-                'name' => 'required|string|max:150|unique:accounts,name,'. request()->id,
+                'name' => 'required|string|max:150|unique:accounts,name,' . request()->id,
                 'is_active' => 'boolean'
             ];
         }
