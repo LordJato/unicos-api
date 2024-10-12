@@ -25,14 +25,14 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() : JsonResponse
+    public function index(AccountRequest $request) : JsonResponse
     {
         try {
+            $data = $this->accountRepository->getAll($request);
 
-            return $this->responseSuccess($this->accountRepository->getAll(request()), "Account fetched successfully");
+            return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {
-
-            return $this->responseError([], $e->getMessage());
+            return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
 

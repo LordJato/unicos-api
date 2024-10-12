@@ -18,11 +18,12 @@ Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('p
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::get('/accounts', [AccountController::class, 'index']);
-    Route::group(['prefix' => 'account', 'as' => 'account.'], function(){
-        Route::get('/get', [AccountController::class, 'show']);
-        Route::post('/create', [AccountController::class, 'store']); 
-        Route::put('/update', [AccountController::class, 'update']);
+   
+    Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function(){
+        Route::get('/', [AccountController::class, 'index'])->name('index');
+        Route::get('/get', [AccountController::class, 'show'])->name('get');
+        Route::post('/create', [AccountController::class, 'store'])->name('create'); 
+        Route::put('/update', [AccountController::class, 'update'])->name('update');
     });
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 
 class AccountRequest extends ApiFormRequest
 {
@@ -16,7 +17,11 @@ class AccountRequest extends ApiFormRequest
         $user = Auth::user();
         if ($user !== null && $user instanceof User) {
             if ($this->isMethod('get')) {
-                return Gate::allows('view-account');
+                if (Route::currentRouteName() === 'accounts.index') {
+                    return Gate::allows('view-all-account');
+                } else {
+                    return Gate::allows('view-account');
+                }
             }
 
             if ($this->isMethod('post')) {
