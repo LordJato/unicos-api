@@ -13,7 +13,6 @@ class AccountRequest extends ApiFormRequest
     public function authorize(): bool
     {
         $user = Auth::user();
-
         if ($user !== null && $user instanceof User) {
             if ($this->isMethod('get')) {
                 return $user->hasPermissionTo(['view-account']);
