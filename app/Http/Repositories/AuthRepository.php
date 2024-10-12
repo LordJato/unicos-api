@@ -20,6 +20,12 @@ class AuthRepository
     {
         $user = $this->getUserByEmail($data['email']);
 
+        
+        if (!$user) {
+            throw new Exception("User does not exist.", Response::HTTP_NOT_FOUND);
+        }
+
+
         if (!$this->isValidPassword($user, $data)) {
             throw new Exception("Sorry, password does not match.", Response::HTTP_UNAUTHORIZED);
         }

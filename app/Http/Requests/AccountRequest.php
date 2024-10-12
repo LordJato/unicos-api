@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AccountRequest extends ApiFormRequest
 {
@@ -15,15 +16,15 @@ class AccountRequest extends ApiFormRequest
         $user = Auth::user();
         if ($user !== null && $user instanceof User) {
             if ($this->isMethod('get')) {
-                return $user->hasPermissionTo(['view-account']);
+                return Gate::allows('view-account');
             }
 
             if ($this->isMethod('post')) {
-                return $user->hasPermissionTo(['create-account']);
+                return Gate::allows('create-account');
             }
 
             if ($this->isMethod('put')) {
-                return $user->hasPermissionTo(['update-account']);
+                return Gate::allows('update-account');
             }
         }
 
