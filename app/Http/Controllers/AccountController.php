@@ -87,8 +87,16 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Account $account)
+    public function destroy(Request $request)
     {
-        //
+        try {
+
+            $deleteAccount = $this->accountRepository->delete($request->id);
+
+            return $this->responseSuccess($deleteAccount, "Account deleted successfully");
+        } catch (Exception $e) {
+
+            return $this->responseError([], $e->getMessage());
+        }
     }
 }

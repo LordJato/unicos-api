@@ -51,7 +51,6 @@ class AccountRepository
 
         $data = [
             'name' => $params['name'],
-            'is_active' => $params['is_active'] ?? 0
         ];
 
         $create = Account::create($data);
@@ -74,5 +73,10 @@ class AccountRepository
         }
 
         return $account;
+    }
+
+    public function delete(array $data): bool
+    {
+        return Account::find($data['id'])->delete();
     }
 }
