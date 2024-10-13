@@ -75,8 +75,6 @@ class AccountController extends Controller
     {
         try {
 
-            $accountRequest['is_active'] = $accountRequest['is_active'] ?? 0;
-
             $updateAccount = $this->accountRepository->update($request->id, $accountRequest->all());
 
             return $this->responseSuccess($updateAccount, "Account updated successfully");

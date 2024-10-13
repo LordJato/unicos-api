@@ -68,7 +68,6 @@ class AccountRepository
         $account = $this->getById($id);
 
         $account->name = $params['name'];
-        $account->is_active = $params['is_active'];
 
         if ($account->save()) {
             $account = $this->getById($id);

@@ -43,7 +43,7 @@ class AccountRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        if ($this->isMethod('get')) {
+        if ($this->isMethod('get') && Route::currentRouteName() != 'accounts.index') {
             return [
                 'id' => 'required',
             ];
@@ -57,9 +57,11 @@ class AccountRequest extends ApiFormRequest
 
         if ($this->isMethod('put')) {
             return [
+                'id' => 'required',
                 'name' => 'required|string|max:150|unique:accounts,name,' . request()->id,
-                'is_active' => 'boolean'
             ];
         }
+
+        return [];
     }
 }
