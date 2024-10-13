@@ -31,6 +31,10 @@ class AccountRequest extends ApiFormRequest
             if ($this->isMethod('put')) {
                 return Gate::allows('update-account');
             }
+
+            if ($this->isMethod('delete')) {
+                return Gate::allows('delete-account');
+            }
         }
 
         return false;
@@ -59,6 +63,12 @@ class AccountRequest extends ApiFormRequest
             return [
                 'id' => 'required',
                 'name' => 'required|string|max:150|unique:accounts,name,' . request()->id,
+            ];
+        }
+
+        if ($this->isMethod('delete')) {
+            return [
+                'id' => 'required'
             ];
         }
 

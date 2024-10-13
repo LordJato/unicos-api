@@ -75,8 +75,11 @@ class AccountRepository
         return $account;
     }
 
-    public function delete(array $data): bool
+    public function softDelete(int $id): bool
     {
-        return Account::find($data['id'])->delete();
+
+        $account = $this->getByID($id);
+
+        return $account->delete();
     }
 }

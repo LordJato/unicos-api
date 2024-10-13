@@ -24,6 +24,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/get', [AccountController::class, 'show'])->name('get');
         Route::post('/create', [AccountController::class, 'store'])->name('create'); 
         Route::put('/update', [AccountController::class, 'update'])->name('update');
+        Route::delete('/delete', [AccountController::class, 'destroy'])->name('delete');
     });
 });
 
