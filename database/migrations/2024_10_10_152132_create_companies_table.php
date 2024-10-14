@@ -27,10 +27,8 @@ return new class extends Migration
             $table->string('SSS', 20)->nullable();
             $table->string('PhilHealth', 20)->nullable();
             $table->string('HDMF', 20)->nullable();
-            $table->tinyInteger('work_hrs_per_day')->nullable();
-            $table->boolean('is_active')->default(0);
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }

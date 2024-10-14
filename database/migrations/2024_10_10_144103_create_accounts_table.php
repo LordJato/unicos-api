@@ -17,6 +17,10 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('users', function(Blueprint $table) {
+            $table->foreign('account_id')->references('id')->on('accounts')->nullOnDelete();
+        });
     }
 
     /**
