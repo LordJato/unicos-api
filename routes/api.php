@@ -28,6 +28,13 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/delete', [AccountController::class, 'destroy']);
     });
 
-    Route::apiResource('companies', CompanyController::class);
+    Route::group(['prefix' => 'companies', 'as' => 'companies.'], function(){
+        Route::get('/', [CompanyController::class, 'index']);
+        Route::get('/get', [CompanyController::class, 'show']);
+        Route::post('/create', [CompanyController::class, 'store']);
+        Route::put('/update', [CompanyController::class, 'update']);
+        Route::delete('/delete', [CompanyController::class, 'destroy']);
+    });
+
 });
 

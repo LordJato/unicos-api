@@ -9,6 +9,7 @@ use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AccountRequest;
 use App\Http\Repositories\CompanyRepository;
+use App\Http\Requests\Company\CompanyCreateRequest;
 use App\Http\Requests\Company\CompanyIndexRequest;
 
 class CompanyController extends Controller
@@ -40,7 +41,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountRequest $request)
+    public function store(CompanyCreateRequest $request)
     {
         try {
 
@@ -48,7 +49,7 @@ class CompanyController extends Controller
 
             return $this->responseSuccess($create, "Company created successfully");
         } catch (Exception $e) {
-
+            
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }

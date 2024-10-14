@@ -2,9 +2,10 @@
 
 namespace App\Http\Repositories;
 
-use App\Models\Company;
 use Exception;
+use App\Models\Company;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {
@@ -46,17 +47,17 @@ class CompanyRepository
         return $account;
     }
 
-    public function create(array $params): Company
+    public function create(array $data): Company
     {
 
-        $data = [
-            'name' => $params['name'],
-        ];
+        $data['account_id'] = Auth::user()->account_id;
 
-        $create = Company::create($data);
+        $company = $this->prepareDataForRegister($data);
+
+        $create = Company::create($company);
 
         if (!$create) {
-            throw new Exception("Could not create account, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new Exception("Could not create company, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $create->fresh();
@@ -81,5 +82,25 @@ class CompanyRepository
         $account = $this->getByID($id);
 
         return $account->delete();
+    }
+
+    public function prepareDataForRegister(array $data): array
+    {
+        return [
+            'account_id' => $data['account_id'],
+            'name' => $data['name'],
+            'address' => $data['address'],
+            'city' => $data['city'],
+            'province' => $data['province'],
+            'postal' => $data['postal'],
+            'country' => $data['country'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'fax' => $data['fax'],
+            'tin' => $data['tin'],
+            'sss' => $data['sss'],
+            'philhealth' => $data['philhealth'],
+            'hdmf' => $data['hdmf']
+        ];
     }
 }

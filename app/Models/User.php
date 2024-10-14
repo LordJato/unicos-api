@@ -8,9 +8,11 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class User extends Authenticatable implements CanResetPassword
@@ -72,6 +74,11 @@ class User extends Authenticatable implements CanResetPassword
     public function sendPasswordResetNotification($token) : void
     {
         $this->notify(new ResetPasswordNotification($token, $this->name));
+    }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
     }
 
 }

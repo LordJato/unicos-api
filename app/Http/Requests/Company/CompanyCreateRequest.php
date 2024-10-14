@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Company;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompanyCreateRequest extends FormRequest
@@ -22,7 +23,8 @@ class CompanyCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:150|unique:companies',
+            'postal' => 'string|max:4'
         ];
     }
 }
