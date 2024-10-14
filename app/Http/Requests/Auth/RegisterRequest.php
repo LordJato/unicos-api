@@ -22,7 +22,8 @@ class RegisterRequest extends ApiFormRequest
     {
         return [
             'email'    => 'required|email|max:100|unique:users',
-            'password' => 'required|min:6|confirmed'
+            'password' => 'required|min:6|confirmed',
+            'phone'    => 'max:100|unique:users',
         ];
     }
 }

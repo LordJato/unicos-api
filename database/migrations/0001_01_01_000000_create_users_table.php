@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('phone', 20)->unique();
+            $table->string('phone', 20)->unique()->nullable();;
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
