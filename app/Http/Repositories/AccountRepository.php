@@ -23,11 +23,11 @@ class AccountRepository
             $query->where('name', 'like', '%' . $search . '%');
         })
             ->orderBy($orderBy, $orderDesc)
-            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);  // Paginate instead of limit/offset
+            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
         $data = [
-            'total' => $accounts->total(),  // Total count is handled by paginate
-            'records' => $accounts->items(), // Use items() for the current page records
+            'total' => $accounts->total(),
+            'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
