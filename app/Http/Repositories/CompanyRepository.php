@@ -38,13 +38,13 @@ class CompanyRepository
 
     public function getByID(int $id): ?Company
     {
-        $account = Company::find($id);
+        $data = Company::find($id);
 
-        if (empty($account)) {
-            throw new Exception("Account does not exist.", Response::HTTP_NOT_FOUND);
+        if (empty($data)) {
+            throw new Exception("Company does not exist.", Response::HTTP_NOT_FOUND);
         }
 
-        return $account;
+        return $data;
     }
 
     public function create(array $data): Company
@@ -52,7 +52,7 @@ class CompanyRepository
 
         $data['account_id'] = Auth::user()->account_id;
 
-        $company = $this->prepareDataForRegister($data);
+        $company = $this->prepareDataForDB($data);
 
         $create = Company::create($company);
 
@@ -63,17 +63,13 @@ class CompanyRepository
         return $create->fresh();
     }
 
-    public function update(int $id, array $params): ?Company
+    public function update(int $id, array $data)
     {
-        $account = $this->getById($id);
+        $update = $this->getById($id);
+        
+        $update->update($this->prepareDataForDB($data, $update));
 
-        $account->name = $params['name'];
-
-        if ($account->save()) {
-            $account = $this->getById($id);
-        }
-
-        return $account;
+        return $update->refresh();
     }
 
     public function softDelete(int $id): bool
@@ -84,23 +80,23 @@ class CompanyRepository
         return $account->delete();
     }
 
-    public function prepareDataForRegister(array $data): array
+    public function prepareDataForDB(array $data, ?Company $company = null ): array
     {
         return [
-            'account_id' => $data['account_id'],
-            'name' => $data['name'],
-            'address' => $data['address'],
-            'city' => $data['city'],
-            'province' => $data['province'],
-            'postal' => $data['postal'],
-            'country' => $data['country'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'fax' => $data['fax'],
-            'tin' => $data['tin'],
-            'sss' => $data['sss'],
-            'philhealth' => $data['philhealth'],
-            'hdmf' => $data['hdmf']
+            'account_id' => $data['account_id'] ??  $company->account_id,
+            'name' =>  $data['name'] ?? $company->name,
+            'address' => $data['address'] ?? $company->address,
+            'city' => $data['city'] ?? $company->city,
+            'province' => $data['province'] ?? $company->province,
+            'postal' => $data['postal'] ?? $company->postal,
+            'country' => $data['country'] ?? $company->country,
+            'email' => $data['email'] ?? $company->email,
+            'phone' => $data['phone'] ?? $company->phone,
+            'fax' => $data['fax'] ?? $company->fax,
+            'tin' => $data['tin'] ?? $company->tin,
+            'sss' => $data['sss'] ?? $company->sss,
+            'philhealth' => $data['philhealth'] ?? $company->philhealth,
+            'hdmf' => $data['hdmf'] ?? $company->hdmf
         ];
     }
 }

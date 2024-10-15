@@ -9,8 +9,10 @@ use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AccountRequest;
 use App\Http\Repositories\CompanyRepository;
-use App\Http\Requests\Company\CompanyCreateRequest;
+use App\Http\Requests\Company\CompanyGetRequest;
 use App\Http\Requests\Company\CompanyIndexRequest;
+use App\Http\Requests\Company\CompanyCreateRequest;
+use App\Http\Requests\Company\CompanyUpdateRequest;
 
 class CompanyController extends Controller
 {
@@ -57,7 +59,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountRequest $request): JsonResponse
+    public function show(CompanyGetRequest $request): JsonResponse
     {
         try {
 
@@ -73,11 +75,11 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccountRequest $accountRequest)
+    public function update(Request $request, CompanyUpdateRequest $companyRequest)
     {
         try {
 
-            $update = $this->companyRepository->update($request->id, $accountRequest->all());
+            $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
 
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
