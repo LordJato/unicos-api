@@ -83,9 +83,9 @@ class CompanyRepository
     public function prepareDataForDB(array $data, ?Company $company = null ): array
     {
         return [
-            'account_id' => $company != null ? $company->account_id : $data['account_id'],
-            'name' =>  $company != null ? $company->name : $data['name'],
-            'address' => $company != null ? $company->address : $data['address'],
+            'account_id' => $data['account_id'] ?? $company->account_id ?? null,
+            'name' =>  $data['name'] ?? $company->name,
+            'address' => $data['address'] ?? $company->address,
             'city' => $data['city'] ?? $company->city,
             'province' => $data['province'] ?? $company->province,
             'postal' => $data['postal'] ?? $company->postal,

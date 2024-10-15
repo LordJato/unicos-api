@@ -51,7 +51,6 @@ class CompanyController extends Controller
 
             return $this->responseSuccess($create, "Company created successfully");
         } catch (Exception $e) {
-            return $e;
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
@@ -83,7 +82,6 @@ class CompanyController extends Controller
     
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
-            return $e;
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
