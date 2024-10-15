@@ -75,9 +75,9 @@ class CompanyRepository
     public function softDelete(int $id): bool
     {
 
-        $account = $this->getByID($id);
+        $data = $this->getByID($id);
 
-        return $account->delete();
+        return $data->delete();
     }
 
     public function prepareDataForDB(array $data, ?Company $company = null ): array

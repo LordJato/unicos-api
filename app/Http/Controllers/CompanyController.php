@@ -12,6 +12,7 @@ use App\Http\Repositories\CompanyRepository;
 use App\Http\Requests\Company\CompanyGetRequest;
 use App\Http\Requests\Company\CompanyIndexRequest;
 use App\Http\Requests\Company\CompanyCreateRequest;
+use App\Http\Requests\Company\CompanyDeleteRequest;
 use App\Http\Requests\Company\CompanyUpdateRequest;
 
 class CompanyController extends Controller
@@ -89,13 +90,12 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountRequest $accountRequest)
+    public function destroy(CompanyDeleteRequest $request)
     {
         try {
-            
-            $delete = $this->companyRepository->softDelete($accountRequest->id);
+            $delete = $this->companyRepository->softDelete($request->id);
 
-            return $this->responseSuccess($delete, "Account deleted successfully");
+            return $this->responseSuccess($delete, "Company deleted successfully");
         } catch (Exception $e) {
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
