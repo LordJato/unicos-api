@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,6 +20,13 @@ Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('p
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/get', [UserController::class, 'show']);
+        Route::post('/create', [UserController::class, 'store']);
+        Route::put('/update', [UserController::class, 'update']);
+        Route::delete('/delete', [UserController::class, 'destroy']);
+    });
    
     Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function(){
         Route::get('/', [AccountController::class, 'index']);

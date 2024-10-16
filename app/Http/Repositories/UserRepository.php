@@ -9,23 +9,23 @@ use Illuminate\Support\Facades\Auth;
 class UserRepository
 {
     public function getAll(object $request) : array {
-        $offset = $request->has('offset') ? $request->get('offset') : 1;
-        $limit = $request->has('limit') ? $request->get('limit') : 10;
         $search = $request->get('search');
 
-        $tenants = User::where(function ($q) use ($search) {
-            if ($search) {
-                $q->where('name', '=', $search . '%');
-            }
+        //filters
+        $offset = $request->input('offset', 0);
+        $limit = $request->input('limit', 10);
+        $orderBy = $request->input('orderBy', 'id');
+        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
+
+        $accounts = User::when($search, function ($query, $search) {
+            $query->where('name', 'like', $search . '%');
         })
-            ->limit($limit)
-            ->offset(($offset - 1) * $limit)
-            ->get()
-            ->toArray();
+            ->orderBy($orderBy, $orderDesc)
+            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
         $data = [
-            'total' => count($tenants),
-            'records' => $tenants,
+            'total' => $accounts->total(),
+            'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];

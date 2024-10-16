@@ -47,7 +47,7 @@ class AccountRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        if ($this->isMethod('get') && Route::currentRouteName() != 'accounts.index') {
+        if ($this->isMethod('get') && Route::currentRouteName() != 'accounts.') {
             return [
                 'id' => 'required',
             ];

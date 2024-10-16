@@ -124,6 +124,7 @@ class AuthRepository
     public function prepareDataForRegister(array $data): array
     {
         return [
+            'account_id' => $data['account_id'],
             'email'    => $data['email'],
             'phone'    => $data['phone'],
             'password' => Hash::make($data['password']),
