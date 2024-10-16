@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Repositories;
-use App\Models\User;
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
@@ -44,21 +45,16 @@ class UserRepository
         return $user;
     }
 
-    public function create(array $params): array
+    public function create(array $data): ?User
     {
 
-        $data = [
-            'name' => $params['name'],
-            'is_active' => $params['is_active'] ?? 0
-        ];
+        $user = User::create($this->prepareDataForRegister($data));
 
-        $create = User::create($data);
-
-        if (!$create) {
-            throw new Exception("Could not create tenant, Please try again.", 500);
+        if (!$user) {
+            throw new Exception("Sorry, user does not registered, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $data;
+        return $user;
     }
 
     public function update(int $id, array $params): ?User
@@ -76,5 +72,16 @@ class UserRepository
 
     public function getAuthUser() : User {
         return Auth::user();
+    }
+
+    public function prepareDataForRegister(array $data): array
+    {
+
+        return [
+            'account_id' => $data['account_id'],
+            'email'    => $data['email'],
+            'phone'    => $data['phone'] ?? null,
+            'password' => Hash::make($data['password']),
+        ];
     }
 }

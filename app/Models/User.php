@@ -25,6 +25,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array<int, string>
      */
     protected $fillable = [
+        'account_id',
         'phone',
         'email',
         'password',

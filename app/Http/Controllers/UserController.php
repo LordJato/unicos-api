@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\UserRepository;
-use App\Traits\ResponseTrait;
 use Exception;
+use App\Traits\ResponseTrait;
+use Illuminate\Http\JsonResponse;
+use App\Http\Repositories\UserRepository;
+use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserGetRequest;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -23,6 +27,38 @@ class UserController extends Controller
         try {
             return $this->responseSuccess($this->userRepository->getAll(request()), "Users fetched successfully");
         } catch (Exception $e) {
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UserCreateRequest $request)
+    {
+        try {
+
+            $create = $this->userRepository->create($request->all());
+
+            return $this->responseSuccess($create, "User created successfully");
+        } catch (Exception $e) {
+            return $e;
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(UserGetRequest $request): JsonResponse
+    {
+        try {
+
+            $find = $this->userRepository->getByID($request->query('id'));
+
+            return $this->responseSuccess(new UserResource($find), "User find successfully");
+        } catch (Exception $e) {
+
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
