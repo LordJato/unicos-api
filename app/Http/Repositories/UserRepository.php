@@ -57,21 +57,21 @@ class UserRepository
         return $user;
     }
 
-    public function update(int $id, array $params): ?User
+    public function update(int $id, array $data) : User
     {
-        $tenant = $this->getById($id);
-        $tenant->name = $params['name'];
-        $tenant->is_active = $params['is_active'];
+        $update = $this->getById($id);
         
-        if ($tenant->save()) {
-            $tenant = $this->getById($id);
-        }
+        $update->update($this->prepareDataForRegister($data, $update));
 
-        return $tenant;
+        return $update->refresh();
     }
 
-    public function getAuthUser() : User {
-        return Auth::user();
+    public function softDelete(int $id): bool
+    {
+
+        $data = $this->getByID($id);
+
+        return $data->delete();
     }
 
     public function prepareDataForRegister(array $data): array
