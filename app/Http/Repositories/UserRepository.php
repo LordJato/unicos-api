@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Repositories;
+
+use App\Http\Resources\UserResource;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -83,5 +85,9 @@ class UserRepository
             'phone'    => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),
         ];
+    }
+
+    public function getAuthUser(){
+        return new UserResource(Auth::user());
     }
 }
