@@ -19,6 +19,11 @@ Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('p
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    
+
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
+        Route::get('profile', [UserController::class, 'profile']);
+    });
 
     Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
         Route::get('/', [UserController::class, 'index']);
