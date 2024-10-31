@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Role extends Model
 {
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
     use HasFactory, HasPermissions;
 
     public function permissions(): BelongsToMany

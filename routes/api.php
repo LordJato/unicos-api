@@ -52,6 +52,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::group(['prefix' => 'roles', 'as' => 'roles.'], function(){
         Route::get('/', [RoleController::class, 'index']);
+        Route::post('/create', [RoleController::class, 'store']);
         Route::get('/permissions', [RoleController::class, 'rolesPermissions']);
     });
 
