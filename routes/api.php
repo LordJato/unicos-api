@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
@@ -47,6 +48,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/create', [CompanyController::class, 'store']);
         Route::put('/update', [CompanyController::class, 'update']);
         Route::delete('/delete', [CompanyController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'roles', 'as' => 'roles.'], function(){
+        Route::get('/', [RoleController::class, 'index']);
+        Route::get('/permissions', [RoleController::class, 'rolesPermissions']);
     });
 
 });
