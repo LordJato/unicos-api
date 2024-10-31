@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Role extends Model
 {
+    public $timestamps = false;
+    
     protected $fillable = [
         'name',
         'slug',
