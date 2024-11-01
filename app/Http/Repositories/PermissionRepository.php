@@ -3,11 +3,11 @@
 namespace App\Http\Repositories;
 
 use Exception;
-use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 
-class RoleRepository
+class PermissionRepository
 {
 
     public function getAll(object $request): array
@@ -20,7 +20,7 @@ class RoleRepository
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
 
-        $accounts = Role::when($search, function ($query, $search) {
+        $accounts = Permission::when($search, function ($query, $search) {
             $query->where('name', 'like', $search . '%');
         })
             ->orderBy($orderBy, $orderDesc)
@@ -36,32 +36,32 @@ class RoleRepository
         return $data;
     }
 
-    public function getByID(int $id): ?Role
+    public function getByID(int $id): ?Permission
     {
-        $data = Role::find($id);
+        $data = Permission::find($id);
 
         if (empty($data)) {
-            throw new Exception("Role does not exist.", Response::HTTP_NOT_FOUND);
+            throw new Exception("Permission does not exist.", Response::HTTP_NOT_FOUND);
         }
 
         return $data;
     }
 
-    public function create(array $data): Role
+    public function create(array $data): Permission
     {
 
         $prepareData = $this->prepareDataForDB($data);
 
-        $create = Role::create($prepareData);
+        $create = Permission::create($prepareData);
 
         if (!$create) {
-            throw new Exception("Could not create role, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new Exception("Could not create permission, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $create->fresh();
     }
 
-    public function update(array $data) : Role
+    public function update(array $data) : Permission
     {
         $update = $this->getById($data['id']);
         
@@ -86,7 +86,7 @@ class RoleRepository
         return $data->forceDelete();
     }
 
-    public function prepareDataForDB(array $data, ?Role $model = null ): array
+    public function prepareDataForDB(array $data, ?Permission $model = null ): array
     {
         $toSlug = Str::slug($data['name'], '-');
 

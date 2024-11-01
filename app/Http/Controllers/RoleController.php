@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\RoleRepository;
 use Exception;
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Http\Repositories\RoleRepository;
+use App\Http\Requests\Role\RoleGetRequest;
 use App\Http\Requests\Role\RoleCreateRequest;
 use App\Http\Requests\Role\RoleDeleteRequest;
-use App\Http\Requests\Role\RoleGetRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
@@ -95,6 +96,22 @@ class RoleController extends Controller
         }
     }
 
+    public function attachPermissions(Request $request){
+        try {
+
+            $role = $this->roleRepository->getByID($request->roleID);
+
+            $permissions = Permission::whereIn('slug', $request->permissions)->get()->pluck('id')->toArray();
+
+            $attach = $role->permissions()->attach($permissions);
+
+            return $this->responseSuccess($attach, "Permissions attached successfully.");
+        } catch (Exception $e) {
+
+            return $e;
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
 
     public function rolesPermissions()
     {

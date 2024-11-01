@@ -10,15 +10,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Role extends Model
 {
+    use HasFactory, HasPermissions;
+
     public $timestamps = false;
     
     protected $fillable = [
         'name',
         'slug',
     ];
-
-    use HasFactory, HasPermissions;
-
+    
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'roles_permissions');

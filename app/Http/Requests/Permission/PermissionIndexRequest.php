@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Permission;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleIndexRequest extends FormRequest
+class PermissionIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-role');
+        return Gate::allows('view-all-permission');
     }
 
     /**

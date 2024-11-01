@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Permission;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleIndexRequest extends FormRequest
+class PermissionGetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-role');
+        return Gate::allows('view-permission');
     }
 
     /**
@@ -23,7 +23,17 @@ class RoleIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+           'id' => ['required', 'integer', 'exists:roles,id'],
         ];
+    }
+
+        /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    { 
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

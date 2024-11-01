@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 
@@ -57,6 +58,15 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/update', [RoleController::class, 'update']);
         Route::delete('/delete', [RoleController::class, 'destroy']);
         Route::get('/permissions', [RoleController::class, 'rolesPermissions']);
+        Route::post('/attach-permissions', [RoleController::class, 'attachPermissions']);
+    });
+
+    Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function(){
+        Route::get('/', [PermissionController::class, 'index']);
+        Route::get('/get', [PermissionController::class, 'show']);
+        Route::post('/create', [PermissionController::class, 'store']);
+        Route::put('/update', [PermissionController::class, 'update']);
+        Route::delete('/delete', [PermissionController::class, 'destroy']);
     });
 
 });

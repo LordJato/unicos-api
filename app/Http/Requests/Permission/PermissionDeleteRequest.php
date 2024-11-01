@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Permission;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleIndexRequest extends FormRequest
+class PermissionDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-role');
+        return Gate::allows('delete-permission');
     }
 
     /**
@@ -23,7 +23,19 @@ class RoleIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['required', 'integer', 'exists:roles,id']
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'id.exists' => 'id does not exist'
         ];
     }
 }
