@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Role\RoleCreateRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 use Exception;
 use App\Models\Role;
@@ -22,11 +23,13 @@ class RoleController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(RoleCreateRequest $request)
     {
         try {
 
-            $role = $this->preparingDataForDB($request->all());
+            $validatedData = $request->validated();
+
+            $role = $this->preparingDataForDB($validatedData);
 
             Role::create($role);
 
@@ -37,22 +40,25 @@ class RoleController extends Controller
         }
     }
 
-    public function update(Request $request, RoleUpdateRequest $updateRequest)
+    public function update(RoleUpdateRequest $request)
     {
         try {
 
-            $role = $this->preparingDataForDB($updateRequest->all());
+            $validatedData = $request->validated();
 
-            Role::where('id', $request->query('id'))->update($role);
- 
+            $role = $this->preparingDataForDB($validatedData);
+
+            Role::where('id', $validatedData['id'])->update($role);
+
             return $this->responseSuccess($role, "Account updated successfully");
         } catch (Exception $e) {
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
-
-    private function preparingDataForDB(array $data) : array {
+    
+    private function preparingDataForDB(array $data): array
+    {
 
         $toSlug = Str::slug($data['name'], '-');
 
@@ -72,4 +78,6 @@ class RoleController extends Controller
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
+
+
 }

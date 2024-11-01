@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Role;
 
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RoleUpdateRequest extends FormRequest
@@ -11,7 +13,7 @@ class RoleUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('role-update');
     }
 
     /**
@@ -22,7 +24,18 @@ class RoleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['required', 'integer', 'exists:roles,id'],
+            'name' => ['required', 'string', 'max:50', 'unique:roles', Rule::unique('roles')->ignore($this->query('id')),],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }
