@@ -13,7 +13,7 @@ class RoleUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('role-update');
+        return Gate::allows('update-role');
     }
 
     /**
@@ -25,7 +25,7 @@ class RoleUpdateRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:roles,id'],
-            'name' => ['required', 'string', 'max:50', 'unique:roles', Rule::unique('roles')->ignore($this->query('id')),],
+            'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
     }
 

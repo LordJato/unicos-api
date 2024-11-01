@@ -52,6 +52,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::group(['prefix' => 'roles', 'as' => 'roles.'], function(){
         Route::get('/', [RoleController::class, 'index']);
+        Route::get('/get', [RoleController::class, 'show']);
         Route::post('/create', [RoleController::class, 'store']);
         Route::put('/update', [RoleController::class, 'update']);
         Route::delete('/delete', [RoleController::class, 'destroy']);

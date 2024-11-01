@@ -5,14 +5,14 @@ namespace App\Http\Requests\Role;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleCreateRequest extends FormRequest
+class RoleGetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('create-role');
+        return Gate::allows('view-role');
     }
 
     /**
@@ -23,7 +23,17 @@ class RoleCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', 'unique:roles'],
+           'id' => ['required', 'integer', 'exists:roles,id'],
         ];
+    }
+
+        /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    { 
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }
