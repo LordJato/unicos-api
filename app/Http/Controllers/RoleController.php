@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Role\RoleCreateRequest;
-use App\Http\Requests\Role\RoleUpdateRequest;
 use Exception;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Http\Requests\Role\RoleCreateRequest;
+use App\Http\Requests\Role\RoleDeleteRequest;
+use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
 {
@@ -56,7 +57,22 @@ class RoleController extends Controller
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
-    
+
+    public function destroy(RoleDeleteRequest $request)
+    {
+        try {
+
+            $validatedData = $request->validated();
+
+            $role = Role::where('id', $validatedData['id'])->delete();
+
+            return $this->responseSuccess($role, "Role deleted successfully");
+        } catch (Exception $e) {
+
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
     private function preparingDataForDB(array $data): array
     {
 

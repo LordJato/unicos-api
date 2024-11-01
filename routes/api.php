@@ -54,6 +54,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [RoleController::class, 'index']);
         Route::post('/create', [RoleController::class, 'store']);
         Route::put('/update', [RoleController::class, 'update']);
+        Route::delete('/delete', [RoleController::class, 'destroy']);
         Route::get('/permissions', [RoleController::class, 'rolesPermissions']);
     });
 
