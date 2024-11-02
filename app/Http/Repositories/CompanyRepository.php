@@ -51,8 +51,6 @@ class CompanyRepository
     public function create(array $data): Company
     {
 
-        $data['account_id'] = Auth::user()->account_id;
-
         $company = $this->prepareDataForDB($data);
 
         $create = Company::create($company);
