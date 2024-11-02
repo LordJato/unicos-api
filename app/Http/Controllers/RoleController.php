@@ -8,11 +8,12 @@ use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use Illuminate\Http\JsonResponse;
 use App\Http\Repositories\RoleRepository;
 use App\Http\Requests\Role\RoleGetRequest;
+use App\Http\Requests\Role\RoleIndexRequest;
 use App\Http\Requests\Role\RoleCreateRequest;
 use App\Http\Requests\Role\RoleDeleteRequest;
-use App\Http\Requests\Role\RoleIndexRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
@@ -26,7 +27,7 @@ class RoleController extends Controller
         $this->roleRepository = $roleRepository;
     }
 
-    public function index(RoleIndexRequest $request)
+    public function index(RoleIndexRequest $request) : JsonResponse
     {
         try {
             $data = $this->roleRepository->getAll($request);
