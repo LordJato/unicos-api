@@ -12,6 +12,7 @@ use App\Http\Requests\User\UserGetRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserDeleteRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\User\UserUpdateRoleRequest;
 
 class UserController extends Controller
 {
@@ -107,6 +108,21 @@ class UserController extends Controller
             return $this->responseSuccess($profile, 'User fetched successfully');
             
         } catch (Exception $e) {
+
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function updateRoles(UserUpdateRoleRequest $request){
+        try {
+            $validatedData = $request->validated();
+
+            $user = $this->userRepository->syncRolesWithPermissions($validatedData);
+
+            return $this->responseSuccess($user, 'User fetched successfully');
+            
+        } catch (Exception $e) {
+            return $e;
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }

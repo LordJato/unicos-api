@@ -12,6 +12,7 @@ use App\Http\Repositories\RoleRepository;
 use App\Http\Requests\Role\RoleGetRequest;
 use App\Http\Requests\Role\RoleCreateRequest;
 use App\Http\Requests\Role\RoleDeleteRequest;
+use App\Http\Requests\Role\RoleIndexRequest;
 use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
@@ -25,7 +26,7 @@ class RoleController extends Controller
         $this->roleRepository = $roleRepository;
     }
 
-    public function index(Request $request)
+    public function index(RoleIndexRequest $request)
     {
         try {
             $data = $this->roleRepository->getAll($request);
@@ -41,10 +42,12 @@ class RoleController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $find = $this->roleRepository->getByID($validatedData['id']);
+            $find = $this->roleRepository->getById($validatedData['id']);
 
             return $this->responseSuccess($find, "Role find successfully");
         } catch (Exception $e) {
+
+            return $e;
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }

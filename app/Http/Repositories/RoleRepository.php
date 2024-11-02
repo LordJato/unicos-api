@@ -20,7 +20,7 @@ class RoleRepository
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
 
-        $accounts = Role::when($search, function ($query, $search) {
+        $accounts = Role::with('permissions')->when($search, function ($query, $search) {
             $query->where('name', 'like', $search . '%');
         })
             ->orderBy($orderBy, $orderDesc)
@@ -36,7 +36,7 @@ class RoleRepository
         return $data;
     }
 
-    public function getByID(int $id): ?Role
+    public function getById(int $id): ?Role
     {
         $data = Role::find($id);
 
@@ -73,7 +73,7 @@ class RoleRepository
     public function softDelete(int $id): bool
     {
 
-        $data = $this->getByID($id);
+        $data = $this->getById($id);
 
         return $data->delete();
     }
@@ -81,7 +81,7 @@ class RoleRepository
     public function forceDelete(int $id): bool
     {
 
-        $data = $this->getByID($id);
+        $data = $this->getById($id);
 
         return $data->forceDelete();
     }

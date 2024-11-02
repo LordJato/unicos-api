@@ -33,4 +33,10 @@ trait HasPermissions
     {
         return Permission::whereIn('slug', $permissions)->get()->pluck('id')->toArray();
     }
+
+    public function getAllPermissionIdByRoles($roles){
+        return Permission::whereHas('roles', function ($query) use ($roles) {
+            $query->whereIn('id', $roles);
+        })->pluck('id');
+    }
 }

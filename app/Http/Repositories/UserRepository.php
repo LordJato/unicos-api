@@ -2,15 +2,17 @@
 
 namespace App\Http\Repositories;
 
-use App\Http\Resources\UserResource;
 use Exception;
 use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Http\Response;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository
 {
+
     public function getAll(object $request) : array {
         $search = $request->get('search');
 
@@ -36,7 +38,7 @@ class UserRepository
         return $data;
     }
 
-    public function getByID(int $id): ?User
+    public function getById(int $id): ?User
     {
         $user = User::find($id);
 
@@ -71,7 +73,7 @@ class UserRepository
     public function softDelete(int $id): bool
     {
 
-        $data = $this->getByID($id);
+        $data = $this->getById($id);
 
         return $data->delete();
     }
@@ -89,5 +91,21 @@ class UserRepository
 
     public function getAuthUser(){
         return new UserResource(Auth::user());
+    }
+
+    public function syncRolesWithPermissions(array $data) : UserResource {
+
+        $roles = $data['roles'];
+        $userId = $data['userId'];
+
+        $user = $this->getById($userId);
+
+        $getPemissionIds = $user->getAllPermissionIdByRoles($roles);
+
+        $user->roles()->sync($roles);
+        $user->permissions()->sync($getPemissionIds);
+        
+
+        return new UserResource($user);
     }
 }

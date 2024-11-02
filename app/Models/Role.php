@@ -23,6 +23,11 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class, 'roles_permissions');
     }
+    
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_roles');
+    }
 
     public function scopeSuperAdmin(Builder $query)
     {

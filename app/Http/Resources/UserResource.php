@@ -14,15 +14,13 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $userRoles = $this->roles()->with('permissions')->get();
-        $roles = $userRoles->pluck('slug');
-        $rolesPermissions = $userRoles->pluck('permissions')->flatten(1)->pluck('slug');
-        $userPermissions = $rolesPermissions->merge($this->permissions->pluck('slug'));
+        $userRoles = $this->roles->pluck('slug');
+        $userPermissions = $this->permissions->pluck('slug');
 
         return [
             "email" => $this->email,
             "created_at" => $this->created_at->format('Y-m-d'),
-            "roles" => $roles,
+            "roles" => $userRoles,
             "permissions" => $userPermissions,
         ];
     }

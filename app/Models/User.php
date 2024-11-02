@@ -8,6 +8,7 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\ResetPasswordNotification;
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasApiTokens, HasFactory, Notifiable, HasPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasPermissions, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -64,13 +65,6 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->belongsToMany(Permission::class, 'users_permissions');
     }
-
-    
-    public function hasRole(...$roles)
-    {
-        return $this->roles()->whereIn('slug', $roles)->count();
-    }
-
 
     public function sendPasswordResetNotification($token) : void
     {
