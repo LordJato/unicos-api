@@ -4,9 +4,7 @@ namespace App\Http\Repositories;
 
 use Exception;
 use App\Models\Company;
-use App\Models\User;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {

@@ -4,7 +4,6 @@ namespace App\Http\Repositories;
 
 use Exception;
 use App\Models\User;
-use App\Models\Permission;
 use Illuminate\Http\Response;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
