@@ -18,13 +18,17 @@ class CompanyRepository
         $limit = $request->input('limit', 10);
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
+        $account_id = $request->input('account_id', null); // nullable account_id
 
-        $accounts = Company::when($search, function ($query, $search) {
+        $accounts = Company::when($account_id, function ($query, $account_id) {
+            $query->where('account_id', $account_id);
+        })
+        ->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%');
         })
-            ->orderBy($orderBy, $orderDesc)
-            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
-
+        ->orderBy($orderBy, $orderDesc)
+        ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
+        
         $data = [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
