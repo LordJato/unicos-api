@@ -20,9 +20,11 @@ class DepartmentRepository
         $limit = $request->input('limit', 10);
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
+        $companyId = $request->input('company_id');
 
-        $accounts = Department::when($search, function ($query, $search) {
-            $query->where('name', 'like', '%' . $search . '%');
+        $accounts = Department::where('company_id', $companyId)
+        ->when($search, function ($query, $search) {
+            $query->where('name', 'like', $search . '%');
         })
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
