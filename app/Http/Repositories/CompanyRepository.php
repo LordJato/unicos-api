@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {
+    private $accountId;
+
+    public function __construct()
+    {
+        $this->accountId = Auth::user()->account_id;
+    }
 
     public function getAll(object $request): array
     {
@@ -19,7 +25,7 @@ class CompanyRepository
         $limit = $request->input('limit', 10);
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-        $account_id = $request->input('account_id', Auth::user()->account_id); // nullable account_id
+        $account_id = $request->input('account_id', $this->accountId); // nullable account_id
 
         $accounts = Company::when($account_id, function ($query, $account_id) {
             $query->where('account_id', $account_id);
