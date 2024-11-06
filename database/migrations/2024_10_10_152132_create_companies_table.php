@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('PhilHealth', 20)->nullable();
             $table->string('HDMF', 20)->nullable();
             $table->timestamps();
+            $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
