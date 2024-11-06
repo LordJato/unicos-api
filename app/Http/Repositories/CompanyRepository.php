@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use Exception;
+use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,11 @@ class CompanyRepository
 
     public function __construct()
     {
-        $this->accountId = Auth::user()->account_id;
+        $user = Auth::guard('api')->user();
+        $this->accountId = $user->account_id;
+        if ($user instanceof User && $user->hasRolesTo('super-admin')) {
+            $this->accountId = null;
+        }
     }
 
     public function getAll(object $request): array
@@ -30,12 +35,12 @@ class CompanyRepository
         $accounts = Company::when($account_id, function ($query, $account_id) {
             $query->where('account_id', $account_id);
         })
-        ->when($search, function ($query, $search) {
-            $query->where('name', 'like', $search . '%');
-        })
-        ->orderBy($orderBy, $orderDesc)
-        ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
-        
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', $search . '%');
+            })
+            ->orderBy($orderBy, $orderDesc)
+            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
+
         $data = [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
@@ -71,10 +76,10 @@ class CompanyRepository
         return $create->fresh();
     }
 
-    public function update(int $id, array $data) : Company
+    public function update(int $id, array $data): Company
     {
         $update = $this->getById($id);
-        
+
         $update->update($this->prepareDataForDB($data, $update));
 
         return $update->refresh();
@@ -88,7 +93,7 @@ class CompanyRepository
         return $data->delete();
     }
 
-    public function prepareDataForDB(array $data, ?Company $company = null ): array
+    public function prepareDataForDB(array $data, ?Company $company = null): array
     {
         return [
             'account_id' => $data['account_id'] ?? $company->account_id ?? null,
