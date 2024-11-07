@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\HR;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeeCreateRequest extends FormRequest
@@ -11,7 +12,7 @@ class EmployeeCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Gate::allows('create-employee');
     }
 
     /**
