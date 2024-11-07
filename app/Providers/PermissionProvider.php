@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use Exception;
 use App\Models\Permission;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Client\ConnectionException;
 
 class PermissionProvider extends ServiceProvider
 {
@@ -21,12 +25,21 @@ class PermissionProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $permissions = Permission::all();
-
-        foreach ($permissions as $permission) {
-            Gate::define($permission->slug, function ($user) use ($permission) {
-                return $user->hasPermissionTo($permission->slug);
-            });
+        try {
+            $permissions = Permission::all();
+        
+            foreach ($permissions as $permission) {
+                Gate::define($permission->slug, function ($user) use ($permission) {
+                    return $user->hasPermissionTo($permission->slug);
+                });
+            }
+        } catch (ConnectionException $e) {
+            // Database connection is not available
+            Log::error('Database connection failed: ' . $e->getMessage());
+        } catch (Exception $e) {
+            // Handle any other unexpected exceptions
+            Log::error('Unexpected error: ' . $e->getMessage());
         }
+     
     }
 } 
