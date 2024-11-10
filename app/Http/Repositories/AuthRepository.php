@@ -16,6 +16,15 @@ use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthRepository
 {
+    private $authUser;
+
+    public function __construct()
+    {
+        if (Auth::guard('api')->check()) {
+            $authUser = Auth::guard('api')->user();
+        }
+    }
+
     public function login(array $data): array
     {
         $user = $this->getUserByEmail($data['email']);
@@ -124,9 +133,9 @@ class AuthRepository
     public function prepareDataForRegister(array $data): array
     {
         return [
-            'account_id' => $data['account_id'],
+            'account_id' => $data['account_id'] ?? $this->accountId,
             'email'    => $data['email'],
-            'phone'    => $data['phone'],
+            'phone'    => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),
         ];
     }

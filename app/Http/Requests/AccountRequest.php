@@ -14,8 +14,10 @@ class AccountRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        $user = Auth::user();
+        $user = Auth::guard('api')->user();
+    
         if ($user !== null && $user instanceof User) {
+
             if ($this->isMethod('get')) {
                 if (Route::currentRouteName() === 'accounts.index') {
                     return Gate::allows('view-all-account');
@@ -23,7 +25,6 @@ class AccountRequest extends ApiFormRequest
                     return Gate::allows('view-account');
                 }
             }
-
             if ($this->isMethod('post')) {
                 return Gate::allows('create-account');
             }

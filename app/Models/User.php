@@ -73,9 +73,9 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     public function checkRoles(...$roles)
-{
-    return $this->hasRolesTo(...$roles);
-}
+    {
+        return $this->hasRolesTo(...$roles);
+    }
 
     public function account(): BelongsTo
     {
