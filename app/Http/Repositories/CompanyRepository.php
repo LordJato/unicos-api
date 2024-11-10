@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {
-    private $accountId;
+    private $accountId, $isSuperAdmin = false;
 
     public function __construct()
     {
         $user = Auth::guard('api')->user();
         $this->accountId = $user->account_id;
         if ($user instanceof User && $user->hasRolesTo('super-admin')) {
+            $this->isSuperAdmin = $user->hasRolesTo('super-admin');
             $this->accountId = null;
         }
     }
@@ -30,9 +31,10 @@ class CompanyRepository
         $limit = $request->input('limit', 10);
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-        $account_id = $request->input('account_id', $this->accountId); // nullable account_id
 
-        $accounts = Company::when($account_id, function ($query, $account_id) {
+        $accountIdFilter = $this->isSuperAdmin ? $request->input('account_id') : null;
+
+        $accounts = Company::when($accountIdFilter, function ($query, $account_id) {
             $query->where('account_id', $account_id);
         })
             ->when($search, function ($query, $search) {

@@ -43,4 +43,21 @@ trait ResponseTrait
             'errors' => $errors
         ], $responseCode);
     }
+
+    /**
+     * Check if a status code is a valid HTTP status code.
+     *
+     *
+     * @param int $statusCode
+     * @return bool
+     */
+    
+    public function getStatusCode($statusCode) : int {
+
+        if($statusCode >= Response::HTTP_CONTINUE && $statusCode <= Response::HTTP_NETWORK_AUTHENTICATION_REQUIRED){
+            return $statusCode;
+        }
+
+        return Response::HTTP_INTERNAL_SERVER_ERROR;
+    }
 }

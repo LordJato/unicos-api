@@ -8,8 +8,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 
 class AuthController extends Controller
 {
@@ -39,8 +39,7 @@ class AuthController extends Controller
 
             return $this->responseSuccess($data, 'User registered successfully.');
         } catch (Exception $exception) {
-
-            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
         }
     }
 
