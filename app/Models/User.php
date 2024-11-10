@@ -72,11 +72,6 @@ class User extends Authenticatable implements CanResetPassword
         $this->notify(new ResetPasswordNotification($token, $this->name));
     }
 
-    public function checkRoles(...$roles)
-    {
-        return $this->hasRolesTo(...$roles);
-    }
-
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
