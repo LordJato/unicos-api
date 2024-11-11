@@ -3,21 +3,17 @@
 namespace App\Http\Repositories;
 
 use Exception;
-use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {
-    private $isSuperAdmin = false;
+
+    private $getCurrentUser;
 
     public function __construct()
     {
-        $user = Auth::guard('api')->user();
-        if ($user instanceof User && $user->hasRolesTo('super-admin')) {
-            $this->isSuperAdmin = true;
-        }
+        return $this->getCurrentUser = getCurrentUser();
     }
 
     public function getAll(object $request): array
@@ -30,7 +26,7 @@ class CompanyRepository
         $orderBy = $request->input('orderBy', 'id');
         $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
 
-        $accountIdFilter = $this->isSuperAdmin ? $request->input('account_id') : null;
+        $accountIdFilter = $this->getCurrentUser->hasRolesTo('super-admin') ? $request->input('account_id') : null;
 
         $accounts = Company::when($accountIdFilter, function ($query, $accountIdFilter) {
             $query->where('account_id', $accountIdFilter);

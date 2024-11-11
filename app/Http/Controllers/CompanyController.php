@@ -31,11 +31,13 @@ class CompanyController extends Controller
     public function index(CompanyIndexRequest $request): JsonResponse
     {
         try {
+
             $data = $this->companyRepository->getAll($request);
 
             return $this->responseSuccess($data, "Company fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            dd($e);
+            return $this->responseError([], $e->getMessage(), $this->getStatusCode($exception->getCode()));
         }
     }
 
