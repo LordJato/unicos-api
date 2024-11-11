@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Company;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,18 @@ class CompanyUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer',
+            'id' => ['required', 'integer', 'exists:companies,id'],
+            'name' => ['required', 'string', 'max:150', Rule::unique('companies')->ignore($this->id, 'id')],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

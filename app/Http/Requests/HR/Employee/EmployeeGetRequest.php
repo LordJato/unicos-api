@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\HR;
+namespace App\Http\Requests\HR\Employee;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeUpdateRequest extends FormRequest
+class EmployeeGetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-employee');
+        return Gate::allows('view-employee');
     }
 
     /**

@@ -15,7 +15,7 @@ if (!function_exists('searchString')) {
  * @return \App\Models\User|null
  */
 
-if (!function_exists('currentUser')) {
+if (!function_exists('getCurrentUser')) {
     function getCurrentUser(): ?\App\Models\User {
         $user = Auth::guard('api')->user();
         return $user instanceof \App\Models\User ? $user : null;

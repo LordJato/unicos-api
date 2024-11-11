@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\HR;
+namespace App\Http\Requests\HR\Employee;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeDeleteRequest extends FormRequest
+class EmployeeCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-employee');
+        return Gate::allows('create-employee');
     }
 
     /**
