@@ -51,7 +51,7 @@ class AuthRepository
     {
 
         if (Auth::check()) {
-            $token = Auth::guard()->user()->token();
+            $token = getCurrentUser()->token();
             $token->revoke();
             $token->delete();
             return true;
