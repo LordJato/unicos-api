@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AccountRepository
 {
-
-    private $authUser;
-
-    public function __construct()
-    {
-        if (Auth::check()) {
-            $authUser = Auth::user();
-            dd($authUser->hasRolesTo('super-admin'));
-        }
-    }
-    
     public function getAll(object $request): array
     {
         $search = $request->get('search');

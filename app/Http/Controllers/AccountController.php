@@ -27,7 +27,8 @@ class AccountController extends Controller
     public function index(AccountRequest $request): JsonResponse
     {
         try {
-            $data = $this->accountRepository->getAll($request);
+            $validated = $request->validated();
+            $data = $this->accountRepository->getAll($validated);
 
             return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {

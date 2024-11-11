@@ -1,10 +1,15 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use Illuminate\Http\Response;
 use Illuminate\Foundation\Application;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,11 +22,21 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+
+        $handler = new class {
+            use ResponseTrait;
+        };
+
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) use ($handler) {
             if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'Record not found.'
-                ], 404);
+                return $handler->responseError([], $e->getMessage(), Response::HTTP_NOT_FOUND);
             }
         });
+
+        $exceptions->render(function (UnauthorizedHttpException|AuthorizationException|AccessDeniedHttpException $e, Request $request) use ($handler) {
+            if ($request->is('api/*')) {
+                return $handler->responseError([], $e->getMessage(), Response::HTTP_FORBIDDEN);
+            }
+        });
+
     })->create();

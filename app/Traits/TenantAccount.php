@@ -9,18 +9,16 @@ use Illuminate\Database\Eloquent\Builder;
 trait TenantAccount {
     public static function bootTenantAccount(){
 
-        $auth = Auth::guard('api');
+        $currentUser = currentUser();
 
-        $user = $auth->user();
-
-        if($user instanceof User && $auth->check() && !$user->hasRolesTo('super-admin')){
+        if(Auth::check() && !$currentUser->hasRolesTo('super-admin')){
             
-            static::creating(function ($model) use ($user){
-                $model->account_id = $user->account_id;
+            static::creating(function ($model) use ($currentUser){
+                $model->account_id = $currentUser->account_id;
             });
 
-            static::addGlobalScope('account_id', function(Builder $builder) use ($user){
-                return $builder->where('account_id', $user->account_id);
+            static::addGlobalScope('account_id', function(Builder $builder) use ($currentUser){
+                return $builder->where('account_id', $currentUser->account_id);
             });
         }
     }

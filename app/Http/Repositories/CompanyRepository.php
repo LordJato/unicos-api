@@ -10,15 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyRepository
 {
-    private $accountId, $isSuperAdmin = false;
+    private $isSuperAdmin = false;
 
     public function __construct()
     {
         $user = Auth::guard('api')->user();
-        $this->accountId = $user->account_id;
         if ($user instanceof User && $user->hasRolesTo('super-admin')) {
-            $this->isSuperAdmin = $user->hasRolesTo('super-admin');
-            $this->accountId = null;
+            $this->isSuperAdmin = true;
         }
     }
 
@@ -34,8 +32,8 @@ class CompanyRepository
 
         $accountIdFilter = $this->isSuperAdmin ? $request->input('account_id') : null;
 
-        $accounts = Company::when($accountIdFilter, function ($query, $account_id) {
-            $query->where('account_id', $account_id);
+        $accounts = Company::when($accountIdFilter, function ($query, $accountIdFilter) {
+            $query->where('account_id', $accountIdFilter);
         })
             ->when($search, function ($query, $search) {
                 $query->where('name', 'like', $search . '%');
@@ -98,7 +96,6 @@ class CompanyRepository
     public function prepareDataForDB(array $data, ?Company $company = null): array
     {
         return [
-            'account_id' => $data['account_id'] ?? $company->account_id ?? null,
             'name' =>  $data['name'] ?? $company->name,
             'address' => $data['address'] ?? $company->address,
             'city' => $data['city'] ?? $company->city,
