@@ -3,7 +3,7 @@
 namespace App\Http\Repositories\HR;
 
 use Exception;
-use App\Models\Employee;
+use App\Models\HR\Employee;
 use Illuminate\Http\Response;
 
 class CompanyRepository

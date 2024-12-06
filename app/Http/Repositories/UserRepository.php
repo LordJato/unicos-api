@@ -29,7 +29,7 @@ class UserRepository
 
         $data = [
             'total' => $accounts->total(),
-            'records' => $accounts->items(),
+            'records' => $accounts->items(),    
             'offset' => $offset,
             'limit' => $limit
         ];
