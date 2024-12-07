@@ -19,7 +19,19 @@ class DepartmentController extends Controller
 
             return $this->responseSuccess($validated, "Account fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $this->getStatusCode($exception->getCode()));
+            return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
+        }
+    }
+
+    public function store(Request $request)
+    {
+        try {
+
+            // $create = $this->companyRepository->create($request->all());
+
+            // return $this->responseSuccess($create, "Company created successfully");
+        } catch (Exception $e) {
+            return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
 
