@@ -51,4 +51,20 @@ class DepartmentController extends Controller
         }
     }
 
+        /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request)
+    {
+        try {
+
+            // $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
+    
+            // return $this->responseSuccess($update, "Company updated successfully");
+        } catch (Exception $e) {
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
+
 }
