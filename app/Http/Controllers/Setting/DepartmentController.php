@@ -35,4 +35,20 @@ class DepartmentController extends Controller
         }
     }
 
+      /**
+     * Display the specified resource.
+     */
+    public function show(Request $request): JsonResponse
+    {
+        try {
+
+            // $find = $this->companyRepository->getByID($request->query('id'));
+
+            // return $this->responseSuccess($find, "Company find successfully");
+        } catch (Exception $e) {
+         
+            return $this->responseError([], $e->getMessage(), $e->getCode());
+        }
+    }
+
 }
