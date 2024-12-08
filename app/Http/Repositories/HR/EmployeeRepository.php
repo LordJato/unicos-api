@@ -6,7 +6,7 @@ use Exception;
 use App\Models\HR\Employee;
 use Illuminate\Http\Response;
 
-class CompanyRepository
+class EmployeeRepository
 {
 
     private $getCurrentUser;
