@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Setting\Department;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class RoleGetRequest extends FormRequest
+class DepartmentUpdateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-role');
+        return Gate::allows('update-department');
     }
 
     /**
@@ -23,7 +24,8 @@ class RoleGetRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'id' => ['required', 'integer', 'exists:roles,id'],
+            'id' => ['required', 'integer', 'exists:roles,id'],
+            'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
     }
 
@@ -31,7 +33,7 @@ class RoleGetRequest extends FormRequest
      * Prepare the data for validation.
      */
     protected function prepareForValidation()
-    { 
+    {
         $this->merge([
             'id' => $this->query('id'),
         ]);

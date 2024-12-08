@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Setting\Department;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleGetRequest extends FormRequest
+class DepartmentDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-role');
+        return Gate::allows('delete-department');
     }
 
     /**
@@ -23,17 +23,19 @@ class RoleGetRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'id' => ['required', 'integer', 'exists:roles,id'],
+            'id' => ['required', 'integer', 'exists:departments,id']
         ];
     }
 
     /**
-     * Prepare the data for validation.
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
      */
-    protected function prepareForValidation()
-    { 
-        $this->merge([
-            'id' => $this->query('id'),
-        ]);
+    public function messages(): array
+    {
+        return [
+            'id.exists' => 'id does not exist'
+        ];
     }
 }
