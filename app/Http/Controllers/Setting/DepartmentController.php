@@ -7,17 +7,25 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\Setting\DepartmentRepository;
 
 class DepartmentController extends Controller
 {
     use ResponseTrait;
-    
+
+    public $departmentRepository;
+
+    public function __construct(DepartmentRepository $departmentRepository)
+    {
+        $this->departmentRepository = $departmentRepository;
+    }
+
     public function index(Request $request): JsonResponse
     {
         try {
-            $validated = $request->validated();
+            $data = $this->departmentRepository->getAll($request);
 
-            return $this->responseSuccess($validated, "Account fetched successfully");
+            return $this->responseSuccess($data, "Department fetched successfully");
         } catch (Exception $e) {
             return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
         }
@@ -35,7 +43,7 @@ class DepartmentController extends Controller
         }
     }
 
-      /**
+    /**
      * Display the specified resource.
      */
     public function show(Request $request): JsonResponse
@@ -46,12 +54,12 @@ class DepartmentController extends Controller
 
             // return $this->responseSuccess($find, "Company find successfully");
         } catch (Exception $e) {
-         
+
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
 
-        /**
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request)
@@ -59,12 +67,10 @@ class DepartmentController extends Controller
         try {
 
             // $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
-    
+
             // return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
     }
-
-
 }
