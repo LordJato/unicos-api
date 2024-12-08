@@ -8,6 +8,7 @@ use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\DepartmentRepository;
+use App\Http\Requests\Setting\Setting\Department\DepartmentCreateRequest;
 
 class DepartmentController extends Controller
 {
@@ -31,13 +32,14 @@ class DepartmentController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(DepartmentCreateRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            // $create = $this->companyRepository->create($request->all());
+            $create = $this->departmentRepository->create($validatedData);
 
-            // return $this->responseSuccess($create, "Company created successfully");
+            return $this->responseSuccess($create, "Department created successfully");
         } catch (Exception $e) {
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
