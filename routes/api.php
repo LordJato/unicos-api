@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\HR\EmployeeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -69,6 +70,18 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/update', [PermissionController::class, 'update']);
         Route::delete('/delete', [PermissionController::class, 'destroy']);
     });
+
+    //EMPLOYEE
+    Route::group(['prefix' => 'employees', 'as' => 'employees.'], function(){
+        Route::get('/', [EmployeeController::class, 'index']);
+        Route::get('/get', [EmployeeController::class, 'show']);
+        Route::post('/create', [EmployeeController::class, 'store']);
+        Route::put('/update', [EmployeeController::class, 'update']);
+        Route::delete('/delete', [EmployeeController::class, 'destroy']);
+    });
+
+    //Departments
+    require __DIR__."/api/hr/departments.php";
 
 });
 
