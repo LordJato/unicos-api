@@ -83,5 +83,8 @@ Route::middleware('auth:api')->group(function () {
     //Departments
     require __DIR__."/api/hr/departments.php";
 
+    //Employees
+    require __DIR__."/api/hr/employees.php";
+
 });
 
