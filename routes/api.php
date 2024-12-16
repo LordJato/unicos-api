@@ -22,69 +22,30 @@ Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('p
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    
 
-    Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
+
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('profile', [UserController::class, 'profile']);
     });
 
-    Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('/get', [UserController::class, 'show']);
-        Route::post('/create', [UserController::class, 'store']);
-        Route::put('/update', [UserController::class, 'update']);
-        Route::delete('/delete', [UserController::class, 'destroy']);
-        Route::put('/update-roles', [UserController::class, 'updateRoles']);
-    });
-   
-    Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function(){
-        Route::get('/', [AccountController::class, 'index']);
-        Route::get('/get', [AccountController::class, 'show']);
-        Route::post('/create', [AccountController::class, 'store']);
-        Route::put('/update', [AccountController::class, 'update']);
-        Route::delete('/delete', [AccountController::class, 'destroy']);
-    });
+    //Users
+    require __DIR__ . "/api/users.php";
 
-    Route::group(['prefix' => 'companies', 'as' => 'companies.'], function(){
-        Route::get('/', [CompanyController::class, 'index']);
-        Route::get('/get', [CompanyController::class, 'show']);
-        Route::post('/create', [CompanyController::class, 'store']);
-        Route::put('/update', [CompanyController::class, 'update']);
-        Route::delete('/delete', [CompanyController::class, 'destroy']);
-    });
+    //Accounts
+    require __DIR__ . "/api/accounts.php";
 
-    Route::group(['prefix' => 'roles', 'as' => 'roles.'], function(){
-        Route::get('/', [RoleController::class, 'index']);
-        Route::get('/get', [RoleController::class, 'show']);
-        Route::post('/create', [RoleController::class, 'store']);
-        Route::put('/update', [RoleController::class, 'update']);
-        Route::delete('/delete', [RoleController::class, 'destroy']);
-        Route::get('/permissions', [RoleController::class, 'rolesPermissions']);
-        Route::post('/attach-permissions', [RoleController::class, 'attachPermissions']);
-    });
+    //Companies
+    require __DIR__ . "/api/companies.php";
 
-    Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function(){
-        Route::get('/', [PermissionController::class, 'index']);
-        Route::get('/get', [PermissionController::class, 'show']);
-        Route::post('/create', [PermissionController::class, 'store']);
-        Route::put('/update', [PermissionController::class, 'update']);
-        Route::delete('/delete', [PermissionController::class, 'destroy']);
-    });
+    //Roles
+    require __DIR__ . "/api/roles.php";
 
-    //EMPLOYEE
-    Route::group(['prefix' => 'employees', 'as' => 'employees.'], function(){
-        Route::get('/', [EmployeeController::class, 'index']);
-        Route::get('/get', [EmployeeController::class, 'show']);
-        Route::post('/create', [EmployeeController::class, 'store']);
-        Route::put('/update', [EmployeeController::class, 'update']);
-        Route::delete('/delete', [EmployeeController::class, 'destroy']);
-    });
+    //Permissions
+    require __DIR__ . "/api/permissions.php";
 
     //Departments
-    require __DIR__."/api/hr/departments.php";
+    require __DIR__ . "/api/hr/departments.php";
 
     //Employees
-    require __DIR__."/api/hr/employees.php";
-
+    require __DIR__ . "/api/hr/employees.php";
 });
-
