@@ -60,7 +60,7 @@ class DepartmentRepository
         $create = Company::create($company);
 
         if (!$create) {
-            throw new Exception("Could not create company, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new Exception("Could not create department, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $create->fresh();
