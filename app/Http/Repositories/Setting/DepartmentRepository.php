@@ -86,20 +86,20 @@ class DepartmentRepository
     public function prepareDataForDB(array $data, ?Company $company = null ): array
     {
         return [
-            'account_id' => $data['account_id'] ?? $company->account_id ?? null,
-            'name' =>  $data['name'] ?? $company->name,
-            'address' => $data['address'] ?? $company->address,
-            'city' => $data['city'] ?? $company->city,
-            'province' => $data['province'] ?? $company->province,
-            'postal' => $data['postal'] ?? $company->postal,
-            'country' => $data['country'] ?? $company->country,
-            'email' => $data['email'] ?? $company->email,
-            'phone' => $data['phone'] ?? $company->phone,
-            'fax' => $data['fax'] ?? $company->fax,
-            'tin' => $data['tin'] ?? $company->tin,
-            'sss' => $data['sss'] ?? $company->sss,
-            'philhealth' => $data['philhealth'] ?? $company->philhealth,
-            'hdmf' => $data['hdmf'] ?? $company->hdmf
+            // 'account_id' => $data['account_id'] ?? $company->account_id ?? null,
+            // 'name' =>  $data['name'] ?? $company->name,
+            // 'address' => $data['address'] ?? $company->address,
+            // 'city' => $data['city'] ?? $company->city,
+            // 'province' => $data['province'] ?? $company->province,
+            // 'postal' => $data['postal'] ?? $company->postal,
+            // 'country' => $data['country'] ?? $company->country,
+            // 'email' => $data['email'] ?? $company->email,
+            // 'phone' => $data['phone'] ?? $company->phone,
+            // 'fax' => $data['fax'] ?? $company->fax,
+            // 'tin' => $data['tin'] ?? $company->tin,
+            // 'sss' => $data['sss'] ?? $company->sss,
+            // 'philhealth' => $data['philhealth'] ?? $company->philhealth,
+            // 'hdmf' => $data['hdmf'] ?? $company->hdmf
         ];
     }
 }
