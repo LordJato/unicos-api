@@ -44,7 +44,7 @@ class DepartmentRepository
         $data = Company::find($id);
 
         if (empty($data)) {
-            throw new Exception("Company does not exist.", Response::HTTP_NOT_FOUND);
+            throw new Exception("Department does not exist.", Response::HTTP_NOT_FOUND);
         }
 
         return $data;
