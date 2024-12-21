@@ -115,7 +115,6 @@ class AuthRepository
 
     public function getAuthData(PersonalAccessTokenResult $tokenInstance): array
     {
-        dd($tokenInstance->accessToken->refreshToken);
         return [
             'access_token' => $tokenInstance->accessToken,
             'token_type'   => 'Bearer',
