@@ -68,9 +68,9 @@ class DepartmentController extends Controller
     {
         try {
 
-            // $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
+            $update = $this->departmentRepository->update($request->query('id'), $request->all());
 
-            // return $this->responseSuccess($update, "Company updated successfully");
+            return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
