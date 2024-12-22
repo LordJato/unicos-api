@@ -21,7 +21,7 @@ use Laravel\Passport\RefreshTokenRepository;
 class AuthRepository
 {
 
-    public function login(array $data)
+    public function login(array $data) : bool
     {
         $user = $this->getUserByEmail($data['email']);
 
@@ -33,7 +33,7 @@ class AuthRepository
             throw new Exception("Sorry, password does not match.", Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->generateAuthToken($data);
+        return true;
     }
 
     public function register(array $data): UserResource
