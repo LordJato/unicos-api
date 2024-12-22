@@ -52,9 +52,9 @@ class DepartmentController extends Controller
     {
         try {
 
-            // $find = $this->companyRepository->getByID($request->query('id'));
+            $find = $this->departmentRepository->getByID($request->query('id'));
 
-            // return $this->responseSuccess($find, "Company find successfully");
+            return $this->responseSuccess($find, "Department find successfully");
         } catch (Exception $e) {
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
@@ -68,9 +68,9 @@ class DepartmentController extends Controller
     {
         try {
 
-            // $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
+            $update = $this->departmentRepository->update($request->query('id'), $request->all());
 
-            // return $this->responseSuccess($update, "Company updated successfully");
+            return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
