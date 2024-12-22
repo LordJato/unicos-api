@@ -26,10 +26,8 @@ class AuthController extends Controller
         try {
             $data = $this->auth->login($request->all());
 
-            $cookieExpiration = Carbon::now()->addDays(30);
-
             return $this->responseSuccess($data, 'Logged in successfully.')
-            ->cookie('refresh_token', $data['refresh_token'], $cookieExpiration, null, null, true, true); // HttpOnly cookie;
+            ->cookie('refresh_token', $data['refresh_token'], 60 * 24 * 30, null, null, true, true); // HttpOnly cookie;
 
         } catch (Exception $exception) {
             return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
@@ -51,12 +49,14 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         try {
+            
             $this->auth->logout();
 
-            return $this->responseSuccess('', 'User logged out successfully !');
-        } catch (Exception $exception) {
+            return $this->responseSuccess('', 'User logged out successfully !')->cookie('refresh_token', '', -1);
 
-            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+        } catch (Exception $exception) {
+            
+            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
         }
     }
 

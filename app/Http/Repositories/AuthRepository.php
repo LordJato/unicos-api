@@ -5,16 +5,18 @@ namespace App\Http\Repositories;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Laravel\Passport\Token;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
+use Laravel\Passport\RefreshToken;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
+use Laravel\Passport\TokenRepository;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
+use Laravel\Passport\RefreshTokenRepository;
 
 class AuthRepository
 {
@@ -22,7 +24,7 @@ class AuthRepository
     public function login(array $data)
     {
         $user = $this->getUserByEmail($data['email']);
-        
+
         if (!$user) {
             throw new Exception("User does not exist.", Response::HTTP_NOT_FOUND);
         }
@@ -47,12 +49,10 @@ class AuthRepository
 
     public function logout(): bool
     {
-
         if (Auth::check()) {
-            $token = getCurrentUser()->token();
-            $token->revoke();
-            $token->delete();
-            return true;
+
+           return $this->revokeAllTokens();
+
         }
 
         return false;
@@ -110,7 +110,7 @@ class AuthRepository
     public function generateAuthToken(array $data): array
     {
         $passwordGrantClient = Client::where('password_client', 1)->first();
-     
+
         $data = [
             'grant_type' => 'password',
             'client_id' => $passwordGrantClient->id,
@@ -135,5 +135,42 @@ class AuthRepository
             'phone'    => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),
         ];
+    }
+
+    //Use this when revoke one token
+    public function revokeToken($tokenId): bool
+    {
+        $tokenRepository = app(TokenRepository::class);
+        $refreshTokenRepository = app(RefreshTokenRepository::class);
+        $tokenRepository->revokeAccessToken($tokenId);
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+
+        return true;
+    }
+
+    public function revokeAllTokens(): bool
+    {
+        $user = Auth::user();
+        $refreshTokenRepository = app(RefreshTokenRepository::class);
+        $user->tokens->each(function ($token) use ($refreshTokenRepository) {
+            //revoke access token
+            $token->revoke();
+            //revoce refresh token
+            $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
+        });
+
+        return true;
+    }
+
+    public function deleteAllTokens(): bool
+    {
+        $user = Auth::user();
+
+        $user->tokens->each(function ($token) {
+            $token->delete();
+            RefreshToken::where('access_token_id', $token->id)->delete();
+        });
+
+        return true;
     }
 }
