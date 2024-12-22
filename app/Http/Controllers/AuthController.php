@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Traits\ResponseTrait;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Repositories\AuthRepository;
@@ -25,9 +26,13 @@ class AuthController extends Controller
         try {
             $data = $this->auth->login($request->all());
 
-            return $this->responseSuccess($data, 'Logged in successfully.');
+            $cookieExpiration = Carbon::now()->addDays(30);
+
+            return $this->responseSuccess($data, 'Logged in successfully.')
+            ->cookie('refresh_token', $data['refresh_token'], $cookieExpiration, null, null, true, true); // HttpOnly cookie;
+
         } catch (Exception $exception) {
-            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
         }
     }
 
@@ -72,11 +77,9 @@ class AuthController extends Controller
             $data = $this->auth->resetPassword($request->all());
 
             return $this->responseSuccess($data, 'Password Reset Successfully');
-
         } catch (Exception $exception) {
 
             return $this->responseError([], $exception->getMessage(), $exception->getCode());
         }
-
     }
 }

@@ -3,37 +3,35 @@
 namespace App\Http\Repositories;
 
 use Exception;
-use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Laravel\Passport\Client;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-use Laravel\Passport\PersonalAccessTokenResult;
 
 class AuthRepository
 {
-    
-    public function login(array $data): array
+
+    public function login(array $data)
     {
         $user = $this->getUserByEmail($data['email']);
-
         
         if (!$user) {
             throw new Exception("User does not exist.", Response::HTTP_NOT_FOUND);
         }
 
-
         if (!$this->isValidPassword($user, $data)) {
             throw new Exception("Sorry, password does not match.", Response::HTTP_UNAUTHORIZED);
         }
 
-        $tokenInstance = $this->createAuthToken($user);
-
-        return $this->getAuthData($tokenInstance);
+        return $this->generateAuthToken($data);
     }
 
     public function register(array $data): UserResource
@@ -60,7 +58,7 @@ class AuthRepository
         return false;
     }
 
-    public function forgotPassword(array $data) : string
+    public function forgotPassword(array $data): string
     {
         $status = Password::sendResetLink(
             $data
@@ -77,20 +75,21 @@ class AuthRepository
     }
 
 
-    public function resetPassword (array $data) : string {
+    public function resetPassword(array $data): string
+    {
         $status = Password::reset(
             $data,
             function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
-     
+
                 $user->save();
-     
+
                 event(new PasswordReset($user));
             }
         );
-        
+
         if ($status == Password::PASSWORD_RESET) {
             return $status;
         }
@@ -108,19 +107,24 @@ class AuthRepository
         return Hash::check($data['password'], $user->password);
     }
 
-    public function createAuthToken(User $user): PersonalAccessTokenResult
+    public function generateAuthToken(array $data): array
     {
-        return $user->createToken('Personal Access Token');
-    }
-
-    public function getAuthData(PersonalAccessTokenResult $tokenInstance): array
-    {
-        dd($tokenInstance->accessToken->refreshToken);
-        return [
-            'access_token' => $tokenInstance->accessToken,
-            'token_type'   => 'Bearer',
-            'expires_at'   => Carbon::parse($tokenInstance->token->expires_at)->toDateTimeString()
+        $passwordGrantClient = Client::where('password_client', 1)->first();
+     
+        $data = [
+            'grant_type' => 'password',
+            'client_id' => $passwordGrantClient->id,
+            'client_secret' => $passwordGrantClient->secret,
+            'username' => $data['email'],
+            'password' => $data['password'],
+            'scope' => '',
         ];
+
+        $tokenRequest = Request::create('/oauth/token', 'post', $data);
+
+        $tokenResponse = app()->handle($tokenRequest);
+
+        return json_decode($tokenResponse->getContent(), true);
     }
 
     public function prepareDataForRegister(array $data): array
