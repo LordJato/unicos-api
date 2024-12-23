@@ -14,12 +14,8 @@ class AccountController extends Controller
 
     use ResponseTrait;
 
-    public $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository)
-    {
-        $this->accountRepository = $accountRepository;
-    }
+    public function __construct(private AccountRepository $accountRepository) {}
 
     /**
      * Display a listing of the resource.
@@ -27,11 +23,13 @@ class AccountController extends Controller
     public function index(AccountRequest $request): JsonResponse
     {
         try {
-            $validated = $request->validated();
-            $data = $this->accountRepository->getAll($validated);
+            $validatedData = $request->validated();
+
+            $data = $this->accountRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {
+
             return $this->handleException($e);
         }
     }
@@ -42,13 +40,14 @@ class AccountController extends Controller
     public function store(AccountRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $create = $this->accountRepository->create($request->all());
+            $create = $this->accountRepository->create($validatedData);
 
             return $this->responseSuccess($create, "Account created successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return $this->handleException($e);
         }
     }
 
@@ -58,45 +57,48 @@ class AccountController extends Controller
     public function show(AccountRequest $request): JsonResponse
     {
         try {
+            $validatedData = $request->validated();
 
-            $find = $this->accountRepository->getByID($request->query('id'));
+            $find = $this->accountRepository->getByID($validatedData['id']);
 
             return $this->responseSuccess($find, "Account find successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return $this->handleException($e);
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccountRequest $accountRequest)
+    public function update(AccountRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $update = $this->accountRepository->update($request->id, $accountRequest->all());
+            $update = $this->accountRepository->update($validatedData['id'], $validatedData);
 
             return $this->responseSuccess($update, "Account updated successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return $this->handleException($e);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountRequest $accountRequest)
+    public function destroy(AccountRequest $request)
     {
         try {
-            
-            $delete = $this->accountRepository->softDelete($accountRequest->id);
+            $validatedData = $request->validated();
+
+            $delete = $this->accountRepository->softDelete($validatedData['id']);
 
             return $this->responseSuccess($delete, "Account deleted successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return $this->handleException($e);
         }
     }
 
