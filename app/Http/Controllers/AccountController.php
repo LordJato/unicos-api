@@ -3,17 +3,12 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\AccountRequest;
 use App\Http\Repositories\AccountRepository;
 
 class AccountController extends Controller
 {
-
-    use ResponseTrait;
-
 
     public function __construct(private AccountRepository $accountRepository) {}
 
@@ -30,7 +25,7 @@ class AccountController extends Controller
             return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -47,7 +42,7 @@ class AccountController extends Controller
             return $this->responseSuccess($create, "Account created successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -64,7 +59,7 @@ class AccountController extends Controller
             return $this->responseSuccess($find, "Account find successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -81,7 +76,7 @@ class AccountController extends Controller
             return $this->responseSuccess($update, "Account updated successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -98,12 +93,7 @@ class AccountController extends Controller
             return $this->responseSuccess($delete, "Account deleted successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
-    }
-
-    private function handleException(Exception $e): JsonResponse
-    {
-        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
     }
 }

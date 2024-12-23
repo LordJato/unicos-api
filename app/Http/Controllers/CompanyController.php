@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Repositories\CompanyRepository;
 use App\Http\Requests\Company\CompanyGetRequest;
@@ -16,14 +15,8 @@ use App\Http\Requests\Company\CompanyUpdateRequest;
 class CompanyController extends Controller
 {
 
-    use ResponseTrait;
-
-    public $companyRepository;
-
-    public function __construct(CompanyRepository $companyRepository)
-    {
-        $this->companyRepository = $companyRepository;
-    }
+    public function __construct(private CompanyRepository $companyRepository)
+    {}
 
     /**
      * Display a listing of the resource.
@@ -31,13 +24,12 @@ class CompanyController extends Controller
     public function index(CompanyIndexRequest $request): JsonResponse
     {
         try {
-
-            $data = $this->companyRepository->getAll($request);
+            // $validatedData = $request->validated();
+            $data = $this->companyRepository->getAll($request->all());
 
             return $this->responseSuccess($data, "Company fetched successfully");
         } catch (Exception $e) {
-            dd($e);
-            return $this->responseError([], $e->getMessage(), $this->getStatusCode($exception->getCode()));
+            return parent::handleException($e);
         }
     }
 
@@ -52,7 +44,7 @@ class CompanyController extends Controller
 
             return $this->responseSuccess($create, "Company created successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -68,7 +60,7 @@ class CompanyController extends Controller
             return $this->responseSuccess($find, "Company find successfully");
         } catch (Exception $e) {
          
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -83,7 +75,7 @@ class CompanyController extends Controller
     
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -98,7 +90,7 @@ class CompanyController extends Controller
             return $this->responseSuccess($delete, "Company deleted successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 }
