@@ -5,9 +5,6 @@ namespace App\Http\Repositories;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Str;
-use Laravel\Passport\Token;
-use Illuminate\Http\Request;
-use Laravel\Passport\Client;
 use Illuminate\Http\Response;
 use Laravel\Passport\RefreshToken;
 use App\Http\Resources\UserResource;
@@ -20,8 +17,14 @@ use Laravel\Passport\RefreshTokenRepository;
 
 class AuthRepository
 {
-
-    public function login(array $data) : bool
+    /**
+     * Login user.
+     *
+     * @param array $data
+     * @return bool
+     * @throws Exception
+     */
+    public function login(array $data): bool
     {
         $user = $this->getUserByEmail($data['email']);
 
@@ -36,6 +39,14 @@ class AuthRepository
         return true;
     }
 
+
+    /**
+     * Register user.
+     *
+     * @param array $data
+     * @return UserResource
+     * @throws Exception
+     */
     public function register(array $data): UserResource
     {
         $user = User::create($this->prepareDataForRegister($data));
@@ -47,22 +58,27 @@ class AuthRepository
         return new UserResource($user);
     }
 
+    /**
+     * Logout user.
+     *
+     * @return bool
+     */
     public function logout(): bool
     {
-        if (Auth::check()) {
-
-           return $this->revokeAllTokens();
-
-        }
-
-        return false;
+        return Auth::check() ? $this->revokeAllTokens() : false;
     }
+
+    /**
+     * Forgot password.
+     *
+     * @param array $data
+     * @return string
+     * @throws Exception
+     */
 
     public function forgotPassword(array $data): string
     {
-        $status = Password::sendResetLink(
-            $data
-        );
+        $status = Password::sendResetLink($data);
 
         switch ($status) {
             case Password::RESET_LINK_SENT:
@@ -74,7 +90,13 @@ class AuthRepository
         }
     }
 
-
+    /**
+     * Reset password.
+     *
+     * @param array $data
+     * @return string
+     * @throws Exception
+     */
     public function resetPassword(array $data): string
     {
         $status = Password::reset(
@@ -97,57 +119,51 @@ class AuthRepository
         throw new Exception($status, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Get user by email.
+     *
+     * @param string $email
+     * @return User|null
+     */
     public function getUserByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
     }
 
+    /**
+     * Validate password.
+     *
+     * @param User $user
+     * @param array $data
+     * @return bool
+     */
     public function isValidPassword(User $user, array $data): bool
     {
         return Hash::check($data['password'], $user->password);
     }
 
-    public function generateAuthToken(array $data): array
-    {
-        $passwordGrantClient = Client::where('password_client', 1)->first();
-
-        $data = [
-            'grant_type' => 'password',
-            'client_id' => $passwordGrantClient->id,
-            'client_secret' => $passwordGrantClient->secret,
-            'username' => $data['email'],
-            'password' => $data['password'],
-            'scope' => '',
-        ];
-
-        $tokenRequest = Request::create('/oauth/token', 'post', $data);
-
-        $tokenResponse = app()->handle($tokenRequest);
-
-        return json_decode($tokenResponse->getContent(), true);
-    }
-
-    public function prepareDataForRegister(array $data): array
-    {
-        return [
-            'account_id' => $data['account_id'] ?? Auth::user()->accountId,
-            'email'    => $data['email'],
-            'phone'    => $data['phone'] ?? null,
-            'password' => Hash::make($data['password']),
-        ];
-    }
-
-    //Use this when revoke one token
+    /**
+     * Revoke token.
+     *
+     * @param $tokenId
+     * @return bool
+     */
     public function revokeToken($tokenId): bool
     {
         $tokenRepository = app(TokenRepository::class);
         $refreshTokenRepository = app(RefreshTokenRepository::class);
+
         $tokenRepository->revokeAccessToken($tokenId);
         $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
 
         return true;
     }
 
+    /**
+     * Revoke all tokens.
+     *
+     * @return bool
+     */
     public function revokeAllTokens(): bool
     {
         $user = Auth::user();
@@ -162,6 +178,12 @@ class AuthRepository
         return true;
     }
 
+
+    /**
+     * Delete all tokens.
+     *
+     * @return bool
+     */
     public function deleteAllTokens(): bool
     {
         $user = Auth::user();
@@ -172,5 +194,21 @@ class AuthRepository
         });
 
         return true;
+    }
+
+    /**
+     * Prepare registration data.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function prepareDataForRegister(array $data): array
+    {
+        return [
+            'account_id' => $data['account_id'] ?? Auth::user()->accountId,
+            'email'    => $data['email'],
+            'phone'    => $data['phone'] ?? null,
+            'password' => Hash::make($data['password']),
+        ];
     }
 }

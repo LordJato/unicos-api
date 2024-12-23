@@ -18,25 +18,30 @@ class AuthController extends Controller
 {
     use ResponseTrait;
 
-    public function __construct(private AuthRepository $authRepository, private TokenRepository $tokenRepository)
-    {
-        $this->authRepository = $authRepository;
-    }
+    private const REFRESH_TOKEN_EXPIRY = 60 * 24 * 30; // 30 days
 
-    public function login(LoginRequest $request)
+    public function __construct(
+        private readonly AuthRepository $authRepository,
+        private readonly TokenRepository $tokenRepository
+    ) {}
+
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
-            $data = $this->authRepository->login($request->all());
-
-            if($data){
-                $token = $this->tokenRepository->generateAcessToken($request->only(['email', 'password']));
+            $validatedData = $request->validated();
+            $data = $this->authRepository->login($validatedData);
+            if ($data) {
+                $credentials = [
+                    'email' => $validatedData['email'],
+                    'password' => $validatedData['password']
+                ];
+                $token = $this->tokenRepository->generateAccessToken($credentials);
             }
-
             return $this->responseSuccess($token, 'Logged in successfully.')
-            ->cookie('refresh_token', $token['refresh_token'], 60 * 24 * 30, null, null, true, true); // HttpOnly cookie;
+                ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
+        } catch (Exception $e) {
 
-        } catch (Exception $exception) {
-            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
+            return $this->handleException($e);
         }
     }
 
@@ -47,39 +52,37 @@ class AuthController extends Controller
             $data = $this->authRepository->register($request->all());
 
             return $this->responseSuccess($data, 'User registered successfully.');
-        } catch (Exception $exception) {
-            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
+        } catch (Exception $e) {
+            return $this->handleException($e);
         }
     }
 
     public function logout(): JsonResponse
     {
         try {
-            
+
             $this->authRepository->logout();
 
             return $this->responseSuccess('', 'User logged out successfully !')->cookie('refresh_token', '', -1);
+        } catch (Exception $e) {
 
-        } catch (Exception $exception) {
-            
-            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
+            return $this->handleException($e);
         }
     }
 
-    
+
     public function newAccessToken(Request $request): JsonResponse
     {
         try {
             $refreshToken = $request->cookie('refresh_token');
 
-            $token = $this->tokenRepository->generateAccessTokenFromRefreshToken($refreshToken);
+            $token = $this->tokenRepository->refreshAccessToken($refreshToken);
 
             return $this->responseSuccess($token, 'New access token acquired.')
-            ->cookie('refresh_token', $token['refresh_token'], 60 * 24 * 30, null, null, true, true);
+                ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
+        } catch (Exception $e) {
 
-        } catch (Exception $exception) {
-            
-            return $this->responseError([], $exception->getMessage(), $this->getStatusCode($exception->getCode()));
+            return $this->handleException($e);
         }
     }
 
@@ -89,8 +92,8 @@ class AuthController extends Controller
             $data = $this->authRepository->forgotPassword($request->only('email'));
 
             return $this->responseSuccess($data, 'Email sent');
-        } catch (Exception $exception) {
-            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+        } catch (Exception $e) {
+            return $this->handleException($e);
         }
     }
 
@@ -100,9 +103,14 @@ class AuthController extends Controller
             $data = $this->authRepository->resetPassword($request->all());
 
             return $this->responseSuccess($data, 'Password Reset Successfully');
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
 
-            return $this->responseError([], $exception->getMessage(), $exception->getCode());
+            return $this->handleException($e);
         }
+    }
+
+    private function handleException(Exception $e): JsonResponse
+    {
+        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
     }
 }
