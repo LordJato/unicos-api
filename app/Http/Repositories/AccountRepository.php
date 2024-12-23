@@ -5,36 +5,43 @@ namespace App\Http\Repositories;
 use Exception;
 use App\Models\Account;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class AccountRepository
 {
-    public function getAll(object $request): array
+    /**
+     * Get all Accounts.
+     *
+     * @param array $params
+     * @return array
+     */
+
+    public function getAll(array $params): array
     {
-        $search = $request->get('search');
+        $search = $params['search'] ?? null;
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $orderBy = $params['orderBy'] ?? 'id';
+        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        //filters
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 10);
-        $orderBy = $request->input('orderBy', 'id');
-        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-
-        $accounts = Account::when($search, function ($query, $search) {
-            $query->where('name', 'like', '%' . $search . '%');
-        })
+        $accounts = Account::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
-        $data = [
+        return [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
-
-        return $data;
     }
 
+    /**
+     * Get Account by ID.
+     *
+     * @param int $id
+     * @return Account|null
+     * @throws Exception
+     */
     public function getByID(int $id): ?Account
     {
         $account = Account::find($id);
@@ -46,14 +53,18 @@ class AccountRepository
         return $account;
     }
 
+    /**
+     * Create Account.
+     *
+     * @param array $params
+     * @return Account
+     * @throws Exception
+     */
     public function create(array $params): Account
     {
+        $company = $this->prepareDataForDB($params);
 
-        $data = [
-            'name' => $params['name'],
-        ];
-
-        $create = Account::create($data);
+        $create = Account::create($company);
 
         if (!$create) {
             throw new Exception("Could not create account, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -62,24 +73,49 @@ class AccountRepository
         return $create->fresh();
     }
 
+    /**
+     * Update Account.
+     *
+     * @param int $id
+     * @param array $params
+     * @return Account|null
+     */
     public function update(int $id, array $params): ?Account
     {
-        $account = $this->getById($id);
+        $update = $this->getById($id);
 
-        $account->name = $params['name'];
+        $update->update($this->prepareDataForDB($params, $update));
 
-        if ($account->save()) {
-            $account = $this->getById($id);
-        }
-
-        return $account;
+        return $update->refresh();
     }
 
+    /**
+     * Soft delete Account.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function softDelete(int $id): bool
     {
 
-        $account = $this->getByID($id);
+        $delete = $this->getByID($id);
 
-        return $account->delete();
+        return $delete->delete();
+    }
+
+    /**
+     * Prepares data for database insertion/update.
+     *
+     * @param array $data Incoming data.
+     * @param Account|null $model Existing account model (optional).
+     *
+     * @return array Prepared data.
+     */
+    public function prepareDataForDB(array $data, ?Account $model = null): array
+    {
+
+        return [
+            'name' => $data['name'] ?? $model->name,
+        ];
     }
 }

@@ -32,7 +32,7 @@ class AccountController extends Controller
 
             return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return $this->handleException($e);
         }
     }
 
@@ -98,5 +98,10 @@ class AccountController extends Controller
 
             return $this->responseError([], $e->getMessage(), $e->getCode());
         }
+    }
+
+    private function handleException(Exception $e): JsonResponse
+    {
+        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
     }
 }
