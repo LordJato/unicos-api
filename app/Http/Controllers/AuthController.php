@@ -108,9 +108,4 @@ class AuthController extends Controller
             return $this->handleException($e);
         }
     }
-
-    private function handleException(Exception $e): JsonResponse
-    {
-        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
-    }
 }

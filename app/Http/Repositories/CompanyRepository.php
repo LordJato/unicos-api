@@ -114,7 +114,6 @@ class CompanyRepository
      *
      * @return array Prepared data.
      */
-
     public function prepareDataForDB(array $data, ?Company $model = null): array
     {
         return [

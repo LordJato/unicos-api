@@ -10,32 +10,41 @@ use Illuminate\Http\Response;
 class RoleRepository
 {
 
-    public function getAll(object $request): array
+    /**
+     * Get all Role.
+     *
+     * @param array $params
+     * @return array
+     */
+
+    public function getAll(array $params): array
     {
-        $search = $request->get('search');
+        $search = $params['search'] ?? null;
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $orderBy = $params['orderBy'] ?? 'id';
+        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        //filters
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 10);
-        $orderBy = $request->input('orderBy', 'id');
-        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-
-        $accounts = Role::with('permissions')->when($search, function ($query, $search) {
-            $query->where('name', 'like', $search . '%');
-        })
+        $accounts = Role::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
-        $data = [
+        return [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
-
-        return $data;
     }
 
+
+    /**
+     * Get Role by ID.
+     *
+     * @param int $id
+     * @return Role|null
+     * @throws Exception
+     */
     public function getById(int $id): ?Role
     {
         $data = Role::find($id);
@@ -47,10 +56,17 @@ class RoleRepository
         return $data;
     }
 
-    public function create(array $data): Role
+    /**
+     * Create Role.
+     *
+     * @param array $params
+     * @return Permission
+     * @throws Exception
+     */
+    public function create(array $params): Role
     {
 
-        $prepareData = $this->prepareDataForDB($data);
+        $prepareData = $this->prepareDataForDB($params);
 
         $create = Role::create($prepareData);
 
@@ -61,15 +77,28 @@ class RoleRepository
         return $create->fresh();
     }
 
-    public function update(array $data) : Role
+    /**
+     * Update Role.
+     *
+     * @param int $id
+     * @param array $params
+     * @return Role|null
+     */
+    public function update(int $id, array $params): Role
     {
-        $update = $this->getById($data['id']);
-        
-        $update->update($this->prepareDataForDB($data, $update));
+        $update = $this->getById($id);
+
+        $update->update($this->prepareDataForDB($params, $update));
 
         return $update->refresh();
     }
 
+    /**
+     * Soft delete Role.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function softDelete(int $id): bool
     {
 
@@ -78,6 +107,12 @@ class RoleRepository
         return $data->delete();
     }
 
+    /**
+     * Force delete Role on Database.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function forceDelete(int $id): bool
     {
 
@@ -86,13 +121,21 @@ class RoleRepository
         return $data->forceDelete();
     }
 
-    public function prepareDataForDB(array $data, ?Role $model = null ): array
+    /**
+     * Prepares data for database insertion/update.
+     *
+     * @param array $data Incoming data.
+     * @param Role|null $model Existing account model (optional).
+     *
+     * @return array Prepared data.
+     */
+    public function prepareDataForDB(array $data, ?Role $model = null): array
     {
-        $toSlug = Str::slug($data['name'], '-');
+        $name = $data['name'] ?? $model->name;
 
         return [
-            'name' =>  $data['name'] ?? $model->name,
-            'slug'    => $toSlug,
+            'name' => $name,
+            'slug'    => Str::slug($name)
         ];
     }
 }

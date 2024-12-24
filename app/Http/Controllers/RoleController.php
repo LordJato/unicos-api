@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Role;
 use App\Models\Permission;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Repositories\RoleRepository;
 use App\Http\Requests\Role\RoleGetRequest;
@@ -18,23 +16,18 @@ use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
 {
-    use ResponseTrait;
+    public function __construct(private RoleRepository $roleRepository) {}
 
-    private $roleRepository;
-
-    public function __construct(RoleRepository $roleRepository)
-    {
-        $this->roleRepository = $roleRepository;
-    }
-
-    public function index(RoleIndexRequest $request) : JsonResponse
+    public function index(RoleIndexRequest $request): JsonResponse
     {
         try {
-            $data = $this->roleRepository->getAll($request);
+            $validatedData = $request->validated();
+
+            $data = $this->roleRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Roles fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -48,9 +41,7 @@ class RoleController extends Controller
             return $this->responseSuccess($find, "Role find successfully");
         } catch (Exception $e) {
 
-            return $e;
-
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -66,7 +57,7 @@ class RoleController extends Controller
             return $this->responseSuccess($create, "Role created successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -76,12 +67,12 @@ class RoleController extends Controller
 
             $validatedData = $request->validated();
 
-            $update = $this->roleRepository->update($validatedData);
+            $update = $this->roleRepository->update($validatedData['id'], $validatedData);
 
             return $this->responseSuccess($update, "Role updated successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -96,11 +87,12 @@ class RoleController extends Controller
             return $this->responseSuccess($role, "Role deleted successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
-    public function attachPermissions(Request $request){
+    public function attachPermissions(Request $request)
+    {
         try {
 
             $role = $this->roleRepository->getByID($request->roleID);
@@ -112,17 +104,17 @@ class RoleController extends Controller
             return $this->responseSuccess($attach, "Permissions attached successfully.");
         } catch (Exception $e) {
 
-            return $e;
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
     public function rolesPermissions()
     {
         try {
-            return $this->responseSuccess(Role::with('permissions')->get(), "Roles fetched successfully");
+            $rolesPermissions = Role::with('permissions')->get();
+            return $this->responseSuccess($rolesPermissions, "Roles fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 }
