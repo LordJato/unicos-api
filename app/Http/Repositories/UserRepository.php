@@ -12,31 +12,40 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository
 {
 
-    public function getAll(object $request) : array {
-        $search = $request->get('search');
+    /**
+     * Get all Users.
+     *
+     * @param array $params
+     * @return array
+     */
 
-        //filters
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 10);
-        $orderBy = $request->input('orderBy', 'id');
-        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
+    public function getAll(array $params): array
+    {
+        $search = $params['search'] ?? null;
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $orderBy = $params['orderBy'] ?? 'id';
+        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        $accounts = User::when($search, function ($query, $search) {
-            $query->where('name', 'like', $search . '%');
-        })
+        $accounts = User::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
-        $data = [
+        return [
             'total' => $accounts->total(),
-            'records' => $accounts->items(),    
+            'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
-
-        return $data;
     }
 
+    /**
+     * Get User by ID.
+     *
+     * @param int $id
+     * @return User|null
+     * @throws Exception
+     */
     public function getById(int $id): ?User
     {
         $user = User::find($id);
@@ -48,10 +57,17 @@ class UserRepository
         return $user;
     }
 
-    public function create(array $data): ?User
+    /**
+     * Create User.
+     *
+     * @param array $params
+     * @return User|null
+     * @throws Exception
+     */
+    public function create(array $params): ?User
     {
 
-        $user = User::create($this->prepareDataForRegister($data));
+        $user = User::create($this->prepareDataForDB($params));
 
         if (!$user) {
             throw new Exception("Sorry, user does not registered, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -60,15 +76,29 @@ class UserRepository
         return $user;
     }
 
-    public function update(int $id, array $data) : User
+    /**
+     * Update Account.
+     *
+     * @param int $id
+     * @param array $params
+     * @return User|null
+     */
+
+    public function update(int $id, array $params): ?User
     {
         $update = $this->getById($id);
-        
-        $update->update($this->prepareDataForRegister($data, $update));
+
+        $update->update($this->prepareDataForDB($params, $update));
 
         return $update->refresh();
     }
 
+    /**
+     * Soft delete Account.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function softDelete(int $id): bool
     {
 
@@ -77,22 +107,26 @@ class UserRepository
         return $data->delete();
     }
 
-    public function prepareDataForRegister(array $data): array
+    /**
+     * Prepares data for database insertion/update.
+     *
+     * @param array $data Incoming data.
+     * @param User|null $model Existing account model (optional).
+     *
+     * @return array Prepared data.
+     */
+    public function prepareDataForDB(array $data, ?User $model = null): array
     {
 
         return [
-            'account_id' => $data['account_id'],
-            'email'    => $data['email'],
-            'phone'    => $data['phone'] ?? null,
-            'password' => Hash::make($data['password']),
+            'account_id' => $data['account_id'] ?? $model->account_id,
+            'email'    => $data['email'] ?? $model->email,
+            'phone'    => $data['phone'] ??  $model->phone,
+            'password' => $data['password'] ? Hash::make($data['password']) : Hash::make($model->password),
         ];
     }
-
-    public function getAuthUser(){
-        return new UserResource(Auth::user());
-    }
-
-    public function syncRolesWithPermissions(array $data) : UserResource {
+    public function syncRolesWithPermissions(array $data): UserResource
+    {
 
         $roles = $data['roles'];
         $userId = $data['userId'];
@@ -103,7 +137,7 @@ class UserRepository
 
         $user->roles()->sync($roles);
         $user->permissions()->sync($getPemissionIds);
-        
+
 
         return new UserResource($user);
     }
