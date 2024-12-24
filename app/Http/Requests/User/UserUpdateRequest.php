@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class UserUpdateRequest extends FormRequest
 {
     /**
@@ -23,7 +23,18 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer',
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($this->id, 'id')],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

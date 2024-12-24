@@ -4,34 +4,30 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\UserResource;
 use App\Http\Repositories\UserRepository;
 use App\Http\Requests\User\UserGetRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserDeleteRequest;
+use App\Http\Requests\User\UserIndexRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\User\UserUpdateRoleRequest;
 
 class UserController extends Controller
 {
-    use ResponseTrait;
 
-    public $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(private UserRepository $userRepository) {}
 
 
-    public function index()
+    public function index(UserIndexRequest $request)
     {
         try {
-            return $this->responseSuccess($this->userRepository->getAll(request()), "Users fetched successfully");
+            $validatedData = $request->validated();
+
+            return $this->responseSuccess($this->userRepository->getAll($validatedData), "Users fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -41,13 +37,13 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         try {
-
-            $create = $this->userRepository->create($request->all());
+            $validatedData = $request->validated();
+            
+            $create = $this->userRepository->create($validatedData);
 
             return $this->responseSuccess($create, "User created successfully");
         } catch (Exception $e) {
-            return $e;
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -57,45 +53,48 @@ class UserController extends Controller
     public function show(UserGetRequest $request): JsonResponse
     {
         try {
+            $validatedData = $request->validated();
 
-            $find = $this->userRepository->getByID($request->query('id'));
+            $find = $this->userRepository->getByID($validatedData);
 
             return $this->responseSuccess(new UserResource($find), "User find successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
-        /**
+    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserUpdateRequest $updateRequest)
+    public function update(UserUpdateRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $update = $this->userRepository->update($request->id, $updateRequest->all());
+            $update = $this->userRepository->update($validatedData['id'], $validatedData);
 
             return $this->responseSuccess($update, "User updated successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserDeleteRequest $deleteRequest)
+    public function destroy(UserDeleteRequest $request)
     {
         try {
-            
-            $delete = $this->userRepository->softDelete($deleteRequest->id);
+            $validatedData = $request->validated();
+
+            $delete = $this->userRepository->softDelete($validatedData['id']);
 
             return $this->responseSuccess($delete, "User deleted successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -103,28 +102,27 @@ class UserController extends Controller
     {
         try {
 
-            $profile = $this->userRepository->getAuthUser();
+            $profile = getCurrentUser();
 
             return $this->responseSuccess($profile, 'User fetched successfully');
-            
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
-    public function updateRoles(UserUpdateRoleRequest $request){
+    public function updateRoles(UserUpdateRoleRequest $request)
+    {
         try {
             $validatedData = $request->validated();
 
             $user = $this->userRepository->syncRolesWithPermissions($validatedData);
 
             return $this->responseSuccess($user, 'User fetched successfully');
-            
         } catch (Exception $e) {
             return $e;
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 }
