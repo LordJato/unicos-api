@@ -38,7 +38,7 @@ class UserController extends Controller
     {
         try {
             $validatedData = $request->validated();
-            
+
             $create = $this->userRepository->create($validatedData);
 
             return $this->responseSuccess($create, "User created successfully");
@@ -55,7 +55,7 @@ class UserController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $find = $this->userRepository->getByID($validatedData);
+            $find = $this->userRepository->getByID($validatedData['id']);
 
             return $this->responseSuccess(new UserResource($find), "User find successfully");
         } catch (Exception $e) {
