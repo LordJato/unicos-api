@@ -23,7 +23,17 @@ class CompanyGetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer',
+           'id' => ['required', 'integer'],
         ];
+    }
+
+        /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    { 
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

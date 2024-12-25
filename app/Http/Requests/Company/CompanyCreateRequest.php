@@ -23,7 +23,6 @@ class CompanyCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'name' => 'required|string|max:150|unique:companies',
             'address' => 'required|string|min:8|max:150',
             'city' => 'required|string|max:50',

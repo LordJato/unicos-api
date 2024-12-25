@@ -24,8 +24,8 @@ class CompanyController extends Controller
     public function index(CompanyIndexRequest $request): JsonResponse
     {
         try {
-            // $validatedData = $request->validated();
-            $data = $this->companyRepository->getAll($request->all());
+            $validatedData = $request->validated();
+            $data = $this->companyRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Company fetched successfully");
         } catch (Exception $e) {
@@ -39,8 +39,8 @@ class CompanyController extends Controller
     public function store(CompanyCreateRequest $request)
     {
         try {
-
-            $create = $this->companyRepository->create($request->all());
+            $validatedData = $request->validated();
+            $create = $this->companyRepository->create($validatedData);
 
             return $this->responseSuccess($create, "Company created successfully");
         } catch (Exception $e) {
@@ -54,8 +54,8 @@ class CompanyController extends Controller
     public function show(CompanyGetRequest $request): JsonResponse
     {
         try {
-
-            $find = $this->companyRepository->getByID($request->query('id'));
+            $validatedData = $request->validated();
+            $find = $this->companyRepository->getByID($validatedData['id']);
 
             return $this->responseSuccess($find, "Company find successfully");
         } catch (Exception $e) {
@@ -67,11 +67,12 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CompanyUpdateRequest $companyRequest)
+    public function update(CompanyUpdateRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $update = $this->companyRepository->update($request->query('id'), $companyRequest->all());
+            $update = $this->companyRepository->update($validatedData);
     
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
@@ -85,7 +86,8 @@ class CompanyController extends Controller
     public function destroy(CompanyDeleteRequest $request)
     {
         try {
-            $delete = $this->companyRepository->softDelete($request->id);
+            $validatedData = $request->validated();
+            $delete = $this->companyRepository->softDelete($validatedData['id']);
 
             return $this->responseSuccess($delete, "Company deleted successfully");
         } catch (Exception $e) {

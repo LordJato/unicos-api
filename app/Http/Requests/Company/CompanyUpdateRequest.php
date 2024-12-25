@@ -24,7 +24,7 @@ class CompanyUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:companies,id'],
+            'id' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:150', Rule::unique('companies')->ignore($this->id, 'id')],
         ];
     }

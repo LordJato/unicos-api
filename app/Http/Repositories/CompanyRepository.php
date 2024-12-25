@@ -22,7 +22,7 @@ class CompanyRepository
         $orderBy = $params['orderBy'] ?? 'id';
         $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        $accountIdFilter = getCurrentUser()->hasRolesTo('super-admin') ? $params['account_id'] ?? null : null;
+        $accountIdFilter = getCurrentUser()->hasRolesTo('super-admin') ? $params['accountId'] ?? null : null;
 
         $accounts = Company::when($accountIdFilter, fn($query, $accountIdFilter) => $query->where('account_id', $accountIdFilter))
             ->when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
@@ -79,13 +79,12 @@ class CompanyRepository
     /**
      * Update Company.
      *
-     * @param int $id
      * @param array $params
      * @return Company|null
      */
-    public function update(int $id, array $params): Company
+    public function update(array $params): Company
     {
-        $update = $this->getById($id);
+        $update = $this->getById($params['id']);
 
         $update->update($this->prepareDataForDB($params, $update));
 

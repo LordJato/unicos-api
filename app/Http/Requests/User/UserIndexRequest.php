@@ -26,4 +26,6 @@ class UserIndexRequest extends FormRequest
             //
         ];
     }
+
+    
 }
