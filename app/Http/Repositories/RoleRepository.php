@@ -24,8 +24,10 @@ class RoleRepository
         $limit = $params['limit'] ?? 10;
         $orderBy = $params['orderBy'] ?? 'id';
         $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
+        $withPermission =  $params['withPermission'] ?? false;
 
-        $accounts = Role::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $accounts = Role::when($withPermission, fn ($query) => $query->with('permissions'))
+            ->when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 

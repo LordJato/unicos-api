@@ -17,7 +17,7 @@ use App\Http\Requests\User\UserUpdateRoleRequest;
 class UserController extends Controller
 {
 
-    public function __construct(private UserRepository $userRepository) {}
+    public function __construct(protected UserRepository $userRepository) {}
 
 
     public function index(UserIndexRequest $request)

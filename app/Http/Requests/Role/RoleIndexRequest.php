@@ -23,7 +23,12 @@ class RoleIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'search' => ['nullable', 'min:3'],
+            'offset' => ['nullable', 'integer'],
+            'limit' => ['nullable', 'integer'],
+            'orderBy' => ['nullable', 'string'],
+            'orderDesc' => ['nullable', 'boolean'],
+            'withPermission' => ['nullable', 'boolean'],
         ];
     }
 }
