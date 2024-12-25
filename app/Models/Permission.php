@@ -11,6 +11,8 @@ class Permission extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $hidden = ['pivot'];
     
     protected $fillable = [
         'name',
