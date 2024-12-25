@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Repositories\AuthRepository;
+use App\Http\Repositories\LinkRepository;
 use App\Http\Repositories\TokenRepository;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
@@ -22,7 +23,8 @@ class AuthController extends Controller
 
     public function __construct(
         private readonly AuthRepository $authRepository,
-        private readonly TokenRepository $tokenRepository
+        private readonly TokenRepository $tokenRepository,
+        private readonly LinkRepository $linkRepository
     ) {}
 
     public function login(LoginRequest $request): JsonResponse
@@ -52,6 +54,18 @@ class AuthController extends Controller
             $data = $this->authRepository->register($request->all());
 
             return $this->responseSuccess($data, 'User registered successfully.');
+        } catch (Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function registerWithLink(RegisterRequest $request): JsonResponse
+    {
+        try {
+
+            $data = $this->linkRepository->generateRegisterLink($request->all());
+
+            return $this->responseSuccess($data, 'Generate Link successfully.');
         } catch (Exception $e) {
             return $this->handleException($e);
         }

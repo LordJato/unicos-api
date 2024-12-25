@@ -19,6 +19,8 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
 Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::post('refresh-token', [AuthController::class, 'newAccessToken'])->name('refresh.token');
+Route::post('link-register', [AuthController::class, 'registerWithLink'])->name('link.register');
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
