@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     public function index(EmployeeIndexRequest $request)
     {
         try {
-            $data = $this->employeeRepository->getAll($request);
+            $data = $this->employeeRepository->getAll($request->all());
 
             return $this->responseSuccess($data, "Employees fetched successfully");
         } catch (Exception $e) {

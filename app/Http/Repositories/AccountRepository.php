@@ -62,9 +62,9 @@ class AccountRepository
      */
     public function create(array $params): Account
     {
-        $company = $this->prepareDataForDB($params);
+        $data = $this->prepareDataForDB($params);
 
-        $create = Account::create($company);
+        $create = Account::create($data);
 
         if (!$create) {
             throw new Exception("Could not create account, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);

@@ -8,45 +8,41 @@ use Illuminate\Http\Response;
 
 class EmployeeRepository
 {
+    /**
+     * Get all Employee.
+     *
+     * @param array $params
+     * @return array
+     */
 
-    private $getCurrentUser;
 
-    public function __construct()
+    public function getAll(array $params): array
     {
-        return $this->getCurrentUser = getCurrentUser();
-    }
+        $search = $params['search'] ?? null;
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $orderBy = $params['orderBy'] ?? 'id';
+        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-    public function getAll(object $request): array
-    {
-        $search = $request->get('search');
-
-        //filters
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 10);
-        $orderBy = $request->input('orderBy', 'id');
-        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-
-        $accountIdFilter = $this->getCurrentUser->hasRolesTo('super-admin') ? $request->input('account_id') : null;
-
-        $accounts = Employee::when($accountIdFilter, function ($query, $accountIdFilter) {
-            $query->where('account_id', $accountIdFilter);
-        })
-            ->when($search, function ($query, $search) {
-                $query->where('name', 'like', $search . '%');
-            })
+        $accounts = Employee::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
-        $data = [
+        return [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
-
-        return $data;
     }
 
+    /**
+     * Get Employee by ID.
+     *
+     * @param int $id
+     * @return Employee|null
+     * @throws Exception
+     */
     public function getByID(int $id): ?Employee
     {
         $data = Employee::find($id);
@@ -58,12 +54,19 @@ class EmployeeRepository
         return $data;
     }
 
-    public function create(array $data): Employee
+    /**
+     * Create Employee.
+     *
+     * @param array $params
+     * @return Employee
+     * @throws Exception
+     */
+    public function create(array $params): Employee
     {
 
-        $company = $this->prepareDataForDB($data);
+        $data = $this->prepareDataForDB($params);
 
-        $create = Employee::create($company);
+        $create = Employee::create($data);
 
         if (!$create) {
             throw new Exception("Could not create employee, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -72,15 +75,28 @@ class EmployeeRepository
         return $create->fresh();
     }
 
-    public function update(int $id, array $data): Employee
+    /**
+     * Update Employee.
+     *
+     * @param int $id
+     * @param array $params
+     * @return Employee|null
+     */
+    public function update(int $id, array $params): Employee
     {
         $update = $this->getById($id);
 
-        $update->update($this->prepareDataForDB($data, $update));
+        $update->update($this->prepareDataForDB($params, $update));
 
         return $update->refresh();
     }
 
+    /**
+     * Soft delete Employee.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function softDelete(int $id): bool
     {
 
@@ -89,22 +105,30 @@ class EmployeeRepository
         return $data->delete();
     }
 
-    public function prepareDataForDB(array $data, ?Employee $company = null): array
+        /**
+     * Prepares data for database insertion/update.
+     *
+     * @param array $data Incoming data.
+     * @param Department|null $model Existing account model (optional).
+     *
+     * @return array Prepared data.
+     */
+    public function prepareDataForDB(array $data, ?Employee $model = null): array
     {
         return [
-            'name' =>  $data['name'] ?? $company->name,
-            'address' => $data['address'] ?? $company->address,
-            'city' => $data['city'] ?? $company->city,
-            'province' => $data['province'] ?? $company->province,
-            'postal' => $data['postal'] ?? $company->postal,
-            'country' => $data['country'] ?? $company->country,
-            'email' => $data['email'] ?? $company->email,
-            'phone' => $data['phone'] ?? $company->phone,
-            'fax' => $data['fax'] ?? $company->fax,
-            'tin' => $data['tin'] ?? $company->tin,
-            'sss' => $data['sss'] ?? $company->sss,
-            'philhealth' => $data['philhealth'] ?? $company->philhealth,
-            'hdmf' => $data['hdmf'] ?? $company->hdmf
+            'name' =>  $data['name'] ?? $model->name,
+            'address' => $data['address'] ?? $model->address,
+            'city' => $data['city'] ?? $model->city,
+            'province' => $data['province'] ?? $model->province,
+            'postal' => $data['postal'] ?? $model->postal,
+            'country' => $data['country'] ?? $model->country,
+            'email' => $data['email'] ?? $model->email,
+            'phone' => $data['phone'] ?? $model->phone,
+            'fax' => $data['fax'] ?? $model->fax,
+            'tin' => $data['tin'] ?? $model->tin,
+            'sss' => $data['sss'] ?? $model->sss,
+            'philhealth' => $data['philhealth'] ?? $model->philhealth,
+            'hdmf' => $data['hdmf'] ?? $model->hdmf
         ];
     }
 }

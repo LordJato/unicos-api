@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $data = $this->departmentRepository->getAll($request);
+            $data = $this->departmentRepository->getAll($request->all());
 
             return $this->responseSuccess($data, "Department fetched successfully");
         } catch (Exception $e) {

@@ -11,37 +11,44 @@ use Illuminate\Support\Facades\Auth;
 class DepartmentRepository
 {
 
-    public function getAll(object $request): array
+    /**
+     * Get all Department.
+     *
+     * @param array $params
+     * @return array
+     */
+
+
+    public function getAll(array $params): array
     {
-        $search = $request->get('search');
+        $search = $params['search'] ?? null;
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $orderBy = $params['orderBy'] ?? 'id';
+        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        //filters
-        $offset = $request->input('offset', 0);
-        $limit = $request->input('limit', 10);
-        $orderBy = $request->input('orderBy', 'id');
-        $orderDesc = $request->boolean('orderDesc') ? 'desc' : 'asc';
-        $companyId = $request->input('company_id');
-
-        $accounts = Department::where('company_id', $companyId)
-        ->when($search, function ($query, $search) {
-            $query->where('name', 'like', $search . '%');
-        })
+        $accounts = Department::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
-        $data = [
+        return [
             'total' => $accounts->total(),
             'records' => $accounts->items(),
             'offset' => $offset,
             'limit' => $limit
         ];
-
-        return $data;
     }
 
-    public function getByID(int $id): ?Company
+    /**
+     * Get Department by ID.
+     *
+     * @param int $id
+     * @return Department|null
+     * @throws Exception
+     */
+    public function getByID(int $id): ?Department
     {
-        $data = Company::find($id);
+        $data = Department::find($id);
 
         if (empty($data)) {
             throw new Exception("Department does not exist.", Response::HTTP_NOT_FOUND);
@@ -50,14 +57,18 @@ class DepartmentRepository
         return $data;
     }
 
-    public function create(array $data): Company
+    /**
+     * Create Department.
+     *
+     * @param array $params
+     * @return Department
+     * @throws Exception
+     */
+    public function create(array $params): Department
     {
+        $data = $this->prepareDataForDB($params);
 
-        $data['account_id'] = Auth::user()->account_id;
-
-        $company = $this->prepareDataForDB($data);
-
-        $create = Company::create($company);
+        $create = Department::create($data);
 
         if (!$create) {
             throw new Exception("Could not create department, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -66,15 +77,28 @@ class DepartmentRepository
         return $create->fresh();
     }
 
-    public function update(int $id, array $data)
+    /**
+     * Update Department.
+     *
+     * @param int $id
+     * @param array $params
+     * @return Department|null
+     */
+    public function update(int $id, array $params): ?Department
     {
         $update = $this->getById($id);
-        
-        $update->update($this->prepareDataForDB($data, $update));
+
+        $update->update($this->prepareDataForDB($params, $update));
 
         return $update->refresh();
     }
 
+    /**
+     * Soft delete Department.
+     *
+     * @param int $id
+     * @return bool
+     */
     public function softDelete(int $id): bool
     {
 
@@ -83,11 +107,18 @@ class DepartmentRepository
         return $data->delete();
     }
 
-    public function prepareDataForDB(array $data, ?Department $department = null ): array
+    /**
+     * Prepares data for database insertion/update.
+     *
+     * @param array $data Incoming data.
+     * @param Department|null $model Existing account model (optional).
+     *
+     * @return array Prepared data.
+     */
+    public function prepareDataForDB(array $data, ?Department $model = null): array
     {
         return [
-            'account_id' => $data['company_id'] ?? $department->company_id,
-            'name' =>  $data['name'] ?? $department->name,
+            'name' =>  $data['name'] ?? $model->name,
         ];
     }
 }
