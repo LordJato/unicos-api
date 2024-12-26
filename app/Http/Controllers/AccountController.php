@@ -10,7 +10,7 @@ use App\Http\Repositories\AccountRepository;
 class AccountController extends Controller
 {
 
-    public function __construct(private AccountRepository $accountRepository) {}
+    public function __construct(private readonly AccountRepository $accountRepository) {}
 
     /**
      * Display a listing of the resource.
