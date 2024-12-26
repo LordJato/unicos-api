@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Repositories\AuthRepository;
@@ -17,8 +15,6 @@ use App\Http\Requests\Auth\ForgotPasswordRequest;
 
 class AuthController extends Controller
 {
-    use ResponseTrait;
-
     private const REFRESH_TOKEN_EXPIRY = 60 * 24 * 30; // 30 days
 
     public function __construct(
@@ -43,7 +39,7 @@ class AuthController extends Controller
                 ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -55,7 +51,7 @@ class AuthController extends Controller
 
             return $this->responseSuccess($data, 'User registered successfully.');
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -67,7 +63,7 @@ class AuthController extends Controller
 
             return $this->responseSuccess($data, 'Generate Link successfully.');
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -80,7 +76,7 @@ class AuthController extends Controller
             return $this->responseSuccess('', 'User logged out successfully !')->cookie('refresh_token', '', -1);
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -96,7 +92,7 @@ class AuthController extends Controller
                 ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -107,7 +103,7 @@ class AuthController extends Controller
 
             return $this->responseSuccess($data, 'Email sent');
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -119,7 +115,7 @@ class AuthController extends Controller
             return $this->responseSuccess($data, 'Password Reset Successfully');
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 }
