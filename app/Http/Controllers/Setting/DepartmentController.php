@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Setting;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\DepartmentRepository;
@@ -12,14 +11,8 @@ use App\Http\Requests\Setting\Setting\Department\DepartmentCreateRequest;
 
 class DepartmentController extends Controller
 {
-    use ResponseTrait;
 
-    public $departmentRepository;
-
-    public function __construct(DepartmentRepository $departmentRepository)
-    {
-        $this->departmentRepository = $departmentRepository;
-    }
+    public function __construct(private readonly DepartmentRepository $departmentRepository) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -28,7 +21,7 @@ class DepartmentController extends Controller
 
             return $this->responseSuccess($data, "Department fetched successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
+            return parent::handleException($e);
         }
     }
 
@@ -41,7 +34,7 @@ class DepartmentController extends Controller
 
             return $this->responseSuccess($create, "Department created successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -57,7 +50,7 @@ class DepartmentController extends Controller
             return $this->responseSuccess($find, "Department find successfully");
         } catch (Exception $e) {
 
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 
@@ -72,7 +65,7 @@ class DepartmentController extends Controller
 
             return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {
-            return $this->responseError([], $e->getMessage(), $e->getCode());
+            return parent::handleException($e);
         }
     }
 }

@@ -15,7 +15,7 @@ use App\Http\Requests\Company\CompanyUpdateRequest;
 class CompanyController extends Controller
 {
 
-    public function __construct(private CompanyRepository $companyRepository)
+    public function __construct(private readonly CompanyRepository $companyRepository)
     {}
 
     /**

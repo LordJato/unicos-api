@@ -13,7 +13,7 @@ use App\Http\Requests\Permission\PermissionUpdateRequest;
 
 class PermissionController extends Controller
 {
-    public function __construct(private PermissionRepository $permissionRepository) {}
+    public function __construct(private readonly PermissionRepository $permissionRepository) {}
 
     public function index(PermissionIndexRequest $request)
     {
@@ -24,7 +24,7 @@ class PermissionController extends Controller
 
             return $this->responseSuccess($data, "Permissions fetched successfully");
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -38,7 +38,7 @@ class PermissionController extends Controller
             return $this->responseSuccess($find, "Permission find successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -53,7 +53,7 @@ class PermissionController extends Controller
 
             return $this->responseSuccess($create, "Permission created successfully");
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -68,7 +68,7 @@ class PermissionController extends Controller
             return $this->responseSuccess($update, "Permission updated successfully");
         } catch (Exception $e) {
 
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 
@@ -78,11 +78,11 @@ class PermissionController extends Controller
 
             $validatedData = $request->validated();
 
-            $role = Permission::where('id', $validatedData['id'])->delete();
+            $delete = $this->permissionRepository->softDelete($validatedData['id']);
 
-            return $this->responseSuccess($role, "Permission deleted successfully");
+            return $this->responseSuccess($delete, "Permission deleted successfully");
         } catch (Exception $e) {
-            return $this->handleException($e);
+            return parent::handleException($e);
         }
     }
 }

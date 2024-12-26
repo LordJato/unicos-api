@@ -16,7 +16,7 @@ use App\Http\Requests\Role\RoleUpdateRequest;
 
 class RoleController extends Controller
 {
-    public function __construct(private RoleRepository $roleRepository) {}
+    public function __construct(private readonly RoleRepository $roleRepository) {}
 
     public function index(RoleIndexRequest $request): JsonResponse
     {
@@ -82,9 +82,9 @@ class RoleController extends Controller
 
             $validatedData = $request->validated();
 
-            $role = Role::where('id', $validatedData['id'])->delete();
+            $delete = $this->roleRepository->softDelete($validatedData['id']);
 
-            return $this->responseSuccess($role, "Role deleted successfully");
+            return $this->responseSuccess($delete, "Role deleted successfully");
         } catch (Exception $e) {
 
             return parent::handleException($e);
