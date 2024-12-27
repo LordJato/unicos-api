@@ -3,26 +3,20 @@
 namespace App\Http\Repositories;
 
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LinkRepository
 {
 
-    public function generateRegisterLink(array $params): string
+    public static function generateRegisterLink(array $params): string
     {
 
-        $parameters = $params;
-
-        // if(!getCurrentUser()->hasRolesTo(['super-admin'])){
-
-        //     $parameters = array_merge($params, ['account_id' => Hash::make(Auth::user()->account_id)]);
-        // }
-
+        $spaUrl = config('app.spa_url', env('SPA_URL', 'http://localhost:3000'));
+        URL::forceRootUrl($spaUrl);
+        
         return URL::temporarySignedRoute(
-            'link.register', // Named route
-            now()->addHours(12), // Expiration time
-            $parameters
+            'secured.route', // Named route
+            now()->addHours((int)$params['expiration']), // Expiration time
+            $params
         );
     }
 }

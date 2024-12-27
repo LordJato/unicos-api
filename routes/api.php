@@ -3,11 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\HR\EmployeeController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
@@ -29,6 +24,9 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('profile', [UserController::class, 'profile']);
     });
+
+     //Links
+     require __DIR__ . "/api/links.php";
 
     //Users
     require __DIR__ . "/api/users.php";
