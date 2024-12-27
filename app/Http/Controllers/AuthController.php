@@ -71,7 +71,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         try {
-        
+
             Auth::check() ? $this->tokenRepository->revokeAllTokens() : false;
 
             return $this->responseSuccess('', 'User logged out successfully !')->cookie('refresh_token', '', -1);
