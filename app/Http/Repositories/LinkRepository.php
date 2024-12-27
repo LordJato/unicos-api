@@ -11,11 +11,15 @@ class LinkRepository
     {
 
         $spaUrl = config('app.spa_url', env('SPA_URL', 'http://localhost:3000'));
+        $expiration =  now()->addHours((int)$params['expiration']);
+        unset($params['expiration']);
+
+
         URL::forceRootUrl($spaUrl);
-        
+
         return URL::temporarySignedRoute(
             'secured.route', // Named route
-            now()->addHours((int)$params['expiration']), // Expiration time
+            $expiration, // Expiration time
             $params
         );
     }
