@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Repositories\LinkRepository;
@@ -70,8 +71,8 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         try {
-
-            $this->authRepository->logout();
+        
+            Auth::check() ? $this->tokenRepository->revokeAllTokens() : false;
 
             return $this->responseSuccess('', 'User logged out successfully !')->cookie('refresh_token', '', -1);
         } catch (Exception $e) {

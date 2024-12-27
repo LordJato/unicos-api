@@ -6,14 +6,11 @@ use Exception;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
-use Laravel\Passport\RefreshToken;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\TokenRepository;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
-use Laravel\Passport\RefreshTokenRepository;
 
 class AuthRepository
 {
@@ -56,16 +53,6 @@ class AuthRepository
         }
 
         return new UserResource($user);
-    }
-
-    /**
-     * Logout user.
-     *
-     * @return bool
-     */
-    public function logout(): bool
-    {
-        return Auth::check() ? $this->revokeAllTokens() : false;
     }
 
     /**
@@ -140,60 +127,6 @@ class AuthRepository
     public function isValidPassword(User $user, array $data): bool
     {
         return Hash::check($data['password'], $user->password);
-    }
-
-    /**
-     * Revoke token.
-     *
-     * @param $tokenId
-     * @return bool
-     */
-    public function revokeToken($tokenId): bool
-    {
-        $tokenRepository = app(TokenRepository::class);
-        $refreshTokenRepository = app(RefreshTokenRepository::class);
-
-        $tokenRepository->revokeAccessToken($tokenId);
-        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
-
-        return true;
-    }
-
-    /**
-     * Revoke all tokens.
-     *
-     * @return bool
-     */
-    public function revokeAllTokens(): bool
-    {
-        $user = Auth::user();
-        $refreshTokenRepository = app(RefreshTokenRepository::class);
-        $user->tokens->each(function ($token) use ($refreshTokenRepository) {
-            //revoke access token
-            $token->revoke();
-            //revoce refresh token
-            $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
-        });
-
-        return true;
-    }
-
-
-    /**
-     * Delete all tokens.
-     *
-     * @return bool
-     */
-    public function deleteAllTokens(): bool
-    {
-        $user = Auth::user();
-
-        $user->tokens->each(function ($token) {
-            $token->delete();
-            RefreshToken::where('access_token_id', $token->id)->delete();
-        });
-
-        return true;
     }
 
     /**

@@ -2,14 +2,23 @@
 
 namespace App\Http\Repositories;
 
+use Exception;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
-use Exception;
 use Illuminate\Http\Response;
+use Laravel\Passport\RefreshToken;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\RefreshTokenRepository;
+use Laravel\Passport\TokenRepository as LaravelTokenRepository;
 
 class TokenRepository
 {
     private const TOKEN_ENDPOINT = '/oauth/token';
+
+    public function __construct(
+        private RefreshTokenRepository $refreshTokenRepository,
+        private LaravelTokenRepository $laravelTokenRepository
+    ) {}
 
     /**
      * Generates an access token.
@@ -36,6 +45,9 @@ class TokenRepository
         if (empty($refreshToken)) {
             throw new Exception('Refresh token is not found.', Response::HTTP_NOT_FOUND);
         }
+
+        //check if refresh token still valid
+
 
         $data = $this->createTokenData(['refresh_token' => $refreshToken], 'refresh_token');
 
@@ -83,5 +95,58 @@ class TokenRepository
 
         return json_decode($tokenResponse->getContent(), true);
     }
-}
 
+    /**
+     * Revoke token.
+     *
+     * @param $tokenId
+     * @return bool
+     */
+    public function revokeToken($tokenId): bool
+    {
+        $tokenRepository = $this->laravelTokenRepository;
+        $refreshTokenRepository = $this->refreshTokenRepository;
+
+        $tokenRepository->revokeAccessToken($tokenId);
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+
+        return true;
+    }
+
+    /**
+     * Revoke all tokens.
+     *
+     * @return bool
+     */
+    public function revokeAllTokens(): bool
+    {
+        $user = Auth::user();
+        $refreshTokenRepository = $this->refreshTokenRepository;
+        $user->tokens->each(function ($token) use ($refreshTokenRepository) {
+            //revoke access token
+            $token->revoke();
+            //revoce refresh token
+            $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
+        });
+
+        return true;
+    }
+
+
+    /**
+     * Delete all tokens.
+     *
+     * @return bool
+     */
+    public function deleteAllTokens(): bool
+    {
+        $user = Auth::user();
+
+        $user->tokens->each(function ($token) {
+            $token->delete();
+            RefreshToken::where('access_token_id', $token->id)->delete();
+        });
+
+        return true;
+    }
+}
