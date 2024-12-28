@@ -102,7 +102,7 @@ class UserController extends Controller
     {
         try {
 
-            $profile = getCurrentUser();
+            $profile = new UserResource(getCurrentUser());
 
             return $this->responseSuccess($profile, 'User fetched successfully');
         } catch (Exception $e) {
