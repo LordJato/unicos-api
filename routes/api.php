@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\CheckRefreshToken;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -14,7 +13,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
 Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
-Route::post('refresh-token', [AuthController::class, 'newAccessToken'])->name('refresh.token')->middleware(CheckRefreshToken::class);;
+Route::post('refresh-token', [AuthController::class, 'newAccessToken'])->name('refresh.token');
 Route::post('link-register', [AuthController::class, 'registerWithLink'])->name('link.register');
 
 

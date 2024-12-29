@@ -86,7 +86,7 @@ class AuthController extends Controller
     {
         try {
             $refreshToken = $request->cookie('refresh_token');
-
+            
             $token = $this->tokenRepository->refreshAccessToken($refreshToken);
 
             return $this->responseSuccess($token, 'New access token acquired.')
