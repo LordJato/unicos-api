@@ -17,9 +17,11 @@ class LinkController extends Controller
     public function registerLink(Request $request): JsonResponse
     {
         try {
+
+            
             $data = $this->linkRepository->generateRegisterLink($request->all());
 
-            return $this->responseSuccess($data, "Account fetched successfully");
+            return $this->responseSuccess($data, "Generate Link successfully");
         } catch (Exception $e) {
 
             return parent::handleException($e);

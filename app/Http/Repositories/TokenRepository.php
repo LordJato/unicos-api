@@ -40,7 +40,7 @@ class TokenRepository
      * @return array
      * @throws InvalidRefreshTokenException
      */
-    public function refreshAccessToken(string $refreshToken): array
+    public function refreshAccessToken(string $refreshToken = null): array
     {
         if (empty($refreshToken)) {
             throw new Exception('Refresh token is not found.', Response::HTTP_NOT_FOUND);

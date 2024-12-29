@@ -9,11 +9,17 @@ class LinkRepository
 
     public static function generateRegisterLink(array $params): string
     {
+        $defaults = [
+            'expiration' => 1,
+            // Add other required keys here
+        ];
 
+        $params = array_merge($defaults, $params);
+
+        $params['expiration'] = (int)$params['expiration'];
         $spaUrl = config('app.spa_url', env('SPA_URL', 'http://localhost:3000'));
-        $expiration =  now()->addHours((int)$params['expiration']);
+        $expiration = now()->addHours($params['expiration']);
         unset($params['expiration']);
-
 
         URL::forceRootUrl($spaUrl);
 

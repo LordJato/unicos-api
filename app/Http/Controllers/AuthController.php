@@ -86,11 +86,12 @@ class AuthController extends Controller
     {
         try {
             $refreshToken = $request->cookie('refresh_token');
-            
+
             $token = $this->tokenRepository->refreshAccessToken($refreshToken);
 
             return $this->responseSuccess($token, 'New access token acquired.')
                 ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
+
         } catch (Exception $e) {
 
             return parent::handleException($e);
