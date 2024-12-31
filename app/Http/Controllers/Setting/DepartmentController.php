@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\DepartmentRepository;
-use App\Http\Requests\Setting\Setting\Department\DepartmentCreateRequest;
+use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
 
 class DepartmentController extends Controller
 {

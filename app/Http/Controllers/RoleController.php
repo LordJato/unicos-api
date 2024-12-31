@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Role;
 use App\Models\Permission;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Repositories\RoleRepository;
@@ -96,10 +97,8 @@ class RoleController extends Controller
         try {
 
             $role = $this->roleRepository->getByID($request->roleID);
-
-            $permissions = Permission::whereIn('slug', $request->permissions)->get()->pluck('id')->toArray();
-
-            $attach = $role->permissions()->attach($permissions);
+          
+            $attach = $role->givePermissionTo($request->permissions);
 
             return $this->responseSuccess($attach, "Permissions attached successfully.");
         } catch (Exception $e) {
