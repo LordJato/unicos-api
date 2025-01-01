@@ -32,6 +32,10 @@ return new class extends Migration
             $table->softDeletes();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
+
+        Schema::table('users', function(Blueprint $table) {
+            $table->foreign('company_id')->references('id')->on('companies')->nullOnDelete();
+        });
     }
 
     /**
