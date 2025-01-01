@@ -49,7 +49,7 @@ class RoleRepository
      */
     public function getById(int $id): ?Role
     {
-        $data = Role::find($id);
+        $data = Role::with('permissions')->find($id);
 
         if (empty($data)) {
             throw new Exception("Role does not exist.", Response::HTTP_NOT_FOUND);

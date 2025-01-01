@@ -98,7 +98,7 @@ class RoleController extends Controller
 
             $role = $this->roleRepository->getByID($request->roleID);
           
-            $attach = $role->givePermissionTo($request->permissions);
+            $attach = $role->setPermissionsWihtoutDetaching($request->permissions);
 
             return $this->responseSuccess($attach, "Permissions attached successfully.");
         } catch (Exception $e) {
