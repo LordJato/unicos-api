@@ -117,7 +117,9 @@ class DepartmentRepository
      */
     public function prepareDataForDB(array $data, ?Department $model = null): array
     {
+        $companyId = $data['company_id'] ?? $model->company_id ?? getCurrentUser()->company_id;
         return [
+            'company_id' => $companyId,
             'name' =>  $data['name'] ?? $model->name,
         ];
     }
