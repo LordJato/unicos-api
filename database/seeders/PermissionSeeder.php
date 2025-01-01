@@ -37,7 +37,47 @@ class PermissionSeeder extends Seeder
             [
                 "name" => "Delete Account",
                 "slug" => "delete-account",
-            ]
+            ],
+            [
+                "name" => "View All Company",
+                "slug" => "view-all-company",
+            ],
+            [
+                "name" => "View Company",
+                "slug" => "view-company",
+            ],
+            [
+                "name" => "Create Company",
+                "slug" => "create-company",
+            ],
+            [
+                "name" => "Update Company",
+                "slug" => "update-company",
+            ],
+            [
+                "name" => "Delete Company",
+                "slug" => "delete-company",
+            ],
+            [
+                "name" => "View All Department",
+                "slug" => "view-all-department",
+            ],
+            [
+                "name" => "View Department",
+                "slug" => "view-department",
+            ],
+            [
+                "name" => "Create Department",
+                "slug" => "create-department",
+            ],
+            [
+                "name" => "Update Department",
+                "slug" => "update-department",
+            ],
+            [
+                "name" => "Delete Department",
+                "slug" => "delete-department",
+            ],
         ]);
     }
 }
