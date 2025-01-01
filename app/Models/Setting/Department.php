@@ -12,6 +12,8 @@ class Department extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'name',
         'company_id'
