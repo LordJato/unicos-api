@@ -23,9 +23,10 @@ class UserCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'account_id'    => ['nullable', 'integer'],
             'email'    => 'required|email|max:100|unique:users',
             'password' => 'required|min:6|confirmed',
-            'phone'    => 'max:100|unique:users',
+            'phone'    => ['nullable', 'max:100', 'unique:users'],
         ];
     }
 }
