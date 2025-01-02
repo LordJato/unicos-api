@@ -117,14 +117,16 @@ class UserRepository
      */
     public function prepareDataForDB(array $data, ?User $model = null): array
     {
+        $phone = $data['phone'] ?? ($model ? $model->phone : null);
 
         return [
             'account_id' => $data['account_id'] ?? $model->account_id,
             'email'    => $data['email'] ?? $model->email,
-            'phone'    => $data['phone'] ??  $model->phone,
+            'phone'    => $phone,
             'password' => $data['password'] ? Hash::make($data['password']) : Hash::make($model->password),
         ];
     }
+
     public function syncRolesWithPermissions(array $data): UserResource
     {
 
