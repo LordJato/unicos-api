@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\HR\EmployeeRepository;
+use App\Http\Requests\HR\Employee\EmployeeGetRequest;
 use App\Http\Requests\HR\Employee\EmployeeIndexRequest;
 use App\Http\Requests\HR\Employee\EmployeeCreateRequest;
+use App\Http\Requests\HR\Employee\EmployeeUpdateRequest;
 
 class EmployeeController extends Controller
 {
@@ -43,7 +45,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request): JsonResponse
+    public function show(EmployeeGetRequest $request): JsonResponse
     {
         try {
 
@@ -59,7 +61,7 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(EmployeeUpdateRequest $request)
     {
         try {
 

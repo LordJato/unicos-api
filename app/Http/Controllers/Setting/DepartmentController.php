@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\DepartmentRepository;
+use App\Http\Requests\Setting\Department\DepartmentGetRequest;
 use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
+use App\Http\Requests\Setting\Department\DepartmentUpdateRequest;
 
 class DepartmentController extends Controller
 {
@@ -41,7 +43,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request): JsonResponse
+    public function show(DepartmentGetRequest $request): JsonResponse
     {
         try {
 
@@ -57,7 +59,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(DepartmentUpdateRequest $request)
     {
         try {
 
