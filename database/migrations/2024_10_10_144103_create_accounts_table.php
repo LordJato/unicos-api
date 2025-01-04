@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('account_type_id');
             $table->string('name', 100);
             $table->timestamps();
             $table->boolean('is_active')->default(true);
-            $table->softDeletes();
         });
 
         Schema::table('users', function(Blueprint $table) {
