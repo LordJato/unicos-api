@@ -93,7 +93,13 @@ class TokenRepository
 
         $tokenResponse = app()->handle($tokenRequest);
 
-        return json_decode($tokenResponse->getContent(), true);
+        $jsonResponse = json_decode($tokenResponse->getContent(), true);
+
+        if($tokenResponse->getStatusCode() === Response::HTTP_UNAUTHORIZED){
+            throw new Exception($jsonResponse['error_description'] . " Please relogin.");
+        }
+
+        return $jsonResponse;
     }
 
     /**

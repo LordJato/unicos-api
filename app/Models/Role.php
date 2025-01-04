@@ -33,4 +33,9 @@ class Role extends Model
     {
         return $query->where('slug', 'super-admin');
     }
+
+    public function scopeAdmin(Builder $query)
+    {
+        return $query->where('slug', 'admin');
+    }
 }

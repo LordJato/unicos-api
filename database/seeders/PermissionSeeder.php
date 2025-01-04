@@ -15,6 +15,27 @@ class PermissionSeeder extends Seeder
     {
         Permission::insert([
             [
+                "name" => "View User Dashboard",
+                "slug" => "view-user-dashboard",
+            ],
+            [
+                "name" => "View User",
+                "slug" => "view-user",
+            ],
+            [
+                "name" => "Create User",
+                "slug" => "create-user",
+            ],
+            [
+                "name" => "Update User",
+                "slug" => "update-user",
+            ],
+            [
+                "name" => "Delete User",
+                "slug" => "delete-user",
+            ],
+            
+            [
                 "name" => "View Account Dashboard",
                 "slug" => "view-account-dashboard",
             ],
@@ -38,6 +59,7 @@ class PermissionSeeder extends Seeder
                 "name" => "Delete Account",
                 "slug" => "delete-account",
             ],
+            
             [
                 "name" => "View All Company",
                 "slug" => "view-all-company",
