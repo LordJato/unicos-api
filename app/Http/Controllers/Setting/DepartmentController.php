@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Setting;
 
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\DepartmentRepository;
 use App\Http\Requests\Setting\Department\DepartmentGetRequest;
 use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
+use App\Http\Requests\Setting\Department\DepartmentIndexRequest;
 use App\Http\Requests\Setting\Department\DepartmentUpdateRequest;
 
 class DepartmentController extends Controller
@@ -16,10 +16,12 @@ class DepartmentController extends Controller
 
     public function __construct(private readonly DepartmentRepository $departmentRepository) {}
 
-    public function index(Request $request): JsonResponse
+    public function index(DepartmentIndexRequest $request): JsonResponse
     {
         try {
-            $data = $this->departmentRepository->getAll($request->all());
+            $validatedData = $request->validated();
+
+            $data = $this->departmentRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Department fetched successfully");
         } catch (Exception $e) {
@@ -46,8 +48,9 @@ class DepartmentController extends Controller
     public function show(DepartmentGetRequest $request): JsonResponse
     {
         try {
+            $validatedData = $request->validated();
 
-            $find = $this->departmentRepository->getByID($request->query('id'));
+            $find = $this->departmentRepository->getByID($validatedData['id']);
 
             return $this->responseSuccess($find, "Department find successfully");
         } catch (Exception $e) {
@@ -62,8 +65,9 @@ class DepartmentController extends Controller
     public function update(DepartmentUpdateRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $update = $this->departmentRepository->update($request->query('id'), $request->all());
+            $update = $this->departmentRepository->update($validatedData['id'], $validatedData);
 
             return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {
