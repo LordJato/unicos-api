@@ -20,10 +20,21 @@ class EmployeeGetRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
-            //
+           'id' => ['required', 'integer', 'exists:employees,id'],
         ];
+    }
+
+        /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    { 
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

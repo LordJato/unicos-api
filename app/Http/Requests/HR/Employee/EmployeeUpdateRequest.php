@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\HR\Employee;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,7 +24,18 @@ class EmployeeUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => ['required', 'integer', 'exists:roles,id'],
+            'name' => ['required', 'string', 'max:50', Rule::unique('employees')->ignore($this->id, 'id')],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'id' => $this->query('id'),
+        ]);
     }
 }

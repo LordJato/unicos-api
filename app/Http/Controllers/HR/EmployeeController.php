@@ -14,14 +14,16 @@ use App\Http\Requests\HR\Employee\EmployeeUpdateRequest;
 
 class EmployeeController extends Controller
 {
-    public function __construct(private readonly EmployeeRepository $employeeRepository)
-    {}
+    public function __construct(private readonly EmployeeRepository $employeeRepository) {}
 
 
     public function index(EmployeeIndexRequest $request)
     {
         try {
-            $data = $this->employeeRepository->getAll($request->all());
+
+            $validatedData = $request->validated();
+
+            $data = $this->employeeRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Employees fetched successfully");
         } catch (Exception $e) {
@@ -48,8 +50,9 @@ class EmployeeController extends Controller
     public function show(EmployeeGetRequest $request): JsonResponse
     {
         try {
+            $validatedData = $request->validated();
 
-            $find = $this->employeeRepository->getByID($request->query('id'));
+            $find = $this->employeeRepository->getByID($validatedData['id']);
 
             return $this->responseSuccess($find, "Employee find successfully");
         } catch (Exception $e) {
@@ -64,8 +67,9 @@ class EmployeeController extends Controller
     public function update(EmployeeUpdateRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $update = $this->employeeRepository->update($request->query('id'), $request->all());
+            $update = $this->employeeRepository->update($validatedData['id'], $validatedData);
 
             return $this->responseSuccess($update, "Employee updated successfully");
         } catch (Exception $e) {
