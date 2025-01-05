@@ -23,19 +23,19 @@ class CompanyCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:150|unique:companies',
-            'address' => 'required|string|min:8|max:150',
-            'city' => 'required|string|max:50',
-            'province' => 'required|string',
-            'postal' => 'string|max:4',
-            'country' => 'required|string|max:50',
-            'email' => 'max:50|unique:companies',
-            'phone' => 'max:50',
-            'fax' => 'max:50',
-            'tin' => 'max:20',
-            'sss' => 'max:20',
-            'philhealth' => 'max:20',
-            'hdmf' => 'max:20',
+            'name' => ['required', 'string', 'max:150', 'unique:companies'],
+            'address' => ['required', 'string', 'min:8', 'max:150'],
+            'city' => ['required', 'string', 'max:50'],
+            'province' => ['required', 'string'],
+            'postal' => ['string', 'max:4'],
+            'country' => ['required', 'string', 'max:50'],
+            'email' => ['max:50', 'unique:companies'],
+            'phone' => ['max:50'],
+            'fax' => ['max:50'],
+            'tin' => ['max:20'],
+            'sss' => ['max:20'],
+            'philhealth' => ['max:20'],
+            'hdmf' => ['max:20']
         ];
     }
 }
