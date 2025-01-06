@@ -6,15 +6,13 @@ use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class AdminPermissionSeeder extends Seeder
+class HRHeadSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $adminRole = Role::admin()->first();
-
         $permissions = [
             'view-all-company',
             'view-company',
@@ -33,8 +31,9 @@ class AdminPermissionSeeder extends Seeder
             'delete-department',
         ];
 
-        $adminRole->setPermissionsWihtoutDetaching($permissions);
+        $hrRole = Role::create(['name' => 'HR Head', 'slug' => 'hr-head']);
 
-       
+        $hrRole->setPermissionsWihtoutDetaching($permissions);
+
     }
 }

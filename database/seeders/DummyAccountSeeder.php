@@ -32,6 +32,16 @@ class DummyAccountSeeder extends Seeder
 
         $admin->roles()->attach($adminRole->id);
 
+        $hr = User::create([
+            "email" => "dummyhrhead@unicos.com",
+            "password" => Hash::make("password"),
+            'account_id' => $account->id
+        ]);
+
+        $hrHeadRole = Role::hrHead()->first();
+
+        $hr->roles()->attach($hrHeadRole->id);
+
         //Company
         $company = Company::create(
             [

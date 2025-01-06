@@ -38,4 +38,9 @@ class Role extends Model
     {
         return $query->where('slug', 'admin');
     }
+
+    public function scopeHrHead(Builder $query)
+    {
+        return $query->where('slug', 'hr-head');
+    }
 }
