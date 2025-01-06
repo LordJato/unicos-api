@@ -116,7 +116,7 @@ class DepartmentRepository
      */
     public function prepareDataForDB(array $data, ?Department $model = null): array
     {
-        $companyId = $data['company_id'] ?? $model->company_id ?? getCurrentUser()->company_id;
+        $companyId = $data['companyId'] ?? $model->company_id ?? getCurrentUser()->company_id;
 
         if(!$companyId){
             throw new Exception("Company id not found.", Response::HTTP_NOT_FOUND);

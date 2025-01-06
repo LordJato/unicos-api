@@ -23,6 +23,7 @@ class DepartmentCreateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
+            'companyId' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:50', 'unique:departments'],
         ];
     }

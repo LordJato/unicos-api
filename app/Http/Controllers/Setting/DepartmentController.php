@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Setting;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\Setting\DepartmentRepository;
 use App\Http\Requests\Setting\Department\DepartmentGetRequest;
 use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
@@ -14,7 +15,10 @@ use App\Http\Requests\Setting\Department\DepartmentUpdateRequest;
 class DepartmentController extends Controller
 {
 
-    public function __construct(private readonly DepartmentRepository $departmentRepository) {}
+    public function __construct(
+        private readonly DepartmentRepository $departmentRepository,
+        private readonly CompanyRepository $companyRepository
+    ) {}
 
     public function index(DepartmentIndexRequest $request): JsonResponse
     {
@@ -25,6 +29,7 @@ class DepartmentController extends Controller
 
             return $this->responseSuccess($data, "Department fetched successfully");
         } catch (Exception $e) {
+            
             return parent::handleException($e);
         }
     }
@@ -33,6 +38,8 @@ class DepartmentController extends Controller
     {
         try {
             $validatedData = $request->validated();
+
+            $this->companyRepository->getByID($validatedData['companyId']);
 
             $create = $this->departmentRepository->create($validatedData);
 
