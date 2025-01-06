@@ -35,6 +35,5 @@ class AdminPermissionSeeder extends Seeder
 
         $adminRole->setPermissionsWihtoutDetaching($permissions);
 
-       
     }
 }

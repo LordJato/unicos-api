@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\Roles\AdminPermissionSeeder;
+use Database\Seeders\Roles\HRHeadSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(AdminPermissionSeeder::class);
+        $this->call(HRHeadSeeder::class);
         $this->call(DummyAccountSeeder::class);
     }
 }

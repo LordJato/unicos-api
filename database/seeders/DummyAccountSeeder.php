@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AccountType;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Account;
@@ -19,7 +20,10 @@ class DummyAccountSeeder extends Seeder
     public function run(): void
     {
         //Account
-        $account = Account::create(['name' => 'Dummy Account']);
+        $account = Account::create([
+            'name' => 'Dummy Account',
+            'account_type_id' => AccountType::Tenant
+        ]);
 
         //User
         $admin = User::create([
@@ -32,15 +36,7 @@ class DummyAccountSeeder extends Seeder
 
         $admin->roles()->attach($adminRole->id);
 
-        $hr = User::create([
-            "email" => "dummyhrhead@unicos.com",
-            "password" => Hash::make("password"),
-            'account_id' => $account->id
-        ]);
-
-        $hrHeadRole = Role::hrHead()->first();
-
-        $hr->roles()->attach($hrHeadRole->id);
+       
 
         //Company
         $company = Company::create(
@@ -80,6 +76,17 @@ class DummyAccountSeeder extends Seeder
                 "hdmf" => "13143534534"
             ]
         );
+
+        $hr = User::create([
+            "email" => "dummyhrhead@unicos.com",
+            "password" => Hash::make("password"),
+            'account_id' => $account->id,
+            'company_id' => $company->id,
+        ]);
+
+        $hrHeadRole = Role::hrHead()->first();
+
+        $hr->roles()->attach($hrHeadRole->id);
 
         //Department
         $companyDepartment = Department::create(
