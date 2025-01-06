@@ -67,7 +67,7 @@ class DepartmentController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $update = $this->departmentRepository->update($validatedData['id'], $validatedData);
+            $update = $this->departmentRepository->update($validatedData);
 
             return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {

@@ -46,7 +46,7 @@ class DepartmentRepository
      * @return Department|null
      * @throws Exception
      */
-    public function getByID(int $id): ?Department
+    public function getByID(int $id = 0): ?Department
     {
         $data = Department::find($id);
 
@@ -80,13 +80,12 @@ class DepartmentRepository
     /**
      * Update Department.
      *
-     * @param int $id
      * @param array $params
      * @return Department|null
      */
-    public function update(int $id, array $params): ?Department
+    public function update(array $params): ?Department
     {
-        $update = $this->getById($id);
+        $update = $this->getById($params['id']);
 
         $update->update($this->prepareDataForDB($params, $update));
 
@@ -118,6 +117,10 @@ class DepartmentRepository
     public function prepareDataForDB(array $data, ?Department $model = null): array
     {
         $companyId = $data['company_id'] ?? $model->company_id ?? getCurrentUser()->company_id;
+
+        if(!$companyId){
+            throw new Exception("Company id not found.", Response::HTTP_NOT_FOUND);
+        }
         return [
             'company_id' => $companyId,
             'name' =>  $data['name'] ?? $model->name,
