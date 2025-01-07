@@ -27,4 +27,16 @@ class ApiFormRequest extends FormRequest
             $this->responseError((new ValidationException($validator))->errors(), 'Invalid form request', Response::HTTP_BAD_REQUEST)
         );
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'id.exists' => 'id does not exist'
+        ];
+    }
 }

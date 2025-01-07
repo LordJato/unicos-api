@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\HR\Employee;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class EmployeeIndexRequest extends FormRequest
+class EmployeeIndexRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

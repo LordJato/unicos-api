@@ -4,9 +4,9 @@ namespace App\Http\Requests\Company;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class CompanyUpdateRequest extends FormRequest
+class CompanyUpdateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

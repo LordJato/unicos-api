@@ -3,9 +3,9 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class UserUpdateRoleRequest extends FormRequest
+class UserUpdateRoleRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

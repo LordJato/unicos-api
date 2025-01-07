@@ -3,9 +3,9 @@
 namespace App\Http\Requests\HR\Employee;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class EmployeeCreateRequest extends FormRequest
+class EmployeeCreateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

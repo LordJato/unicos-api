@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Company;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class CompanyGetRequest extends FormRequest
+class CompanyGetRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

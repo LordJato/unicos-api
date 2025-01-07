@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Company;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class CompanyDeleteRequest extends FormRequest
+class CompanyDeleteRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

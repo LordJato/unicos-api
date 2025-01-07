@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Role;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class RoleDeleteRequest extends FormRequest
+class RoleDeleteRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,6 @@ class RoleDeleteRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:roles,id']
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'id.exists' => 'id does not exist'
         ];
     }
 }

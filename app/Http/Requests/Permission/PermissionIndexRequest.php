@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Permission;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class PermissionIndexRequest extends FormRequest
+class PermissionIndexRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
