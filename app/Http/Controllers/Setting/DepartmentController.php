@@ -39,8 +39,6 @@ class DepartmentController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $this->companyRepository->getByID($validatedData['companyId']);
-
             $create = $this->departmentRepository->create($validatedData);
 
             return $this->responseSuccess($create, "Department created successfully");

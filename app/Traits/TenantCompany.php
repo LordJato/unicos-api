@@ -11,7 +11,7 @@ trait TenantCompany {
 
         $currentUser = getCurrentUser();
 
-        if(Auth::check() && !$currentUser->hasRolesTo('super-admin')){
+        if(Auth::check() && !$currentUser->hasRolesTo('super-admin') && !$currentUser->hasRolesTo('admin')){
             
             static::creating(function ($model) use ($currentUser){
                 $model->company_id = $currentUser->company_id;

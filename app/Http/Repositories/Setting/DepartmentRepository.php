@@ -48,6 +48,7 @@ class DepartmentRepository
      */
     public function getByID(int $id = 0): ?Department
     {
+
         $data = Department::find($id);
 
         if (empty($data)) {
@@ -98,10 +99,10 @@ class DepartmentRepository
      * @param int $id
      * @return bool
      */
-    public function softDelete(int $id): bool
+    public function softDelete(int $id, int $companyId): bool
     {
 
-        $data = $this->getByID($id);
+        $data = $this->getByID($id, $companyId);
 
         return $data->delete();
     }
@@ -116,11 +117,14 @@ class DepartmentRepository
      */
     public function prepareDataForDB(array $data, ?Department $model = null): array
     {
-        $companyId = $data['companyId'] ?? $model->company_id ?? getCurrentUser()->company_id;
+        $currentUser = getCurrentUser();
+        $companyId = $data['companyId'] ?? $model->company_id ?? $currentUser->company_id;
 
-        if(!$companyId){
+        if (!$companyId) {
             throw new Exception("Company id not found.", Response::HTTP_NOT_FOUND);
         }
+
+        //check if name exist in company
         return [
             'company_id' => $companyId,
             'name' =>  $data['name'] ?? $model->name,
