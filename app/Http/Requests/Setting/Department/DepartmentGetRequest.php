@@ -23,7 +23,7 @@ class DepartmentGetRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-           'id' => ['required', 'integer', 'exists:departments,id'],
+           'id' => ['required', 'integer'],
         ];
     }
 
