@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\TenantAccount;
+use App\Traits\TenantCompany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
