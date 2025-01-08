@@ -72,7 +72,7 @@ class UserController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $update = $this->userRepository->update($validatedData['id'], $validatedData);
+            $update = $this->userRepository->update($validatedData);
 
             return $this->responseSuccess($update, "User updated successfully");
         } catch (Exception $e) {
