@@ -69,7 +69,7 @@ class EmployeeController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $update = $this->employeeRepository->update($validatedData['id'], $validatedData);
+            $update = $this->employeeRepository->update($validatedData);
 
             return $this->responseSuccess($update, "Employee updated successfully");
         } catch (Exception $e) {

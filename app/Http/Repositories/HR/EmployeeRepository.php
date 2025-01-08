@@ -82,9 +82,9 @@ class EmployeeRepository
      * @param array $params
      * @return Employee|null
      */
-    public function update(int $id, array $params): Employee
+    public function update(array $params): Employee
     {
-        $update = $this->getById($id);
+        $update = $this->getById($params['id']);
 
         $update->update($this->prepareDataForDB($params, $update));
 
