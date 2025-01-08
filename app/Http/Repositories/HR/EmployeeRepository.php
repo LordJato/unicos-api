@@ -78,7 +78,6 @@ class EmployeeRepository
     /**
      * Update Employee.
      *
-     * @param int $id
      * @param array $params
      * @return Employee|null
      */

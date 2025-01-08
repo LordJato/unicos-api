@@ -76,13 +76,12 @@ class AccountRepository
     /**
      * Update Account.
      *
-     * @param int $id
      * @param array $params
      * @return Account|null
      */
-    public function update(int $id, array $params): ?Account
+    public function update(array $params): ?Account
     {
-        $update = $this->getById($id);
+        $update = $this->getById($params['id']);
 
         $update->update($this->prepareDataForDB($params, $update));
 

@@ -71,7 +71,7 @@ class AccountController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $update = $this->accountRepository->update($validatedData['id'], $validatedData);
+            $update = $this->accountRepository->update($validatedData);
 
             return $this->responseSuccess($update, "Account updated successfully");
         } catch (Exception $e) {
