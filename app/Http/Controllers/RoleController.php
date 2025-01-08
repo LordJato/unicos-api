@@ -68,7 +68,7 @@ class RoleController extends Controller
 
             $validatedData = $request->validated();
 
-            $update = $this->roleRepository->update($validatedData['id'], $validatedData);
+            $update = $this->roleRepository->update($validatedData);
 
             return $this->responseSuccess($update, "Role updated successfully");
         } catch (Exception $e) {

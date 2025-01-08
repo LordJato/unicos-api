@@ -63,7 +63,7 @@ class PermissionController extends Controller
 
             $validatedData = $request->validated();
 
-            $update = $this->permissionRepository->update($validatedData['id'], $validatedData);
+            $update = $this->permissionRepository->update($validatedData);
 
             return $this->responseSuccess($update, "Permission updated successfully");
         } catch (Exception $e) {
