@@ -96,13 +96,12 @@ class DepartmentRepository
     /**
      * Soft delete Department.
      *
-     * @param int $id
+     * @param array $params
      * @return bool
      */
-    public function softDelete(int $id, int $companyId): bool
+    public function softDelete(array $params): bool
     {
-
-        $data = $this->getByID($id, $companyId);
+        $data = $this->getByID($params['id']);
 
         return $data->delete();
     }
