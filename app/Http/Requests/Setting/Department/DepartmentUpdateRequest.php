@@ -24,7 +24,7 @@ class DepartmentUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:roles,id'],
+            'id' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
     }
