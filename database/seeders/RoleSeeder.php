@@ -26,6 +26,10 @@ class RoleSeeder extends Seeder
                 "name" => "User",
                 "slug" => "user",
             ],
+            [
+                "name" => "Employee",
+                "slug" => "employee",
+            ],
         ]);
     }
 }

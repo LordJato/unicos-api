@@ -34,7 +34,6 @@ class PermissionSeeder extends Seeder
                 "name" => "Delete User",
                 "slug" => "delete-user",
             ],
-            
             [
                 "name" => "View Account Dashboard",
                 "slug" => "view-account-dashboard",
@@ -99,6 +98,26 @@ class PermissionSeeder extends Seeder
             [
                 "name" => "Delete Department",
                 "slug" => "delete-department",
+            ],
+            [
+                "name" => "View All Employee",
+                "slug" => "view-all-employee",
+            ],
+            [
+                "name" => "View Employee",
+                "slug" => "view-employee",
+            ],
+            [
+                "name" => "Create Employee",
+                "slug" => "create-employee",
+            ],
+            [
+                "name" => "Update Employee",
+                "slug" => "update-employee",
+            ],
+            [
+                "name" => "Delete Employee",
+                "slug" => "delete-employee",
             ],
         ]);
     }

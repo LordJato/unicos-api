@@ -29,6 +29,11 @@ class HRHeadSeeder extends Seeder
             'create-department',
             'update-department',
             'delete-department',
+            'view-all-employee',
+            'view-employee',
+            'create-employee',
+            'update-employee',
+            'delete-employee',
         ];
 
         $hrRole = Role::create(['name' => 'HR Head', 'slug' => 'hr-head']);

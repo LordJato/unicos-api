@@ -31,6 +31,11 @@ class AdminPermissionSeeder extends Seeder
             'create-department',
             'update-department',
             'delete-department',
+            'view-all-employee',
+            'view-employee',
+            'create-employee',
+            'update-employee',
+            'delete-employee',
         ];
 
         $adminRole->setPermissionsWihtoutDetaching($permissions);
