@@ -3,7 +3,7 @@
 use App\Http\Controllers\HR\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'employees', 'as' => 'employees.'], function(){
+Route::group(['prefix' => 'hr/employees', 'as' => 'hr.employees.'], function(){
     Route::get('/', [EmployeeController::class, 'index']);
     Route::get('/get', [EmployeeController::class, 'show']);
     Route::post('/create', [EmployeeController::class, 'store']);
