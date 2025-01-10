@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\HR\Employee;
 
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;
 
 class EmployeeIndexRequest extends ApiFormRequest
@@ -11,7 +12,7 @@ class EmployeeIndexRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Gate::allows('view-all-employee');
     }
 
     /**
