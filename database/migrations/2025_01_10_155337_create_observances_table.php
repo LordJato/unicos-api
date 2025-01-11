@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->string('title', 100);
             $table->string('description', 200);
-            $table->datetime('start');
-            $table->datetime('end');
+            $table->datetime('start_date');
+            $table->datetime('end_date');
         });
     }
 
