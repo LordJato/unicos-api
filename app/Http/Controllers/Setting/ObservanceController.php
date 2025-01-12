@@ -8,7 +8,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\ObservanceRepository;
 use App\Http\Requests\Setting\Observance\ObservanceCreateRequest;
+use App\Http\Requests\Setting\Observance\ObservanceDeleteRequest;
 use App\Http\Requests\Setting\Observance\ObservanceIndexRequest;
+use App\Http\Requests\Setting\Observance\ObservanceUpdateRequest;
 
 class ObservanceController extends Controller
 {
@@ -63,7 +65,7 @@ class ObservanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(ObservanceUpdateRequest $request)
     {
         try {
             $validatedData = $request->validated();
@@ -79,7 +81,7 @@ class ObservanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(ObservanceDeleteRequest $request)
     {
         try {
             $validatedData = $request->validated();
