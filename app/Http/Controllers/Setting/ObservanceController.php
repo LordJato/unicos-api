@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\Setting\ObservanceRepository;
+use App\Http\Requests\Setting\Observance\ObservanceIndexRequest;
 
 class ObservanceController extends Controller
 {
@@ -14,7 +15,7 @@ class ObservanceController extends Controller
         private readonly ObservanceRepository $observanceRepository,
     ) {}
 
-    public function index(Request $request): JsonResponse
+    public function index(ObservanceIndexRequest $request): JsonResponse
     {
         try {
             $validatedData = $request->validated();
