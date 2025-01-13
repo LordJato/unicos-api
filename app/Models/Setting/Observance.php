@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Observance extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'observance_type_id',
+        'title',
+        'description',
+        'start_date',
+        'end_date'
+    ];
 }
