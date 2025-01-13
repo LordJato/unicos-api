@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('SPA_URL')],
+    'allowed_origins' => [env('SPA_URL'), 'https://spa.unicos.site'],
 
     'allowed_origins_patterns' => [],
 
