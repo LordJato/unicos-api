@@ -11,6 +11,7 @@ class Account extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'account_type_id',
         'name'
     ];
 }

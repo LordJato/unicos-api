@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Enums\AccountType;
 use Exception;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -46,6 +47,7 @@ class AuthRepository
      */
     public function register(array $data): UserResource
     {
+     
         $user = User::create($this->prepareDataForRegister($data));
 
         if (!$user) {
@@ -138,7 +140,7 @@ class AuthRepository
     private function prepareDataForRegister(array $data): array
     {
         return [
-            'account_id' => $data['account_id'] ?? Auth::user()->accountId,
+            'account_id' => $data['accountId'] ?? Auth::user()->accountId ?? null,
             'email'    => $data['email'],
             'phone'    => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),

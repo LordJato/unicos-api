@@ -4,6 +4,7 @@ namespace App\Http\Repositories;
 
 use Exception;
 use App\Models\Account;
+use App\Enums\AccountType;
 use Illuminate\Http\Response;
 
 class AccountRepository
@@ -112,8 +113,11 @@ class AccountRepository
      */
     public function prepareDataForDB(array $data, ?Account $model = null): array
     {
-
+        if (!enum_exists(AccountType::class, $data['accountTypeId'])) {
+            throw new Exception("Account Type does not exist.", Response::HTTP_NOT_FOUND);
+        }
         return [
+            'account_type_id' => $data['accountTypeId'] ?? $model->account_type_id,
             'name' => $data['name'] ?? $model->name,
         ];
     }

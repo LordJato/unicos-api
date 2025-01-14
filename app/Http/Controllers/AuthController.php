@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Enums\AccountType;
+use App\Http\Repositories\AccountRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,7 @@ class AuthController extends Controller
 
     public function __construct(
         private readonly AuthRepository $authRepository,
+        private readonly AccountRepository $accountRepository,
         private readonly TokenRepository $tokenRepository,
         private readonly LinkRepository $linkRepository
     ) {}
@@ -44,11 +47,26 @@ class AuthController extends Controller
         }
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(RegisterRequest $request)
     {
         try {
+            $validatedData = $request->validated();
 
-            $data = $this->authRepository->register($request->all());
+
+            if ($validatedData['accountTypeId'] === 1) {
+
+                $accountData = [
+                    'accountTypeId' =>  $validatedData['accountTypeId'],
+                    'name' => $validatedData['name']
+                ];
+
+                $createdAccount = $this->accountRepository->create($accountData);
+
+                $validatedData['accountId'] = $createdAccount['id'];
+            }
+
+
+            $data = $this->authRepository->register($validatedData);
 
             return $this->responseSuccess($data, 'User registered successfully.');
         } catch (Exception $e) {
@@ -91,7 +109,6 @@ class AuthController extends Controller
 
             return $this->responseSuccess($token, 'New access token acquired.')
                 ->cookie('refresh_token', $token['refresh_token'], self::REFRESH_TOKEN_EXPIRY, null, null, true, true);
-
         } catch (Exception $e) {
 
             return parent::handleException($e);
