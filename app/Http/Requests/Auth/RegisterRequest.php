@@ -21,6 +21,8 @@ class RegisterRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
+            'accountTypeId' => ['required', 'numeric', 'max:1'],
+            'name' => ['nullable', 'max:100', 'unique:accounts'],
             'email'    => ['required','email','max:100','unique:users'],
             'password' => ['required','min:6','confirmed'],
             'phone'    => ['max:100', 'unique:users'],
