@@ -22,10 +22,17 @@ class RegisterRequest extends ApiFormRequest
     {
         return [
             'accountTypeId' => ['required', 'numeric', 'max:1'],
-            'name' => ['nullable', 'max:100', 'unique:accounts'],
+            'name' => ['required', 'max:100', 'unique:accounts'],
             'email'    => ['required','email','max:100','unique:users'],
             'password' => ['required','min:6','confirmed'],
             'phone'    => ['max:100', 'unique:users'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'accountTypeId' => 'Account Type is required'
         ];
     }
 }
