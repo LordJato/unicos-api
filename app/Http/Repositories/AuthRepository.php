@@ -25,13 +25,9 @@ class AuthRepository
     public function login(array $data): bool
     {
         $user = $this->getUserByEmail($data['email']);
-
-        if (!$user) {
-            throw new Exception("User does not exist.", Response::HTTP_NOT_FOUND);
-        }
-
+ 
         if (!$this->isValidPassword($user, $data)) {
-            throw new Exception("Sorry, password does not match.", Response::HTTP_UNAUTHORIZED);
+            throw new Exception("Sorry, email and password do not match.", Response::HTTP_BAD_REQUEST);
         }
 
         return true;
