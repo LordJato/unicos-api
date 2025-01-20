@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('opportunity_benefits', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('opportunity_id')->references('id')->on('opportunities')->onDelete('cascade');
+            $table->string('description', 150);
         });
     }
 
