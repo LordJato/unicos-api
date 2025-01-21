@@ -46,4 +46,7 @@ Route::middleware('auth:api')->group(function () {
 
     //Employees
     require __DIR__ . "/api/hr/employees.php";
+
+     //Opportunities
+     require __DIR__ . "/api/hr/opportunities.php";
 });
