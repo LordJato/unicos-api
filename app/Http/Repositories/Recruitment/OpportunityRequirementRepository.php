@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Repositories\HR;
+namespace App\Http\Repositories\Recruitment;
 
 use Exception;
-use App\Models\Recruitment\OpportunityResponsibility;
+use App\Models\Recruitment\OpportunityRequirement;
 use Illuminate\Http\Response;
 
-class OpportunityResponsibilityRepository
+class OpportunityRequirementRepository
 {
     /**
      * Get all Employee.
@@ -24,7 +24,7 @@ class OpportunityResponsibilityRepository
         $orderBy = $params['orderBy'] ?? 'id';
         $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
 
-        $accounts = OpportunityResponsibility::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $accounts = OpportunityRequirement::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($orderBy, $orderDesc)
             ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
 
@@ -37,51 +37,51 @@ class OpportunityResponsibilityRepository
     }
 
     /**
-     * Get Opportunity Responsibility by ID.
+     * Get Opportunity Requirement by ID.
      *
      * @param int $id
-     * @return OpportunityResponsibility|null
+     * @return OpportunityRequirement|null
      * @throws Exception
      */
-    public function getByID(int $id): ?OpportunityResponsibility
+    public function getByID(int $id): ?OpportunityRequirement
     {
-        $data = OpportunityResponsibility::find($id);
+        $data = OpportunityRequirement::find($id);
 
         if (empty($data)) {
-            throw new Exception("Opportunity Responsibility does not exist.", Response::HTTP_NOT_FOUND);
+            throw new Exception("OOpportunity Requirement does not exist.", Response::HTTP_NOT_FOUND);
         }
 
         return $data;
     }
 
     /**
-     * Create Opportunity Responsibility.
+     * Create Opportunity Requirement.
      *
      * @param array $params
-     * @return OpportunityResponsibility
+     * @return OpportunityRequirement
      * @throws Exception
      */
-    public function create(array $params): OpportunityResponsibility
+    public function create(array $params): OpportunityRequirement
     {
 
         $data = $this->prepareDataForDB($params);
 
-        $create = OpportunityResponsibility::create($data);
+        $create = OpportunityRequirement::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create Opportunity Responsibility, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new Exception("Could not create Opportunity Requirement, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $create->fresh();
     }
 
     /**
-     * Update Opportunity Responsibility.
+     * Update Opportunity Requirement.
      *
      * @param array $params
-     * @return OpportunityResponsibility|null
+     * @return OpportunityRequirement|null
      */
-    public function update(array $params): OpportunityResponsibility
+    public function update(array $params): OpportunityRequirement
     {
         $update = $this->getById($params['id']);
 
@@ -91,7 +91,7 @@ class OpportunityResponsibilityRepository
     }
 
     /**
-     * Soft delete Opportunity Responsibility.
+     * Soft delete Opportunity Requirement.
      *
      * @param int $id
      * @return bool
@@ -108,11 +108,11 @@ class OpportunityResponsibilityRepository
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.
-     * @param OpportunityResponsibility|null $model Existing account model (optional).
+     * @param OpportunityRequirement|null $model Existing account model (optional).
      *
      * @return array Prepared data.
      */
-    public function prepareDataForDB(array $data, ?OpportunityResponsibility $model = null): array
+    public function prepareDataForDB(array $data, ?OpportunityRequirement $model = null): array
     {
         return [
             'job_id' =>  $data['JobId'] ?? $model->job_id,
