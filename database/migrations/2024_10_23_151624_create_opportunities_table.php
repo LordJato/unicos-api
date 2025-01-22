@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('opportunities', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('opportunity_type_id')->references('id')->on('opportunity_types')->onDelete('cascade');
+            $table->tinyInteger('opportunity_status_id');
+            $table->mediumInteger('designation_id');
+            $table->tinyInteger('career_level_id');
             $table->timestamps();
         });
     }
