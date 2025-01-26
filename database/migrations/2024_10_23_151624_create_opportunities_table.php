@@ -16,9 +16,16 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('opportunity_type_id')->references('id')->on('opportunity_types')->onDelete('cascade');
-            $table->tinyInteger('opportunity_status_id');
             $table->mediumInteger('designation_id');
             $table->tinyInteger('career_level_id');
+            $table->string('title', 100);
+            $table->string('slug', 150);
+            $table->string('description', 200);
+            $table->string('location', 150);
+            $table->tinyInteger('schedule');
+            $table->tinyInteger('years_of_experience');
+            $table->tinyInteger('vacancy');
+            $table->tinyInteger('opportunity_status_id');
             $table->timestamps();
         });
     }
