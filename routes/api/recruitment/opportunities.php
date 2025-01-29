@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HR\OpportunityController;
+use App\Http\Controllers\Recruitment\OpportunityController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'hr/opportunities', 'as' => 'hr.opportunities.'], function(){
