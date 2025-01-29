@@ -19,8 +19,9 @@ class Opportunity extends Model
         'title',
         'slug',
         'description',
-        'commitment',
+        'location',
+        'schedule',
         'years_of_experience',
-        'count',
+        'vacancy',
     ];
 }
