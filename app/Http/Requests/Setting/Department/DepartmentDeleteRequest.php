@@ -22,8 +22,6 @@ class DepartmentDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => ['required', 'integer']
-        ];
+        return [];
     }
 }
