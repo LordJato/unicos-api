@@ -22,7 +22,7 @@ class DepartmentRepository
     public function getAll(array $params): array
     {
         $search = $params['search'];
-        
+
         $accounts = Department::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
@@ -80,9 +80,9 @@ class DepartmentRepository
      * @param array $params
      * @return Department|null
      */
-    public function update(array $params): ?Department
+    public function update($id, array $params): ?Department
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 

@@ -60,19 +60,19 @@ class DepartmentController extends Controller
             return $this->responseSuccess($find, "Department find successfully");
         } catch (Exception $e) {
 
-            return parent::handleException($e);
+            return parent::handleException($e); 
         }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentUpdateRequest $request)
+    public function update($id, DepartmentUpdateRequest $request)
     {
         try {
             $validatedData = $request->validated();
 
-            $update = $this->departmentRepository->update($validatedData);
+            $update = $this->departmentRepository->update($id, $validatedData);
 
             return $this->responseSuccess($update, "Department updated successfully");
         } catch (Exception $e) {
