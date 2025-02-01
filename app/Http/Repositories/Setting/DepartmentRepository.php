@@ -17,8 +17,6 @@ class DepartmentRepository
      * @param array $params
      * @return array
      */
-
-
     public function getAll(array $params): array
     {
         $search = $params['search'];
@@ -77,10 +75,11 @@ class DepartmentRepository
     /**
      * Update Department.
      *
+     * @param int $id
      * @param array $params
      * @return Department|null
      */
-    public function update($id, array $params): ?Department
+    public function update(int $id, array $params): ?Department
     {
         $update = $this->getById($id);
 
@@ -92,12 +91,12 @@ class DepartmentRepository
     /**
      * Soft delete Department.
      *
-     * @param array $params
+     * @param int $id
      * @return bool
      */
-    public function softDelete(array $params): bool
+    public function softDelete(int $id): bool
     {
-        $data = $this->getByID($params['id']);
+        $data = $this->getByID($id);
 
         return $data->delete();
     }
