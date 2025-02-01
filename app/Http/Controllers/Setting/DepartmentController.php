@@ -25,7 +25,7 @@ class DepartmentController extends Controller
     {
         try {
             $validatedData = $request->validated();
-
+         
             $data = $this->departmentRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Department fetched successfully");
@@ -51,12 +51,11 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DepartmentGetRequest $request): JsonResponse
+    public function show($id): JsonResponse
     {
         try {
-            $validatedData = $request->validated();
 
-            $find = $this->departmentRepository->getByID($validatedData['id']);
+            $find = $this->departmentRepository->getByID($id);
 
             return $this->responseSuccess($find, "Department find successfully");
         } catch (Exception $e) {
