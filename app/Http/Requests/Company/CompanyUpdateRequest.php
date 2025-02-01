@@ -24,18 +24,7 @@ class CompanyUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:150', Rule::unique('companies')->ignore($this->id, 'id')],
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'id' => $this->query('id'),
-        ]);
     }
 }
