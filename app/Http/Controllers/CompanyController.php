@@ -13,6 +13,7 @@ use App\Http\Requests\Company\CompanyIndexRequest;
 use App\Http\Requests\Company\CompanyCreateRequest;
 use App\Http\Requests\Company\CompanyDeleteRequest;
 use App\Http\Requests\Company\CompanyUpdateRequest;
+use App\Models\Company;
 
 class CompanyController extends Controller
 {
@@ -53,17 +54,17 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): JsonResponse
+    public function show(Company $company): JsonResponse
     {
         if(!Gate::allows('view-company')){
             return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
         }
-        
+
         try {
+            
+            // $find = $this->companyRepository->getByID($id);
 
-            $find = $this->companyRepository->getByID($id);
-
-            return $this->responseSuccess($find, "Company find successfully");
+            return $this->responseSuccess($company, "Company find successfully");
         } catch (Exception $e) {
          
             return parent::handleException($e);
@@ -73,12 +74,12 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CompanyUpdateRequest $request)
+    public function update($id, CompanyUpdateRequest $request)
     {
         try {
             $validatedData = $request->validated();
 
-            $update = $this->companyRepository->update($validatedData);
+            $update = $this->companyRepository->update($id, $validatedData);
     
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
