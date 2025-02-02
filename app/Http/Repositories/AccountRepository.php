@@ -77,12 +77,13 @@ class AccountRepository
     /**
      * Update Account.
      *
+     * @param int $id
      * @param array $params
      * @return Account|null
      */
-    public function update(array $params): ?Account
+    public function update(int $id, array $params): ?Account
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 
@@ -97,10 +98,9 @@ class AccountRepository
      */
     public function softDelete(int $id): bool
     {
+        $data = $this->getByID($id);
 
-        $delete = $this->getByID($id);
-
-        return $delete->delete();
+        return $data->delete();
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\AccountRequest;
 use App\Http\Repositories\AccountRepository;
 
@@ -32,7 +34,7 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountRequest $request)
+    public function store(AccountRequest $request): JsonResponse
     {
         try {
             $validatedData = $request->validated();
@@ -49,12 +51,15 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountRequest $request): JsonResponse
+    public function show($id): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
+        if (!Gate::allows('view-account')) {
+            return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
+        }
 
-            $find = $this->accountRepository->getByID($validatedData['id']);
+        try {
+
+            $find = $this->accountRepository->getByID($id);
 
             return $this->responseSuccess($find, "Account find successfully");
         } catch (Exception $e) {
@@ -66,12 +71,12 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AccountRequest $request)
+    public function update($id, AccountRequest $request): JsonResponse
     {
         try {
             $validatedData = $request->validated();
 
-            $update = $this->accountRepository->update($validatedData);
+            $update = $this->accountRepository->update($id, $validatedData);
 
             return $this->responseSuccess($update, "Account updated successfully");
         } catch (Exception $e) {
@@ -83,12 +88,14 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountRequest $request)
+    public function destroy($id): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
+        if (!Gate::allows('delete-account')) {
+            return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
+        }
 
-            $delete = $this->accountRepository->softDelete($validatedData['id']);
+        try {
+            $delete = $this->accountRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Account deleted successfully");
         } catch (Exception $e) {

@@ -8,10 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Repositories\CompanyRepository;
-use App\Http\Requests\Company\CompanyGetRequest;
 use App\Http\Requests\Company\CompanyIndexRequest;
 use App\Http\Requests\Company\CompanyCreateRequest;
-use App\Http\Requests\Company\CompanyDeleteRequest;
 use App\Http\Requests\Company\CompanyUpdateRequest;
 
 class CompanyController extends Controller
