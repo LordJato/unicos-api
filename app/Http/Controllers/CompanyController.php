@@ -13,13 +13,11 @@ use App\Http\Requests\Company\CompanyIndexRequest;
 use App\Http\Requests\Company\CompanyCreateRequest;
 use App\Http\Requests\Company\CompanyDeleteRequest;
 use App\Http\Requests\Company\CompanyUpdateRequest;
-use App\Models\Company;
 
 class CompanyController extends Controller
 {
 
-    public function __construct(private readonly CompanyRepository $companyRepository)
-    {}
+    public function __construct(private readonly CompanyRepository $companyRepository) {}
 
     /**
      * Display a listing of the resource.
@@ -54,19 +52,18 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company): JsonResponse
+    public function show($id): JsonResponse
     {
-        if(!Gate::allows('view-company')){
+        if (!Gate::allows('view-company')) {
             return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
         }
 
         try {
-            
-            // $find = $this->companyRepository->getByID($id);
+            $find = $this->companyRepository->getByID($id);
 
-            return $this->responseSuccess($company, "Company find successfully");
+            return $this->responseSuccess($find, "Company find successfully");
         } catch (Exception $e) {
-         
+
             return parent::handleException($e);
         }
     }
@@ -80,7 +77,7 @@ class CompanyController extends Controller
             $validatedData = $request->validated();
 
             $update = $this->companyRepository->update($id, $validatedData);
-    
+
             return $this->responseSuccess($update, "Company updated successfully");
         } catch (Exception $e) {
             return parent::handleException($e);
@@ -90,11 +87,14 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompanyDeleteRequest $request)
+    public function destroy($id)
     {
+        if (!Gate::allows('delete-company')) {
+            return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
+        }
+
         try {
-            $validatedData = $request->validated();
-            $delete = $this->companyRepository->softDelete($validatedData['id']);
+            $delete = $this->companyRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Company deleted successfully");
         } catch (Exception $e) {
