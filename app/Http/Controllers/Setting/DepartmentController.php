@@ -7,9 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\CompanyRepository;
 use App\Http\Repositories\Setting\DepartmentRepository;
-use App\Http\Requests\Setting\Department\DepartmentGetRequest;
 use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
-use App\Http\Requests\Setting\Department\DepartmentDeleteRequest;
 use App\Http\Requests\Setting\Department\DepartmentIndexRequest;
 use App\Http\Requests\Setting\Department\DepartmentUpdateRequest;
 
@@ -83,12 +81,11 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DepartmentDeleteRequest $request)
+    public function destroy($id)
     {
         try {
-            $validatedData = $request->validated();
 
-            $delete = $this->departmentRepository->softDelete($validatedData);
+            $delete = $this->departmentRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Department deleted successfully");
         } catch (Exception $e) {
