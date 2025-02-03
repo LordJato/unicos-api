@@ -22,8 +22,6 @@ class RoleDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => ['required', 'integer', 'exists:roles,id']
-        ];
+        return [];
     }
 }

@@ -31,4 +31,18 @@ class RoleIndexRequest extends ApiFormRequest
             'withPermission' => ['nullable', 'boolean'],
         ];
     }
+
+      /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'search' => $this->input('search', null),
+            'offset' => (int) $this->input('offset', 0),
+            'limit' => (int) $this->input('limit', 10),
+            'orderBy' => $this->input('orderBy', 'id'),
+            'orderDesc' => $this->input('orderDesc') === 'true' ? 'desc' : 'asc',
+        ]);
+    }
 }

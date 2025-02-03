@@ -24,18 +24,7 @@ class RoleUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:roles,id'],
             'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'id' => $this->query('id'),
-        ]);
     }
 }

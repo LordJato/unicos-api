@@ -22,18 +22,6 @@ class RoleGetRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-           'id' => ['required', 'integer', 'exists:roles,id'],
-        ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation()
-    { 
-        $this->merge([
-            'id' => $this->query('id'),
-        ]);
+        return [];
     }
 }
