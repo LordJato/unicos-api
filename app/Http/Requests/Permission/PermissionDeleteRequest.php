@@ -22,20 +22,6 @@ class PermissionDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => ['required', 'integer', 'exists:roles,id']
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'id.exists' => 'id does not exist'
-        ];
+        return [];
     }
 }
