@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('account_types', function (Blueprint $table) {
+            $table->tinyIncrements('id');
+            $table->string('name', 50);
+            $table->string('slug', 100);
+        });
+
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('account_type_id');
             $table->string('name', 100);
             $table->timestamps();
             $table->boolean('is_active')->default(true);
+
+            $table->foreign('account_type_id')->references('id')->on('account_types')->onDelete('cascade');
         });
 
         Schema::table('users', function(Blueprint $table) {
@@ -30,5 +38,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('accounts');
+        Schema::dropIfExists('account_types');
     }
 };

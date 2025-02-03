@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(AdminPermissionSeeder::class);
         $this->call(HRHeadSeeder::class);
+        $this->call(AccountTypeSeeder::class);
         $this->call(DummyAccountSeeder::class);
     }
 }
