@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('observances', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('observance_type_id');
-            $table->unsignedBigInteger('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->unsignedBigInteger('company_id');
             $table->string('title', 100);
             $table->string('description', 200);
             $table->datetime('start_date');
             $table->datetime('end_date');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('observances');
+        Schema::dropIfExists('events');
     }
 };
