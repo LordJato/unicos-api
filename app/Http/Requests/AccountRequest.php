@@ -66,6 +66,7 @@ class AccountRequest extends ApiFormRequest
 
         if ($this->isMethod('post')) {
             return [
+                'accountTypeId' => 'required|integer|max:1',
                 'name' => 'required|string|max:150|unique:accounts',
             ];
         }
