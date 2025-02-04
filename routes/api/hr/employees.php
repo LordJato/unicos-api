@@ -3,11 +3,10 @@
 use App\Http\Controllers\HR\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'hr/employees', 'as' => 'hr.employees.'], function(){
-    Route::get('/', [EmployeeController::class, 'index']);
-    Route::get('/get', [EmployeeController::class, 'show']);
-    Route::post('/create', [EmployeeController::class, 'store']);
-    Route::put('/update', [EmployeeController::class, 'update']);
-    Route::delete('/delete', [EmployeeController::class, 'destroy']);
+
+
+
+Route::group(['prefix' => 'hr', 'as' => 'hr.'], function(){
+    Route::apiResource('employees', EmployeeController::class);
     Route::put('/update-roles', [EmployeeController::class, 'updateRoles']);
 });

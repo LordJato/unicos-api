@@ -77,12 +77,6 @@ class AccountRequest extends ApiFormRequest
             ];
         }
 
-        if ($this->isMethod('delete')) {
-            return [
-                'id' => 'required'
-            ];
-        }
-
         return [];
     }
 
