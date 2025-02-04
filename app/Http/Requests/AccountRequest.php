@@ -73,8 +73,7 @@ class AccountRequest extends ApiFormRequest
 
         if ($this->isMethod('put')) {
             return [
-                'id' => 'required',
-                'name' => 'required|string|max:150|unique:accounts,name,' . request()->id,
+                'name' => 'required|string|max:150|unique:accounts,name,' . $this->id,
             ];
         }
 

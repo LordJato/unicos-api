@@ -109,7 +109,7 @@ class AccountRepository
      */
     public function prepareDataForDB(array $data, ?Account $model = null): array
     {
-        if (!enum_exists(AccountType::class, $data['accountTypeId'])) {
+        if (!enum_exists(AccountType::class, $data['accountTypeId'] ?? $model->account_type_id)) {
             throw new Exception("Account Type does not exist.", Response::HTTP_NOT_FOUND);
         }
         return [
