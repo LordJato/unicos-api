@@ -54,6 +54,16 @@ class AccountRequest extends ApiFormRequest
             ];
         }
 
+        if ($this->isMethod('get')) {
+            return [
+                'search' => ['nullable', 'min:3', 'max:100'],
+                'offset' => ['nullable', 'integer', 'min:0'],
+                'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
+                'orderBy' => ['nullable', 'string', 'in:id,name'],
+                'orderDesc' => ['nullable', 'string'],
+            ];
+        }
+
         if ($this->isMethod('post')) {
             return [
                 'name' => 'required|string|max:150|unique:accounts',
@@ -74,5 +84,21 @@ class AccountRequest extends ApiFormRequest
         }
 
         return [];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->isMethod('get')) {
+            $this->merge([
+                'search' => $this->input('search', null),
+                'offset' => (int) $this->input('offset', 0),
+                'limit' => (int) $this->input('limit', 10),
+                'orderBy' => $this->input('orderBy', 'id'),
+                'orderDesc' => $this->input('orderDesc') === 'true' ? 'desc' : 'asc',
+            ]);
+        }
     }
 }

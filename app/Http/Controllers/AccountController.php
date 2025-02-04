@@ -26,7 +26,6 @@ class AccountController extends Controller
 
             return $this->responseSuccess($data, "Account fetched successfully");
         } catch (Exception $e) {
-
             return parent::handleException($e);
         }
     }
