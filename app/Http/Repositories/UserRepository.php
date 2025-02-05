@@ -79,9 +79,9 @@ class UserRepository
      * @return User|null
      */
 
-    public function update(array $params): ?User
+    public function update(int $id, array $params): ?User
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 

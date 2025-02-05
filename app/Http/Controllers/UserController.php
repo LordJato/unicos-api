@@ -67,12 +67,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request)
+    public function update($id, UserUpdateRequest $request)
     {
         try {
             $validatedData = $request->validated();
 
-            $update = $this->userRepository->update($validatedData);
+            $update = $this->userRepository->update($id, $validatedData);
 
             return $this->responseSuccess($update, "User updated successfully");
         } catch (Exception $e) {
