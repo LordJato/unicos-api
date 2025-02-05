@@ -21,21 +21,17 @@ class UserRepository
 
     public function getAll(array $params): array
     {
-        $search = $params['search'] ?? null;
-        $offset = $params['offset'] ?? 0;
-        $limit = $params['limit'] ?? 10;
-        $orderBy = $params['orderBy'] ?? 'id';
-        $orderDesc =  ($params['orderDesc'] ?? false) ? 'desc' : 'asc';
+        $search = $params['search'];
 
-        $accounts = User::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
-            ->orderBy($orderBy, $orderDesc)
-            ->paginate($limit, ['*'], 'page', floor($offset / $limit) + 1);
+        $users = User::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        ->orderBy($params['orderBy'], $params['orderDesc'])
+        ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
         return [
-            'total' => $accounts->total(),
-            'records' => $accounts->items(),
-            'offset' => $offset,
-            'limit' => $limit
+            'total' => $users->total(),
+            'records' => $users->items(),
+            'offset' =>  $params['offset'],
+            'limit' => $params['limit']
         ];
     }
 
