@@ -84,12 +84,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserDeleteRequest $request)
+    public function destroy($id)
     {
         try {
-            $validatedData = $request->validated();
-
-            $delete = $this->userRepository->softDelete($validatedData['id']);
+            $delete = $this->userRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "User deleted successfully");
         } catch (Exception $e) {
