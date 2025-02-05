@@ -23,7 +23,7 @@ class UserRepository
     {
         $search = $params['search'];
 
-        $users = User::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $users = User::when($search, fn($query, $search) => $query->where('email', 'like', $search . '%'))
         ->orderBy($params['orderBy'], $params['orderDesc'])
         ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 

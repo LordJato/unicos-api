@@ -24,8 +24,10 @@ class UserController extends Controller
     {
         try {
             $validatedData = $request->validated();
+            $data = $this->userRepository->getAll($validatedData);
+         
 
-            return $this->responseSuccess($this->userRepository->getAll($validatedData), "Users fetched successfully");
+            return $this->responseSuccess($data, "Users fetched successfully");
         } catch (Exception $e) {
             return parent::handleException($e);
         }
@@ -50,12 +52,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserGetRequest $request): JsonResponse
+    public function show($id): JsonResponse
     {
         try {
-            $validatedData = $request->validated();
-
-            $find = $this->userRepository->getByID($validatedData['id']);
+            $find = $this->userRepository->getByID($id);
 
             return $this->responseSuccess(new UserResource($find), "User find successfully");
         } catch (Exception $e) {

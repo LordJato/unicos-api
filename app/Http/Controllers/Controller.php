@@ -12,6 +12,6 @@ abstract class Controller
     
     protected  function handleException(Exception $e): JsonResponse
     {
-        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode() ?? 500));
+        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
     }
 }
