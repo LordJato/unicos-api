@@ -4,10 +4,10 @@ namespace App\Enums;
 
 enum JobStatus: string
 {
-    case PENDING = 'pending';
-    case IN_PROGRESS = 'in_progress';
-    case COMPLETED = 'completed';
-    case CANCELED = 'canceled';
+    case PENDING = 1;
+    case IN_PROGRESS = 2;
+    case COMPLETED = 3;
+    case CANCELED = 4;
 
     /**
      * Get a human-readable label for the status.
