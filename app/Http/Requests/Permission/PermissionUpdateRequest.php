@@ -27,14 +27,4 @@ class PermissionUpdateRequest extends ApiFormRequest
             'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
     }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'id' => $this->query('id'),
-        ]);
-    }
 }
