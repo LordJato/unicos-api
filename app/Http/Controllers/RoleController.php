@@ -62,13 +62,13 @@ class RoleController extends Controller
         }
     }
 
-    public function update(RoleUpdateRequest $request)
+    public function update($id, RoleUpdateRequest $request)
     {
         try {
 
             $validatedData = $request->validated();
 
-            $update = $this->roleRepository->update($validatedData);
+            $update = $this->roleRepository->update($id, $validatedData);
 
             return $this->responseSuccess($update, "Role updated successfully");
         } catch (Exception $e) {

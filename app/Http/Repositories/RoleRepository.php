@@ -82,12 +82,13 @@ class RoleRepository
     /**
      * Update Role.
      *
+     * @param int $id
      * @param array $params
      * @return Role|null
      */
-    public function update(array $params): Role
+    public function update($id, array $params): Role
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 
