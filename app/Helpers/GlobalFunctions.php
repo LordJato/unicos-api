@@ -2,12 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 
-if (!function_exists('searchString')) {
-    function searchString(string $search): string
-    {
-        return urldecode($search) . '%';
-    }
-}
 
 /**
  * Retrieves the currently authenticated user via the 'api' guard.
