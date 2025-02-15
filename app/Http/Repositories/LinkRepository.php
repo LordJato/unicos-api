@@ -17,7 +17,7 @@ class LinkRepository
         $params = array_merge($defaults, $params);
 
         $params['expiration'] = (int)$params['expiration'];
-        $spaUrl = config('app.spa_url', env('SPA_URL', 'http://localhost:3000'));
+        $spaUrl = config('app.spa_url');
         $expiration = now()->addHours($params['expiration']);
         unset($params['expiration']);
 
