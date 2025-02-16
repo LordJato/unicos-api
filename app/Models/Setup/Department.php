@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Setting;
+namespace App\Models\Setup;
 
 use App\Models\Company;
 use App\Traits\TenantCompany;

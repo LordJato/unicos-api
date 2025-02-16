@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Setting\Department;
+namespace App\Http\Requests\Setup\Department;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;
+use Illuminate\Support\Facades\Gate;
 
-class DepartmentDeleteRequest extends ApiFormRequest
+class DepartmentGetRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-department');
+        return Gate::allows('view-department');
     }
 
     /**

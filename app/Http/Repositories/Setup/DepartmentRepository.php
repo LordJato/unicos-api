@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Repositories\Setting;
+namespace App\Http\Repositories\Setup;
 
 use Exception;
 use App\Models\Company;
 use Illuminate\Http\Response;
-use App\Models\Setting\Department;
+use App\Models\Setup\Department;
 use Illuminate\Support\Facades\Auth;
 
 class DepartmentRepository

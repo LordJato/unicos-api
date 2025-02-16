@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Setting\Department;
+namespace App\Http\Requests\Setup\Department;
 
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;

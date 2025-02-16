@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Repositories\Setting;
+namespace App\Http\Repositories\Setup;
 
 use Exception;
 use App\Enums\ObservanceType;
 use Illuminate\Http\Response;
-use App\Models\Setting\Observance;
+use App\Models\Setup\Observance;
 
 class ObservanceRepository
 {
@@ -117,9 +117,7 @@ class ObservanceRepository
     {
         $observanceTypeId = $data['observanceTypeId'] ?? $model->observance_type_id;
 
-        if (!enum_exists(ObservanceType::class, $observanceTypeId)) {
-            throw new Exception("Please enter correct observance type", Response::HTTP_NOT_FOUND);
-        }
+        throw new Exception("Please enter correct observance type", Response::HTTP_NOT_FOUND);
 
         //check if name exist in company
         return [

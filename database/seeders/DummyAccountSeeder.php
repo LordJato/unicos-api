@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Account;
 use App\Models\Company;
-use App\Models\Setting\Department;
+use App\Models\Setup\Department;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

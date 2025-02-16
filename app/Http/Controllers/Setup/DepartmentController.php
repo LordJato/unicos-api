@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\Setup;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\CompanyRepository;
-use App\Http\Repositories\Setting\DepartmentRepository;
-use App\Http\Requests\Setting\Department\DepartmentCreateRequest;
-use App\Http\Requests\Setting\Department\DepartmentIndexRequest;
-use App\Http\Requests\Setting\Department\DepartmentUpdateRequest;
+use App\Http\Repositories\Setup\DepartmentRepository;
+use App\Http\Requests\Setup\Department\DepartmentCreateRequest;
+use App\Http\Requests\Setup\Department\DepartmentIndexRequest;
+use App\Http\Requests\Setup\Department\DepartmentUpdateRequest;
 
 class DepartmentController extends Controller
 {

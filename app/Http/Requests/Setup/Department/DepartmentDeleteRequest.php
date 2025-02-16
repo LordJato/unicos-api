@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Setting\Department;
+namespace App\Http\Requests\Setup\Department;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;
 
-class DepartmentUpdateRequest extends ApiFormRequest
+class DepartmentDeleteRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-department');
+        return Gate::allows('delete-department');
     }
 
     /**
@@ -23,8 +22,6 @@ class DepartmentUpdateRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'max:50', Rule::unique('departments')->ignore($this->id, 'id')],
-        ];
+        return [];
     }
 }

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Setting\Observance;
+namespace App\Http\Requests\Setup\OpportunityType;
 
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;
 
-class ObservanceIndexRequest extends ApiFormRequest
+class OpportunityTypeDeleteRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-observance');
+        return Gate::allows('delete-opportunity-type');
     }
 
     /**
@@ -23,12 +23,7 @@ class ObservanceIndexRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'search' => ['nullable', 'min:3'],
-            'offset' => ['nullable', 'integer'],
-            'limit' => ['nullable', 'integer'],
-            'orderBy' => ['nullable', 'string'],
-            'orderDesc' => ['nullable', 'boolean'],
-            'withPermission' => ['nullable', 'boolean'],
+            'id' => ['required', 'integer']
         ];
     }
 }

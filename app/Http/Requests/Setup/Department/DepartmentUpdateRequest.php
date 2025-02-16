@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Setting\OpportunityType;
+namespace App\Http\Requests\Setup\Department;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ApiFormRequest;
 
-class OpportunityTypeIndexRequest extends ApiFormRequest
+class DepartmentUpdateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-opportunity-type');
+        return Gate::allows('update-department');
     }
 
     /**
@@ -23,7 +24,7 @@ class OpportunityTypeIndexRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer']
+            'name' => ['required', 'string', 'max:50', Rule::unique('departments')->ignore($this->id, 'id')],
         ];
     }
 }
