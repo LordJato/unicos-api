@@ -9,10 +9,6 @@ use App\Http\Controllers\UserController;
 //VERSION 1 API
 Route::prefix('v1')->group(function () {
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    })->middleware('auth:api');
-
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
@@ -26,10 +22,6 @@ Route::prefix('v1')->group(function () {
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
             Route::get('profile', [UserController::class, 'profile']);
         });
-
-
-        //Links
-        require_once __DIR__ . "/api/v1/links.php";
 
         //Users
         require_once __DIR__ . "/api/v1/users.php";
@@ -45,6 +37,9 @@ Route::prefix('v1')->group(function () {
 
         //Permissions
         require_once __DIR__ . "/api/v1/permissions.php";
+
+        //Links
+        require_once __DIR__ . "/api/v1/links.php";
 
         //HR Modules
         require_once __DIR__ . '/api/v1/hr/index.php';
