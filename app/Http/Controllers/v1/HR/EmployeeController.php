@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Repositories\v1\HR\EmployeeRepository;
-use App\Http\Requests\HR\Employee\EmployeeGetRequest;
-use App\Http\Requests\HR\Employee\EmployeeIndexRequest;
-use App\Http\Requests\HR\Employee\EmployeeCreateRequest;
-use App\Http\Requests\HR\Employee\EmployeeUpdateRequest;
+use App\Http\Requests\v1\HR\Employee\EmployeeGetRequest;
+use App\Http\Requests\v1\HR\Employee\EmployeeIndexRequest;
+use App\Http\Requests\v1\HR\Employee\EmployeeCreateRequest;
+use App\Http\Requests\v1\HR\Employee\EmployeeUpdateRequest;
 
 class EmployeeController extends Controller
 {

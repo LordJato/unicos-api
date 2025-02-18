@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\AccountRequest;
+use App\Http\Requests\v1\AccountRequest;
 use App\Repositories\v1\AccountRepository;
 
 class AccountController extends Controller

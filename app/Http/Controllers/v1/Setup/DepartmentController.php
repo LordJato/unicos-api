@@ -7,9 +7,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Repositories\v1\CompanyRepository;
 use App\Repositories\v1\Setup\DepartmentRepository;
-use App\Http\Requests\Setup\Department\DepartmentCreateRequest;
-use App\Http\Requests\Setup\Department\DepartmentIndexRequest;
-use App\Http\Requests\Setup\Department\DepartmentUpdateRequest;
+use App\Http\Requests\v1\Setup\Department\DepartmentCreateRequest;
+use App\Http\Requests\v1\Setup\Department\DepartmentIndexRequest;
+use App\Http\Requests\v1\Setup\Department\DepartmentUpdateRequest;
 
 class DepartmentController extends Controller
 {

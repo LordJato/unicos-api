@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Permission;
 use App\Repositories\v1\PermissionRepository;
-use App\Http\Requests\Permission\PermissionGetRequest;
-use App\Http\Requests\Permission\PermissionIndexRequest;
-use App\Http\Requests\Permission\PermissionCreateRequest;
-use App\Http\Requests\Permission\PermissionDeleteRequest;
-use App\Http\Requests\Permission\PermissionUpdateRequest;
+use App\Http\Requests\v1\Permission\PermissionGetRequest;
+use App\Http\Requests\v1\Permission\PermissionIndexRequest;
+use App\Http\Requests\v1\Permission\PermissionCreateRequest;
+use App\Http\Requests\v1\Permission\PermissionDeleteRequest;
+use App\Http\Requests\v1\Permission\PermissionUpdateRequest;
 
 class PermissionController extends Controller
 {

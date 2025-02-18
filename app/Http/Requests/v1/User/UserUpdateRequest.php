@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\v1\User;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;

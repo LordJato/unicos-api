@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\UserResource;
 use App\Repositories\v1\UserRepository;
-use App\Http\Requests\User\UserGetRequest;
-use App\Http\Requests\User\UserCreateRequest;
-use App\Http\Requests\User\UserDeleteRequest;
-use App\Http\Requests\User\UserIndexRequest;
-use App\Http\Requests\User\UserUpdateRequest;
-use App\Http\Requests\User\UserUpdateRoleRequest;
+use App\Http\Requests\v1\User\UserGetRequest;
+use App\Http\Requests\v1\User\UserCreateRequest;
+use App\Http\Requests\v1\User\UserDeleteRequest;
+use App\Http\Requests\v1\User\UserIndexRequest;
+use App\Http\Requests\v1\User\UserUpdateRequest;
+use App\Http\Requests\v1\User\UserUpdateRoleRequest;
 
 class UserController extends Controller
 {

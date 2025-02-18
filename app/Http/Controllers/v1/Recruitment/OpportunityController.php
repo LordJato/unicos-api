@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Recruitment\Opportunity;
-use App\Http\Requests\HR\Employee\EmployeeUpdateRequest;
+use App\Http\Requests\v1\HR\Employee\EmployeeUpdateRequest;
 use App\Repositories\v1\Recruitment\OpportunityRepository;
 
 class OpportunityController extends Controller

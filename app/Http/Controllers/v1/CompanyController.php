@@ -8,9 +8,9 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\CompanyRepository;
-use App\Http\Requests\Company\CompanyIndexRequest;
-use App\Http\Requests\Company\CompanyCreateRequest;
-use App\Http\Requests\Company\CompanyUpdateRequest;
+use App\Http\Requests\v1\Company\CompanyIndexRequest;
+use App\Http\Requests\v1\Company\CompanyCreateRequest;
+use App\Http\Requests\v1\Company\CompanyUpdateRequest;
 
 class CompanyController extends Controller
 {
