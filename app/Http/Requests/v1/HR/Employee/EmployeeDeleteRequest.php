@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\HR\Employee;
+namespace App\Http\Requests\v1\HR\Employee;
 
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\ApiFormRequest;
+use App\Http\Requests\v1\ApiFormRequest;
 
 class EmployeeDeleteRequest extends ApiFormRequest
 {

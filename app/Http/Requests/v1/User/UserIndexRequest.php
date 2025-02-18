@@ -3,7 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\ApiFormRequest;
+use App\Http\Requests\v1\ApiFormRequest;
 
 class UserIndexRequest extends ApiFormRequest
 {

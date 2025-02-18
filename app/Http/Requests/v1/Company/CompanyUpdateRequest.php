@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\v1\Company;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\ApiFormRequest;
+use App\Http\Requests\v1\ApiFormRequest;
 
 class CompanyUpdateRequest extends ApiFormRequest
 {

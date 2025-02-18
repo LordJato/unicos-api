@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\v1\Auth;
 
-use App\Http\Requests\ApiFormRequest;
+use App\Http\Requests\v1\ApiFormRequest;
 
 class ForgotPasswordRequest extends ApiFormRequest
 {

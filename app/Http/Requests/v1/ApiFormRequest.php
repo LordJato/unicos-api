@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\v1;
 
 use App\Traits\ResponseTrait;
 use Illuminate\Contracts\Validation\Validator;

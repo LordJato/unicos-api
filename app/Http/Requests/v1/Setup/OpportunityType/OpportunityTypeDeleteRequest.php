@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Setup\OpportunityType;
+namespace App\Http\Requests\v1\Setup\OpportunityType;
 
 use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\ApiFormRequest;
+use App\Http\Requests\v1\ApiFormRequest;
 
 class OpportunityTypeDeleteRequest extends ApiFormRequest
 {
