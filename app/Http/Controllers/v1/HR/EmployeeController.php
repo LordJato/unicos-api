@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Repositories\HR\EmployeeRepository;
+use App\Repositories\v1\HR\EmployeeRepository;
 use App\Http\Requests\HR\Employee\EmployeeGetRequest;
 use App\Http\Requests\HR\Employee\EmployeeIndexRequest;
 use App\Http\Requests\HR\Employee\EmployeeCreateRequest;
@@ -64,12 +64,12 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(EmployeeUpdateRequest $request)
+    public function update($id, EmployeeUpdateRequest $request)
     {
         try {
             $validatedData = $request->validated();
 
-            $update = $this->employeeRepository->update($validatedData);
+            $update = $this->employeeRepository->update($id, $validatedData);
 
             return $this->responseSuccess($update, "Employee updated successfully");
         } catch (Exception $e) {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Http\Repositories\LinkRepository;
+use App\Repositories\v1\LinkRepository;
 use Illuminate\Http\Request;
 
 class LinkController extends Controller

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Repositories\CompanyRepository;
+use App\Repositories\v1\CompanyRepository;
 use App\Http\Requests\Company\CompanyIndexRequest;
 use App\Http\Requests\Company\CompanyCreateRequest;
 use App\Http\Requests\Company\CompanyUpdateRequest;

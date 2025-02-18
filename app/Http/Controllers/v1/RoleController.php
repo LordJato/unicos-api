@@ -8,7 +8,7 @@ use App\Models\Permission;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Repositories\RoleRepository;
+use App\Repositories\v1\RoleRepository;
 use App\Http\Requests\Role\RoleGetRequest;
 use App\Http\Requests\Role\RoleIndexRequest;
 use App\Http\Requests\Role\RoleCreateRequest;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Permission;
-use App\Http\Repositories\PermissionRepository;
+use App\Repositories\v1\PermissionRepository;
 use App\Http\Requests\Permission\PermissionGetRequest;
 use App\Http\Requests\Permission\PermissionIndexRequest;
 use App\Http\Requests\Permission\PermissionCreateRequest;

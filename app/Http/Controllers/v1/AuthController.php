@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Enums\AccountType;
-use App\Http\Repositories\AccountRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Repositories\AuthRepository;
-use App\Http\Repositories\LinkRepository;
-use App\Http\Repositories\TokenRepository;
+use App\Repositories\v1\AuthRepository;
+use App\Repositories\v1\LinkRepository;
+use App\Repositories\v1\TokenRepository;
+use App\Repositories\v1\AccountRepository;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\ForgotPasswordRequest;

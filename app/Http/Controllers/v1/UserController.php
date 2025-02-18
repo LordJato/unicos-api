@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\UserResource;
-use App\Http\Repositories\UserRepository;
+use App\Repositories\v1\UserRepository;
 use App\Http\Requests\User\UserGetRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserDeleteRequest;
