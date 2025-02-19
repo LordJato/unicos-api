@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\v1\UserResource;
 use App\Repositories\v1\UserRepository;
-use App\Http\Requests\v1\User\UserGetRequest;
 use App\Http\Requests\v1\User\UserCreateRequest;
-use App\Http\Requests\v1\User\UserDeleteRequest;
 use App\Http\Requests\v1\User\UserIndexRequest;
 use App\Http\Requests\v1\User\UserUpdateRequest;
 use App\Http\Requests\v1\User\UserUpdateRoleRequest;
