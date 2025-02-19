@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\v1\HR;
 
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\EmployeeRepository;

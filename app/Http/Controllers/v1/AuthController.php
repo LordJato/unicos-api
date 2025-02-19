@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
-use App\Enums\AccountType;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;

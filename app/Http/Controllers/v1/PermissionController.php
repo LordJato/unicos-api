@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
-use App\Models\Permission;
 use App\Repositories\v1\PermissionRepository;
 use App\Http\Requests\v1\Permission\PermissionGetRequest;
 use App\Http\Requests\v1\Permission\PermissionIndexRequest;

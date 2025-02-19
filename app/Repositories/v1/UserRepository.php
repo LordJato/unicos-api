@@ -5,7 +5,7 @@ namespace App\Repositories\v1;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Response;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\v1\UserResource;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\v1;
 
 use Exception;
 use App\Models\Role;
-use App\Models\Permission;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\v1\RoleRepository;
