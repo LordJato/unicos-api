@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Setup;
+namespace App\Http\Controllers\v1\Setup;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\CompanyRepository;
 use App\Repositories\v1\Setup\DepartmentRepository;
 use App\Http\Requests\v1\Setup\Department\DepartmentCreateRequest;

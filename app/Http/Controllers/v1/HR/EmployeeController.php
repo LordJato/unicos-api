@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\HR;
+namespace App\Http\Controllers\v1\HR;
 
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\EmployeeRepository;
 use App\Http\Requests\v1\HR\Employee\EmployeeGetRequest;
 use App\Http\Requests\v1\HR\Employee\EmployeeIndexRequest;

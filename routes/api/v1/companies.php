@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\v1\CompanyController;
 
 
 Route::apiResource('companies', CompanyController::class);

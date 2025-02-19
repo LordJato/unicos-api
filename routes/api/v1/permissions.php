@@ -2,7 +2,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\v1\PermissionController;
 
 Route::apiResource('permissions', PermissionController::class);
 

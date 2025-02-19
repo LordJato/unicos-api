@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LinkController;
+use App\Http\Controllers\v1\LinkController;
 
 
 Route::group(['prefix' => 'links', 'as' => 'links.'], function () {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Setup\DepartmentController;
+use App\Http\Controllers\v1\Setup\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::apiResource('departments', DepartmentController::class);

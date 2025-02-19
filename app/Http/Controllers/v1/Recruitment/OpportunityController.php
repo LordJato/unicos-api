@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Recruitment;
+namespace App\Http\Controllers\v1\Recruitment;
 
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\v1\Controller;
 use App\Models\Recruitment\Opportunity;
 use App\Http\Requests\v1\HR\Employee\EmployeeUpdateRequest;
 use App\Repositories\v1\Recruitment\OpportunityRepository;
