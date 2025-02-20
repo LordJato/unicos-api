@@ -46,5 +46,8 @@ Route::prefix('v1')->group(function () {
 
         //Recruitment Modules
         require_once __DIR__ . '/api/v1/recruitment/index.php';
+
+        //Recruitment Modules
+        require_once __DIR__ . '/api/v1/setup/index.php';
     });
 });
