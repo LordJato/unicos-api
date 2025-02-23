@@ -26,5 +26,13 @@ class AppServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(now()->addDay());
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+
+        Gate::guessPolicyNamesUsing(function (string $modelClass) {
+            // Extract model name without namespace
+            $modelName = class_basename($modelClass);
+        
+            // Return the flattened policy class
+            return 'App\\Policies\\' . $modelName . 'Policy';
+        });
     }
 }
