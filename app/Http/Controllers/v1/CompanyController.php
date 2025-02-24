@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
-use App\Models\Company;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -50,11 +49,12 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company): JsonResponse
+    public function show($id): JsonResponse
     {
         try {
+            $find = $this->companyRepository->getByID($id);
 
-            return $this->responseSuccess($company, "Company find successfully");
+            return $this->responseSuccess($find, "Company find successfully");
         } catch (Exception $e) {
 
             return parent::handleException($e);

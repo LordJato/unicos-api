@@ -35,7 +35,7 @@ class CompanyPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Company $company): bool
+    public function update(User $user): bool
     {
         return $user->hasPermissionTo('update-company');
     }

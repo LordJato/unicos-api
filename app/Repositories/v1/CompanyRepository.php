@@ -84,7 +84,7 @@ class CompanyRepository
 
         $update->update($this->prepareDataForDB($params, $update));
 
-        return $update->refresh();
+        return $update;
     }
 
     /**
