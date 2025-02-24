@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
+use App\Models\Company;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -49,16 +50,11 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): JsonResponse
+    public function show(Company $company): JsonResponse
     {
-        if (!Gate::allows('view-company')) {
-            return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
-        }
-
         try {
-            $find = $this->companyRepository->getByID($id);
 
-            return $this->responseSuccess($find, "Company find successfully");
+            return $this->responseSuccess($company, "Company find successfully");
         } catch (Exception $e) {
 
             return parent::handleException($e);
