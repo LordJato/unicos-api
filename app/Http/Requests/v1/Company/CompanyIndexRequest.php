@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Company;
 
+use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
@@ -12,7 +13,7 @@ class CompanyIndexRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-company');
+        return $this->user()->can('viewAny', Company::class);
     }
 
     /**

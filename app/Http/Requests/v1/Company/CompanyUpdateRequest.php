@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Company;
 
+use App\Models\Company;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
@@ -13,7 +14,7 @@ class CompanyUpdateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-company');
+        return $this->user()->can('update', Company::class);
     }
 
     /**

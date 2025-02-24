@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\v1\Company;
 
+use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
@@ -12,7 +13,7 @@ class CompanyDeleteRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-company');
+        return $this->user()->can('delete', Company::class);
     }
 
     /**
