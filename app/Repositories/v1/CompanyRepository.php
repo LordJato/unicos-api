@@ -110,20 +110,9 @@ class CompanyRepository
      */
     public function prepareDataForDB(array $data, ?Company $model = null): array
     {
-        return [
-            'name' =>  $data['name'] ?? $model->name,
-            'address' => $data['address'] ?? $model->address,
-            'city' => $data['city'] ?? $model->city,
-            'province' => $data['province'] ?? $model->province,
-            'postal' => $data['postal'] ?? $model->postal,
-            'country' => $data['country'] ?? $model->country,
-            'email' => $data['email'] ?? $model->email,
-            'phone' => $data['phone'] ?? $model->phone,
-            'fax' => $data['fax'] ?? $model->fax,
-            'tin' => $data['tin'] ?? $model->tin,
-            'sss' => $data['sss'] ?? $model->sss,
-            'philhealth' => $data['philhealth'] ?? $model->philhealth,
-            'hdmf' => $data['hdmf'] ?? $model->hdmf
-        ];
+        return array_merge($model?->only([
+            'name', 'address', 'city', 'province', 'postal', 'country',
+            'email', 'phone', 'fax', 'tin', 'sss', 'philhealth', 'hdmf'
+        ]) ?? [], $data);
     }
 }
