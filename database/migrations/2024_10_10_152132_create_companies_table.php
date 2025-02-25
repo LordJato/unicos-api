@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('email', 100)->unique();;
             $table->string('phone', 50);
             $table->string('fax', 50)->nullable();
-            $table->string('TIN', 20)->nullable();
-            $table->string('SSS', 20)->nullable();
-            $table->string('PhilHealth', 20)->nullable();
-            $table->string('HDMF', 20)->nullable();
+            $table->string('tin', 20)->nullable();
+            $table->string('sss', 20)->nullable();
+            $table->string('philhealth', 20)->nullable();
+            $table->string('hdmf', 20)->nullable();
             $table->timestamps();
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
