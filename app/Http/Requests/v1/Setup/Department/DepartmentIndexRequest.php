@@ -39,9 +39,9 @@ class DepartmentIndexRequest extends ApiFormRequest
     {
         $this->merge([
             'search' => $this->input('search', null),
-            'offset' => (int) $this->input('offset', 0),
-            'limit' => (int) $this->input('limit', 10),
-            'orderBy' => $this->input('orderBy', 'id'),
+            'offset' => (int)$this->input('offset') ?? 0,
+            'limit' => !empty($this->input('limit')) ? (int)$this->input('limit') : 10,
+            'orderBy' => $this->input('orderBy') ?? 'id',
             'orderDesc' => $this->input('orderDesc') === 'true' ? 'desc' : 'asc',
         ]);
     }
