@@ -8,6 +8,7 @@ use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\CompanyRepository;
 use App\Repositories\v1\Setup\DepartmentRepository;
 use App\Http\Requests\v1\Setup\Department\DepartmentCreateRequest;
+use App\Http\Requests\v1\Setup\Department\DepartmentGetRequest;
 use App\Http\Requests\v1\Setup\Department\DepartmentIndexRequest;
 use App\Http\Requests\v1\Setup\Department\DepartmentUpdateRequest;
 
@@ -49,7 +50,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): JsonResponse
+    public function show(DepartmentGetRequest $request, $id): JsonResponse
     {
         try {
 
@@ -65,7 +66,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, DepartmentUpdateRequest $request)
+    public function update( DepartmentUpdateRequest $request, $id)
     {
         try {
             $validatedData = $request->validated();
