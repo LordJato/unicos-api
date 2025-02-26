@@ -14,7 +14,7 @@ trait HasPermissions
      * @return bool
      */
 
-    public function hasPermissionTo(...$permissions)
+    public function hasPermissionTo(...$permissions) : bool
     {
         return $this->permissions()->whereIn('slug', $permissions)->exists() ||
             $this->roles()->whereHas('permissions', function ($query) use ($permissions) {
