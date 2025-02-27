@@ -24,7 +24,7 @@ class AccountUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
+            'name' => ['required', 'string', 'max:50', Rule::unique('accounts')->ignore($this->id, 'id')],
         ];
     }
 }
