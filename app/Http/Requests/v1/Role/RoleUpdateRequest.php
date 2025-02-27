@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Role;
 
+use App\Models\Role;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class RoleUpdateRequest extends ApiFormRequest
@@ -13,7 +13,7 @@ class RoleUpdateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-role');
+        return $this->user()->can('update', Role::class);
     }
 
     /**
@@ -24,7 +24,7 @@ class RoleUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
+            'name' => ['required', 'string', 'max:150', Rule::unique('roles')->ignore($this->id, 'id')],
         ];
     }
 }

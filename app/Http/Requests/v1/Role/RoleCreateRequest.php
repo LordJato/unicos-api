@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Role;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Role;
 
 class RoleCreateRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class RoleCreateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('create-role');
+        return $this->user()->can('create', Role::class);
     }
 
     /**

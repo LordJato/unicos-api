@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Role;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Role;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class RoleDeleteRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class RoleDeleteRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-role');
+        return $this->user()->can('delete', Role::class);
     }
 
     /**

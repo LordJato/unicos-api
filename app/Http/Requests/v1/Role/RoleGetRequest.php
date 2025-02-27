@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Role;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Role;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class RoleGetRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class RoleGetRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-role');
+        return $this->user()->can('view', Role::class);
     }
 
     /**
