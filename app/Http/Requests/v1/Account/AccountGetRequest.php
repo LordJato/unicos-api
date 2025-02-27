@@ -12,7 +12,7 @@ class AccountGetRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('get', Account::class);
+        return $this->user()->can('view', Account::class);
     }
 
     /**
