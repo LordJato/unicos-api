@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Permission;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Permission;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class PermissionIndexRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class PermissionIndexRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-permission');
+        return $this->user()->can('viewAny', Permission::class);
     }
 
     /**

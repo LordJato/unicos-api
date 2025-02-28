@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Permission;
 
+use App\Models\Permission;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class PermissionUpdateRequest extends ApiFormRequest
@@ -13,7 +13,7 @@ class PermissionUpdateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-permission');
+        return $this->user()->can('update', Permission::class);
     }
 
     /**

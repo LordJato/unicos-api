@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Permission;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Permission;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class PermissionGetRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class PermissionGetRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-permission');
+        return $this->user()->can('view', Permission::class);
     }
 
     /**

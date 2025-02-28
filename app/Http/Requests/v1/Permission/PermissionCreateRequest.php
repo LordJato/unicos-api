@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Permission;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Permission;
 
 class PermissionCreateRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class PermissionCreateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('create-permission');
+        return $this->user()->can('create', Permission::class);
     }
 
     /**
