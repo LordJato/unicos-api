@@ -30,12 +30,13 @@ class RoleController extends Controller
         }
     }
 
-    public function show(RoleGetRequest $request)
+    public function show(RoleGetRequest $request, $id)
     {
         try {
-            $validatedData = $request->validated();
 
-            $find = $this->roleRepository->getById($validatedData['id']);
+            $request->validated();
+
+            $find = $this->roleRepository->getById($id);
 
             return $this->responseSuccess($find, "Role find successfully");
         } catch (Exception $e) {
@@ -60,7 +61,7 @@ class RoleController extends Controller
         }
     }
 
-    public function update($id, RoleUpdateRequest $request)
+    public function update(RoleUpdateRequest $request, $id)
     {
         try {
 
@@ -75,13 +76,13 @@ class RoleController extends Controller
         }
     }
 
-    public function destroy(RoleDeleteRequest $request)
+    public function destroy(RoleDeleteRequest $request, $id)
     {
         try {
 
-            $validatedData = $request->validated();
+            $request->validated();
 
-            $delete = $this->roleRepository->softDelete($validatedData['id']);
+            $delete = $this->roleRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Role deleted successfully");
         } catch (Exception $e) {
@@ -95,7 +96,7 @@ class RoleController extends Controller
         try {
 
             $role = $this->roleRepository->getByID($request->roleID);
-          
+
             $attach = $role->setPermissionsWihtoutDetaching($request->permissions);
 
             return $this->responseSuccess($attach, "Permissions attached successfully.");
