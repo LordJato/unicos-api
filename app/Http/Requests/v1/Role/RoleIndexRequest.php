@@ -27,7 +27,7 @@ class RoleIndexRequest extends ApiFormRequest
             'offset' => ['nullable', 'integer'],
             'limit' => ['nullable', 'integer'],
             'orderBy' => ['nullable', 'string'],
-            'orderDesc' => ['nullable', 'boolean'],
+            'orderDesc' => ['nullable', 'string'],
         ];
     }
 
