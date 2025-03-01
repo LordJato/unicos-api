@@ -24,19 +24,18 @@ class PermissionProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // try {
-        //     $permissions = Cache::remember('permissions', 3600, function () {
-        //         return Permission::all();
-        //     });
+        try {
+            $permissions = Cache::remember('permissions', 3600, function () {
+                return Permission::all();
+            });
     
-        //     foreach ($permissions as $permission) {
-        //         Gate::define($permission->slug, function ($user) use ($permission) {
-        //             return $user->hasPermissionTo($permission->slug);
-        //         });
-        //     }
-        // } catch (Exception $e) {
-        //     Log::error('Error loading permissions: ' . $e->getMessage());
-        // }
-     
+            foreach ($permissions as $permission) {
+                Gate::define($permission->slug, function ($user) use ($permission) {
+                    return $user->hasPermissionTo($permission->slug);
+                });
+            }
+        } catch (Exception $e) {
+            Log::error('Error loading permissions: ' . $e->getMessage());
+        }
     }
 } 
