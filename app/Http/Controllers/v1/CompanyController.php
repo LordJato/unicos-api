@@ -22,7 +22,11 @@ class CompanyController extends Controller
     public function index(CompanyIndexRequest $request): JsonResponse
     {
         try {
+
+            Gate::authorize('view-all-company');
+
             $validatedData = $request->validated();
+
             $data = $this->companyRepository->getAll($validatedData);
 
             return $this->responseSuccess($data, "Company fetched successfully");
@@ -37,7 +41,10 @@ class CompanyController extends Controller
     public function store(CompanyCreateRequest $request)
     {
         try {
+            Gate::authorize('create-company');
+
             $validatedData = $request->validated();
+            
             $create = $this->companyRepository->create($validatedData);
 
             return $this->responseSuccess($create, "Company created successfully");
@@ -52,6 +59,8 @@ class CompanyController extends Controller
     public function show($id): JsonResponse
     {
         try {
+            Gate::authorize('view-company');
+
             $find = $this->companyRepository->getByID($id);
 
             return $this->responseSuccess($find, "Company find successfully");
@@ -67,6 +76,8 @@ class CompanyController extends Controller
     public function update($id, CompanyUpdateRequest $request)
     {
         try {
+            Gate::authorize('update-company');
+
             $validatedData = $request->validated();
 
             $update = $this->companyRepository->update($id, $validatedData);
@@ -82,11 +93,9 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        if (!Gate::allows('delete-company')) {
-            return  $this->responseError([], "This action is unauthorized", Response::HTTP_FORBIDDEN);
-        }
-
         try {
+            Gate::authorize('delete-company');
+
             $delete = $this->companyRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Company deleted successfully");
