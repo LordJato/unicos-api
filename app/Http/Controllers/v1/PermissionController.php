@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
+use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\PermissionRepository;
 use App\Http\Requests\v1\Permission\PermissionGetRequest;
 use App\Http\Requests\v1\Permission\PermissionIndexRequest;
@@ -17,6 +18,8 @@ class PermissionController extends Controller
     public function index(PermissionIndexRequest $request)
     {
         try {
+            Gate::authorize('view-all-permissions');
+            
             $validatedData = $request->validated();
 
             $data = $this->permissionRepository->getAll($validatedData);
@@ -30,6 +33,8 @@ class PermissionController extends Controller
     public function show(PermissionGetRequest $request)
     {
         try {
+            Gate::authorize('create-permissions');
+
             $validatedData = $request->validated();
 
             $find = $this->permissionRepository->getByID($validatedData['id']);
@@ -45,6 +50,7 @@ class PermissionController extends Controller
     public function store(PermissionCreateRequest $request)
     {
         try {
+            Gate::authorize('view-permissions');
 
             $validatedData = $request->validated();
 
@@ -59,6 +65,7 @@ class PermissionController extends Controller
     public function update($id, PermissionUpdateRequest $request)
     {
         try {
+            Gate::authorize('update-permissions');
 
             $validatedData = $request->validated();
 
@@ -74,7 +81,8 @@ class PermissionController extends Controller
     public function destroy(PermissionDeleteRequest $request)
     {
         try {
-
+            Gate::authorize('destroy-permissions');
+            
             $validatedData = $request->validated();
 
             $delete = $this->permissionRepository->softDelete($validatedData['id']);
