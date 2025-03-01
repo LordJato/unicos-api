@@ -25,6 +25,9 @@ class AccountController extends Controller
     public function index(AccountIndexRequest $request): JsonResponse
     {
         try {
+
+            Gate::authorize('view-all-account');
+
             $validatedData = $request->validated();
 
             $data = $this->accountRepository->getAll($validatedData);
@@ -41,6 +44,9 @@ class AccountController extends Controller
     public function store(AccountCreateRequest $request): JsonResponse
     {
         try {
+
+            Gate::authorize('create-account');
+
             $validatedData = $request->validated();
 
             $create = $this->accountRepository->create($validatedData);
@@ -59,6 +65,8 @@ class AccountController extends Controller
     {
         try {
 
+            Gate::authorize('view-account');
+
             $request->validated();
             
             $find = $this->accountRepository->getByID($id);
@@ -76,6 +84,9 @@ class AccountController extends Controller
     public function update(AccountUpdateRequest $request, $id): JsonResponse
     {
         try {
+
+            Gate::authorize('update-account');
+
             $validatedData = $request->validated();
 
             $update = $this->accountRepository->update($id, $validatedData);
@@ -94,6 +105,8 @@ class AccountController extends Controller
     {
         try {
             
+            Gate::authorize('delete-account');
+
             $request->validated();
 
             $delete = $this->accountRepository->softDelete($id);
