@@ -18,29 +18,20 @@ class EmployeeController extends Controller
 
     public function index(EmployeeIndexRequest $request)
     {
-        try {
+        $validatedData = $request->validated();
 
-            $validatedData = $request->validated();
+        $data = $this->employeeRepository->getAll($validatedData);
 
-            $data = $this->employeeRepository->getAll($validatedData);
-
-            return $this->responseSuccess($data, "Employees fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($data, "Employees fetched successfully");
     }
 
     public function store(EmployeeCreateRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $create = $this->employeeRepository->create($validatedData);
+        $create = $this->employeeRepository->create($validatedData);
 
-            return $this->responseSuccess($create, "Employee created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($create, "Employee created successfully");
     }
 
     /**
@@ -48,16 +39,11 @@ class EmployeeController extends Controller
      */
     public function show(EmployeeGetRequest $request): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $find = $this->employeeRepository->getByID($validatedData['id']);
+        $find = $this->employeeRepository->getByID($validatedData['id']);
 
-            return $this->responseSuccess($find, "Employee find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($find, "Employee find successfully");
     }
 
     /**
@@ -65,14 +51,10 @@ class EmployeeController extends Controller
      */
     public function update($id, EmployeeUpdateRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->employeeRepository->update($id, $validatedData);
+        $update = $this->employeeRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "Employee updated successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "Employee updated successfully");
     }
 }

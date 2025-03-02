@@ -8,6 +8,7 @@ use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\CompanyRepository;
 use App\Repositories\v1\Setup\DepartmentRepository;
 use App\Http\Requests\v1\Setup\Department\DepartmentCreateRequest;
+use App\Http\Requests\v1\Setup\Department\DepartmentDeleteRequest;
 use App\Http\Requests\v1\Setup\Department\DepartmentGetRequest;
 use App\Http\Requests\v1\Setup\Department\DepartmentIndexRequest;
 use App\Http\Requests\v1\Setup\Department\DepartmentUpdateRequest;
@@ -22,29 +23,24 @@ class DepartmentController extends Controller
 
     public function index(DepartmentIndexRequest $request): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
-         
-            $data = $this->departmentRepository->getAll($validatedData);
+        $this->checkPermission('view-all-department');
 
-            return $this->responseSuccess($data, "Department fetched successfully");
-        } catch (Exception $e) {
+        $validatedData = $request->validated();
 
-            return parent::handleException($e);
-        }
+        $data = $this->departmentRepository->getAll($validatedData);
+
+        return $this->responseSuccess($data, "Department fetched successfully");
     }
 
     public function store(DepartmentCreateRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $this->checkPermission('create-department');
 
-            $create = $this->departmentRepository->create($validatedData);
+        $validatedData = $request->validated();
 
-            return $this->responseSuccess($create, "Department created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $create = $this->departmentRepository->create($validatedData);
+
+        return $this->responseSuccess($create, "Department created successfully");
     }
 
     /**
@@ -52,46 +48,40 @@ class DepartmentController extends Controller
      */
     public function show(DepartmentGetRequest $request, $id): JsonResponse
     {
-        try {
+        $this->checkPermission('view-department');
 
-            $find = $this->departmentRepository->getByID($id);
+        $request->validated();
 
-            return $this->responseSuccess($find, "Department find successfully");
-        } catch (Exception $e) {
+        $find = $this->departmentRepository->getByID($id);
 
-            return parent::handleException($e); 
-        }
+        return $this->responseSuccess($find, "Department find successfully");
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update( DepartmentUpdateRequest $request, $id)
+    public function update(DepartmentUpdateRequest $request, $id)
     {
-        try {
-            $validatedData = $request->validated();
+        $this->checkPermission('update-department');
 
-            $update = $this->departmentRepository->update($id, $validatedData);
+        $validatedData = $request->validated();
 
-            return $this->responseSuccess($update, "Department updated successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $update = $this->departmentRepository->update($id, $validatedData);
+
+        return $this->responseSuccess($update, "Department updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(DepartmentDeleteRequest $request, $id)
     {
-        try {
+        $this->checkPermission('delete-department');
 
-            $delete = $this->departmentRepository->softDelete($id);
+        $request->validated();
 
-            return $this->responseSuccess($delete, "Department deleted successfully");
-        } catch (Exception $e) {
+        $delete = $this->departmentRepository->softDelete($id);
 
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($delete, "Department deleted successfully");
     }
 }
