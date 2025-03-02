@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\RoleRepository;
 use App\Http\Requests\v1\Role\RoleGetRequest;
 use App\Http\Requests\v1\Role\RoleIndexRequest;
@@ -20,6 +21,8 @@ class RoleController extends Controller
     public function index(RoleIndexRequest $request): JsonResponse
     {
         try {
+            Gate::authorize('view-all-role');
+
             $validatedData = $request->validated();
 
             $data = $this->roleRepository->getAll($validatedData);
@@ -33,6 +36,7 @@ class RoleController extends Controller
     public function show(RoleGetRequest $request, $id)
     {
         try {
+            Gate::authorize('view-role');
 
             $request->validated();
 
@@ -49,6 +53,7 @@ class RoleController extends Controller
     public function store(RoleCreateRequest $request)
     {
         try {
+            Gate::authorize('create-role');
 
             $validatedData = $request->validated();
 
@@ -64,6 +69,7 @@ class RoleController extends Controller
     public function update(RoleUpdateRequest $request, $id)
     {
         try {
+            Gate::authorize('update-role');
 
             $validatedData = $request->validated();
 

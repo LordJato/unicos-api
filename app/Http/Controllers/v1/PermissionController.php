@@ -18,7 +18,7 @@ class PermissionController extends Controller
     public function index(PermissionIndexRequest $request)
     {
         try {
-            Gate::authorize('view-all-permissions');
+            Gate::authorize('view-all-permission');
             
             $validatedData = $request->validated();
 
@@ -33,7 +33,7 @@ class PermissionController extends Controller
     public function show(PermissionGetRequest $request)
     {
         try {
-            Gate::authorize('create-permissions');
+            Gate::authorize('create-permission');
 
             $validatedData = $request->validated();
 
@@ -50,7 +50,7 @@ class PermissionController extends Controller
     public function store(PermissionCreateRequest $request)
     {
         try {
-            Gate::authorize('view-permissions');
+            Gate::authorize('view-permission');
 
             $validatedData = $request->validated();
 
@@ -62,10 +62,10 @@ class PermissionController extends Controller
         }
     }
 
-    public function update($id, PermissionUpdateRequest $request)
+    public function update(PermissionUpdateRequest $request, $id)
     {
         try {
-            Gate::authorize('update-permissions');
+            Gate::authorize('update-permission');
 
             $validatedData = $request->validated();
 
@@ -78,14 +78,14 @@ class PermissionController extends Controller
         }
     }
 
-    public function destroy(PermissionDeleteRequest $request)
+    public function destroy(PermissionDeleteRequest $request, $id)
     {
         try {
-            Gate::authorize('destroy-permissions');
+            Gate::authorize('delete-permission');
             
             $validatedData = $request->validated();
 
-            $delete = $this->permissionRepository->softDelete($validatedData['id']);
+            $delete = $this->permissionRepository->softDelete($id);
 
             return $this->responseSuccess($delete, "Permission deleted successfully");
         } catch (Exception $e) {
