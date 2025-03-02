@@ -13,6 +13,7 @@ use App\Http\Requests\v1\Role\RoleIndexRequest;
 use App\Http\Requests\v1\Role\RoleCreateRequest;
 use App\Http\Requests\v1\Role\RoleDeleteRequest;
 use App\Http\Requests\v1\Role\RoleUpdateRequest;
+use Illuminate\Http\Response;
 
 class RoleController extends Controller
 {
@@ -20,105 +21,72 @@ class RoleController extends Controller
 
     public function index(RoleIndexRequest $request): JsonResponse
     {
-        try {
-            Gate::authorize('view-all-role');
+        $this->checkPermission('view-all-role');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $data = $this->roleRepository->getAll($validatedData);
+        $data = $this->roleRepository->getAll($validatedData);
 
-            return $this->responseSuccess($data, "Roles fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($data, "Roles fetched successfully");
     }
 
-    public function show(RoleGetRequest $request, $id)
+    public function show(RoleGetRequest $request, int $id): JsonResponse
     {
-        try {
-            Gate::authorize('view-role');
+        $this->checkPermission('view-role');
 
-            $request->validated();
+        $request->validated();
 
-            $find = $this->roleRepository->getById($id);
+        $role = $this->roleRepository->getById($id);
 
-            return $this->responseSuccess($find, "Role find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($role, "Role found successfully");
     }
 
-
-    public function store(RoleCreateRequest $request)
+    public function store(RoleCreateRequest $request): JsonResponse
     {
-        try {
-            Gate::authorize('create-role');
+        $this->checkPermission('create-role');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $create = $this->roleRepository->create($validatedData);
+        $role = $this->roleRepository->create($validatedData);
 
-            return $this->responseSuccess($create, "Role created successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($role, "Role created successfully");
     }
 
-    public function update(RoleUpdateRequest $request, $id)
+    public function update(RoleUpdateRequest $request, int $id): JsonResponse
     {
-        try {
-            Gate::authorize('update-role');
+        $this->checkPermission('update-role');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->roleRepository->update($id, $validatedData);
+        $role = $this->roleRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "Role updated successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($role, "Role updated successfully");
     }
 
-    public function destroy(RoleDeleteRequest $request, $id)
+    public function destroy(RoleDeleteRequest $request, int $id): JsonResponse
     {
-        try {
+        $this->checkPermission('delete-role');
 
-            $request->validated();
+        $request->validated();
 
-            $delete = $this->roleRepository->softDelete($id);
+        $role = $this->roleRepository->softDelete($id);
 
-            return $this->responseSuccess($delete, "Role deleted successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($role, "Role deleted successfully");
     }
 
     public function attachPermissions(Request $request)
     {
-        try {
+        $role = $this->roleRepository->getByID($request->roleID);
 
-            $role = $this->roleRepository->getByID($request->roleID);
+        $attach = $role->setPermissionsWihtoutDetaching($request->permissions);
 
-            $attach = $role->setPermissionsWihtoutDetaching($request->permissions);
-
-            return $this->responseSuccess($attach, "Permissions attached successfully.");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($attach, "Permissions attached successfully.");
     }
 
     public function rolesPermissions()
     {
-        try {
-            $rolesPermissions = Role::with('permissions')->get();
-            return $this->responseSuccess($rolesPermissions, "Roles fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $rolesPermissions = Role::with('permissions')->get();
+
+        return $this->responseSuccess($rolesPermissions, "Roles fetched successfully");
     }
 }

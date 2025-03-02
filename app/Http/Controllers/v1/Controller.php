@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\v1;
 
-use Exception;
 use App\Traits\ResponseTrait;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 abstract class Controller
 {
     use ResponseTrait;
     
-    protected  function handleException(Exception $e): JsonResponse
+    protected function checkPermission(string $permission): void
     {
-        return $this->responseError([], $e->getMessage(), $this->getStatusCode($e->getCode()));
+        if (!Gate::allows($permission)) {
+            abort(Response::HTTP_FORBIDDEN, 'Forbidden');
+        }
     }
 }

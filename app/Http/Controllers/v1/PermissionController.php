@@ -17,79 +17,57 @@ class PermissionController extends Controller
 
     public function index(PermissionIndexRequest $request)
     {
-        try {
-            Gate::authorize('view-all-permission');
-            
-            $validatedData = $request->validated();
+        $this->checkPermission('view-all-permission');
 
-            $data = $this->permissionRepository->getAll($validatedData);
+        $validatedData = $request->validated();
 
-            return $this->responseSuccess($data, "Permissions fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $data = $this->permissionRepository->getAll($validatedData);
+
+        return $this->responseSuccess($data, "Permissions fetched successfully");
     }
 
-    public function show(PermissionGetRequest $request)
+    public function show(PermissionGetRequest $request, $id)
     {
-        try {
-            Gate::authorize('create-permission');
+        $this->checkPermission('create-permission');
 
-            $validatedData = $request->validated();
+        $request->validated();
 
-            $find = $this->permissionRepository->getByID($validatedData['id']);
+        $find = $this->permissionRepository->getByID($id);
 
-            return $this->responseSuccess($find, "Permission find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($find, "Permission find successfully");
     }
 
 
     public function store(PermissionCreateRequest $request)
     {
-        try {
-            Gate::authorize('view-permission');
+        $this->checkPermission('view-permission');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $create = $this->permissionRepository->create($validatedData);
+        $create = $this->permissionRepository->create($validatedData);
 
-            return $this->responseSuccess($create, "Permission created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($create, "Permission created successfully");
     }
 
     public function update(PermissionUpdateRequest $request, $id)
     {
-        try {
-            Gate::authorize('update-permission');
+        $this->checkPermission('update-permission');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->permissionRepository->update($id, $validatedData);
+        $update = $this->permissionRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "Permission updated successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "Permission updated successfully");
     }
 
     public function destroy(PermissionDeleteRequest $request, $id)
     {
-        try {
-            Gate::authorize('delete-permission');
-            
-            $validatedData = $request->validated();
+        $this->checkPermission('delete-permission');
 
-            $delete = $this->permissionRepository->softDelete($id);
+        $request->validated();
 
-            return $this->responseSuccess($delete, "Permission deleted successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $delete = $this->permissionRepository->softDelete($id);
+
+        return $this->responseSuccess($delete, "Permission deleted successfully");
     }
 }
