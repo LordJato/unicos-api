@@ -21,18 +21,13 @@ class CompanyController extends Controller
      */
     public function index(CompanyIndexRequest $request): JsonResponse
     {
-        try {
+        $this->checkPermission('view-all-company');
 
-            Gate::authorize('view-all-company');
+        $validatedData = $request->validated();
 
-            $validatedData = $request->validated();
+        $data = $this->companyRepository->getAll($validatedData);
 
-            $data = $this->companyRepository->getAll($validatedData);
-
-            return $this->responseSuccess($data, "Company fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($data, "Company fetched successfully");
     }
 
     /**
@@ -40,17 +35,13 @@ class CompanyController extends Controller
      */
     public function store(CompanyCreateRequest $request)
     {
-        try {
-            Gate::authorize('create-company');
+        $this->checkPermission('create-company');
 
-            $validatedData = $request->validated();
-            
-            $create = $this->companyRepository->create($validatedData);
+        $validatedData = $request->validated();
 
-            return $this->responseSuccess($create, "Company created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        $create = $this->companyRepository->create($validatedData);
+
+        return $this->responseSuccess($create, "Company created successfully");
     }
 
     /**
@@ -58,16 +49,11 @@ class CompanyController extends Controller
      */
     public function show($id): JsonResponse
     {
-        try {
-            Gate::authorize('view-company');
+        $this->checkPermission('view-company');
 
-            $find = $this->companyRepository->getByID($id);
+        $find = $this->companyRepository->getByID($id);
 
-            return $this->responseSuccess($find, "Company find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($find, "Company find successfully");
     }
 
     /**
@@ -75,17 +61,13 @@ class CompanyController extends Controller
      */
     public function update($id, CompanyUpdateRequest $request)
     {
-        try {
-            Gate::authorize('update-company');
+        $this->checkPermission('update-company');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->companyRepository->update($id, $validatedData);
+        $update = $this->companyRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "Company updated successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "Company updated successfully");
     }
 
     /**
@@ -93,15 +75,10 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Gate::authorize('delete-company');
+        $this->checkPermission('delete-company');
 
-            $delete = $this->companyRepository->softDelete($id);
+        $delete = $this->companyRepository->softDelete($id);
 
-            return $this->responseSuccess($delete, "Company deleted successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($delete, "Company deleted successfully");
     }
 }

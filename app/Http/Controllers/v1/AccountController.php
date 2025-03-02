@@ -24,18 +24,14 @@ class AccountController extends Controller
      */
     public function index(AccountIndexRequest $request): JsonResponse
     {
-        try {
 
-            Gate::authorize('view-all-account');
+        $this->checkPermission('view-all-account');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $data = $this->accountRepository->getAll($validatedData);
+        $data = $this->accountRepository->getAll($validatedData);
 
-            return $this->responseSuccess($data, "Account fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($data, "Account fetched successfully");
     }
 
     /**
@@ -43,19 +39,13 @@ class AccountController extends Controller
      */
     public function store(AccountCreateRequest $request): JsonResponse
     {
-        try {
+        $this->checkPermission('create-account');
 
-            Gate::authorize('create-account');
+        $validatedData = $request->validated();
 
-            $validatedData = $request->validated();
+        $create = $this->accountRepository->create($validatedData);
 
-            $create = $this->accountRepository->create($validatedData);
-
-            return $this->responseSuccess($create, "Account created successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($create, "Account created successfully");
     }
 
     /**
@@ -63,19 +53,13 @@ class AccountController extends Controller
      */
     public function show(AccountGetRequest $request, $id): JsonResponse
     {
-        try {
+        $this->checkPermission('view-account');
 
-            Gate::authorize('view-account');
+        $request->validated();
 
-            $request->validated();
-            
-            $find = $this->accountRepository->getByID($id);
+        $find = $this->accountRepository->getByID($id);
 
-            return $this->responseSuccess($find, "Account find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($find, "Account find successfully");
     }
 
     /**
@@ -83,19 +67,14 @@ class AccountController extends Controller
      */
     public function update(AccountUpdateRequest $request, $id): JsonResponse
     {
-        try {
 
-            Gate::authorize('update-account');
+        $this->checkPermission('update-account');
 
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->accountRepository->update($id, $validatedData);
+        $update = $this->accountRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "Account updated successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "Account updated successfully");
     }
 
     /**
@@ -103,18 +82,12 @@ class AccountController extends Controller
      */
     public function destroy(AccountDeleteRequest $request, $id): JsonResponse
     {
-        try {
-            
-            Gate::authorize('delete-account');
+        $this->checkPermission('delete-account');
 
-            $request->validated();
+        $request->validated();
 
-            $delete = $this->accountRepository->softDelete($id);
+        $delete = $this->accountRepository->softDelete($id);
 
-            return $this->responseSuccess($delete, "Account deleted successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($delete, "Account deleted successfully");
     }
 }

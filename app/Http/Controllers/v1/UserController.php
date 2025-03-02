@@ -19,15 +19,11 @@ class UserController extends Controller
 
     public function index(UserIndexRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
-            $data = $this->userRepository->getAll($validatedData);
-         
+        $validatedData = $request->validated();
+        $data = $this->userRepository->getAll($validatedData);
 
-            return $this->responseSuccess($data, "Users fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+
+        return $this->responseSuccess($data, "Users fetched successfully");
     }
 
     /**
@@ -35,15 +31,11 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $create = $this->userRepository->create($validatedData);
+        $create = $this->userRepository->create($validatedData);
 
-            return $this->responseSuccess($create, "User created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($create, "User created successfully");
     }
 
     /**
@@ -51,14 +43,9 @@ class UserController extends Controller
      */
     public function show($id): JsonResponse
     {
-        try {
-            $find = $this->userRepository->getByID($id);
+        $find = $this->userRepository->getByID($id);
 
-            return $this->responseSuccess(new UserResource($find), "User find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess(new UserResource($find), "User find successfully");
     }
 
     /**
@@ -66,16 +53,11 @@ class UserController extends Controller
      */
     public function update($id, UserUpdateRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->userRepository->update($id, $validatedData);
+        $update = $this->userRepository->update($id, $validatedData);
 
-            return $this->responseSuccess($update, "User updated successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "User updated successfully");
     }
 
     /**
@@ -83,41 +65,24 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $delete = $this->userRepository->softDelete($id);
+        $delete = $this->userRepository->softDelete($id);
 
-            return $this->responseSuccess($delete, "User deleted successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($delete, "User deleted successfully");
     }
 
     public function profile()
     {
-        try {
+        $profile = new UserResource(getCurrentUser());
 
-            $profile = new UserResource(getCurrentUser());
-
-            return $this->responseSuccess($profile, 'User fetched successfully');
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($profile, 'User fetched successfully');
     }
 
     public function updateRoles(UserUpdateRoleRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $user = $this->userRepository->syncRolesWithPermissions($validatedData);
+        $user = $this->userRepository->syncRolesWithPermissions($validatedData);
 
-            return $this->responseSuccess($user, 'User fetched successfully');
-        } catch (Exception $e) {
-            return $e;
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($user, 'User fetched successfully');
     }
 }
