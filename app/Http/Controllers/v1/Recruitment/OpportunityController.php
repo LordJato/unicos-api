@@ -14,29 +14,20 @@ class OpportunityController extends Controller
 
     public function index(Request $request)
     {
-        try {
+        $validatedData = $request->validated();
 
-            $validatedData = $request->validated();
+        $data = $this->opportunityRepository->getAll($validatedData);
 
-            $data = $this->opportunityRepository->getAll($validatedData);
-
-            return $this->responseSuccess($data, "Opporyunity fetched successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($data, "Opporyunity fetched successfully");
     }
 
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $create = $this->opportunityRepository->create($validatedData);
+        $create = $this->opportunityRepository->create($validatedData);
 
-            return $this->responseSuccess($create, "Opportunity created successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($create, "Opportunity created successfully");
     }
 
     /**
@@ -44,16 +35,11 @@ class OpportunityController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $find = $this->opportunityRepository->getByID($validatedData['id']);
+        $find = $this->opportunityRepository->getByID($validatedData['id']);
 
-            return $this->responseSuccess($find, "Opportunity find successfully");
-        } catch (Exception $e) {
-
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($find, "Opportunity find successfully");
     }
 
     /**
@@ -61,14 +47,10 @@ class OpportunityController extends Controller
      */
     public function update(Request $request)
     {
-        try {
-            $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-            $update = $this->opportunityRepository->update($validatedData);
+        $update = $this->opportunityRepository->update($validatedData);
 
-            return $this->responseSuccess($update, "Opportunity updated successfully");
-        } catch (Exception $e) {
-            return parent::handleException($e);
-        }
+        return $this->responseSuccess($update, "Opportunity updated successfully");
     }
 }
