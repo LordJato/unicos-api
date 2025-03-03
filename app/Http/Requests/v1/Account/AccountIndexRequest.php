@@ -23,11 +23,11 @@ class AccountIndexRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'search' => ['nullable', 'min:3'],
-            'offset' => ['nullable', 'integer'],
-            'limit' => ['nullable', 'integer'],
-            'orderBy' => ['nullable', 'string'],
-            'orderDesc' => ['nullable', 'boolean'],
+            'search' => ['nullable', 'min:3', 'max:100'],
+            'offset' => ['nullable', 'integer', 'min:0'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'orderBy' => ['nullable', 'string', 'in:id,name'],
+            'orderDesc' => ['nullable', 'string'],
         ];
     }
 
