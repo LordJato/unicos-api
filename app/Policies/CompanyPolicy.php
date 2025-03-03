@@ -21,7 +21,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return $user->hasPermissionTo('view-company');
+        return $user->account_id === $company->account_id;
     }
 
     /**
@@ -29,7 +29,7 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-company');
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class CompanyPolicy
      */
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('update-company');
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company): bool
     {
-        return $user->hasPermissionTo('delete-company');
+        return $user->account_id === $company->account_id;
     }
 
     /**
