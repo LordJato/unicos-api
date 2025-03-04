@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Account;
 use App\Enums\AccountType;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AccountRepository
 {
@@ -44,7 +45,7 @@ class AccountRepository
         $account = Account::find($id);
 
         if (empty($account)) {
-            throw new Exception("Account does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Account does not exist.");
         }
 
         return $account;
