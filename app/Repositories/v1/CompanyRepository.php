@@ -2,7 +2,7 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\Company;
 use Illuminate\Http\Response;
 
@@ -37,7 +37,7 @@ class CompanyRepository
      *
      * @param int $id
      * @return Company|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?Company
     {
