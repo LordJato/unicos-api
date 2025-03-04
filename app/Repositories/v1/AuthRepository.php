@@ -2,7 +2,7 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
@@ -26,7 +26,7 @@ class AuthRepository
         $user = $this->getUserByEmail($data['email']);
  
         if (!$this->isValidPassword($user, $data)) {
-            throw new Exception("Sorry, email and password do not match.", Response::HTTP_BAD_REQUEST);
+            throw new HttpException(Response::HTTP_BAD_REQUEST, "Sorry, email and password do not match.");
         }
 
         return true;
@@ -38,7 +38,7 @@ class AuthRepository
      *
      * @param array $data
      * @return UserResource
-     * @throws Exception
+     * @throws HttpException
      */
     public function register(array $data): UserResource
     {
@@ -46,7 +46,7 @@ class AuthRepository
         $user = User::create($this->prepareDataForRegister($data));
 
         if (!$user) {
-            throw new Exception("Sorry, user does not registered, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Sorry, user does not registered, Please try again.");
         }
 
         return new UserResource($user);
@@ -57,7 +57,7 @@ class AuthRepository
      *
      * @param array $data
      * @return string
-     * @throws Exception
+     * @throws HttpException
      */
 
     public function forgotPassword(array $data): string
@@ -68,9 +68,9 @@ class AuthRepository
             case Password::RESET_LINK_SENT:
                 return $status;
             case Password::INVALID_USER:
-                throw new Exception("Invalid email address", Response::HTTP_BAD_REQUEST);
+                throw new HttpException(Response::HTTP_BAD_REQUEST, "Invalid email address");
             default:
-                throw new Exception("Failed to send mail", Response::HTTP_INTERNAL_SERVER_ERROR);
+                throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Failed to send mail");
         }
     }
 
@@ -79,7 +79,7 @@ class AuthRepository
      *
      * @param array $data
      * @return string
-     * @throws Exception
+     * @throws HttpException
      */
     public function resetPassword(array $data): string
     {
@@ -100,7 +100,7 @@ class AuthRepository
             return $status;
         }
 
-        throw new Exception($status, Response::HTTP_INTERNAL_SERVER_ERROR);
+        throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, $status);
     }
 
     /**
