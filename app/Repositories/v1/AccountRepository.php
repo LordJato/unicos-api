@@ -2,7 +2,6 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
 use App\Models\Account;
 use App\Enums\AccountType;
 use Illuminate\Http\Response;
@@ -38,7 +37,7 @@ class AccountRepository
      *
      * @param int $id
      * @return Account|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?Account
     {
@@ -56,7 +55,7 @@ class AccountRepository
      *
      * @param array $params
      * @return Account
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Account
     {
@@ -65,7 +64,7 @@ class AccountRepository
         $create = Account::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create account, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create account, Please try again.");
         }
 
         return $create->fresh();
@@ -111,7 +110,7 @@ class AccountRepository
     public function prepareDataForDB(array $data, ?Account $model = null): array
     {
         if (!enum_exists(AccountType::class, $data['accountTypeId'] ?? $model->account_type_id)) {
-            throw new Exception("Account Type does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Account Type does not exist.");
         }
         return [
             'account_type_id' => $data['accountTypeId'] ?? $model->account_type_id,
