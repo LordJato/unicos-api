@@ -2,11 +2,11 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
 use App\Models\User;
 use Illuminate\Http\Response;
 use App\Http\Resources\v1\UserResource;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserRepository
 {
@@ -23,8 +23,8 @@ class UserRepository
         $search = $params['search'];
 
         $users = User::when($search, fn($query, $search) => $query->where('email', 'like', $search . '%'))
-        ->orderBy($params['orderBy'], $params['orderDesc'])
-        ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
+            ->orderBy($params['orderBy'], $params['orderDesc'])
+            ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
         return [
             'total' => $users->total(),
@@ -39,14 +39,14 @@ class UserRepository
      *
      * @param int $id
      * @return User|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getById(int $id): ?User
     {
         $user = User::find($id);
 
         if (empty($user)) {
-            throw new Exception("User does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "User does not exist.");
         }
 
         return $user;
@@ -57,7 +57,7 @@ class UserRepository
      *
      * @param array $params
      * @return User|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): ?User
     {
@@ -65,7 +65,7 @@ class UserRepository
         $user = User::create($this->prepareDataForDB($params));
 
         if (!$user) {
-            throw new Exception("Sorry, user does not registered, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Sorry, user does not registered, Please try again.");
         }
 
         return $user;

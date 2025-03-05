@@ -2,7 +2,6 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 use Illuminate\Http\Response;
@@ -10,6 +9,7 @@ use Laravel\Passport\RefreshToken;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository as LaravelTokenRepository;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TokenRepository
 {
@@ -38,12 +38,12 @@ class TokenRepository
      *
      * @param string $refreshToken
      * @return array
-     * @throws InvalidRefreshTokenException
+     * @throws HttpException
      */
-    public function refreshAccessToken(string $refreshToken = null): array
+    public function refreshAccessToken(?string $refreshToken = null): array
     {
         if (empty($refreshToken)) {
-            throw new Exception('Refresh token is not found.', Response::HTTP_NOT_FOUND);
+            throw new HttpException('Refresh token is not found.', Response::HTTP_NOT_FOUND);
         }
 
         //check if refresh token still valid
@@ -83,7 +83,7 @@ class TokenRepository
         $passwordGrantClient = Client::where('password_client', 1)->first();
 
         if (!$passwordGrantClient) {
-            throw new Exception('Password grant client not found.', Response::HTTP_NOT_FOUND);
+            throw new HttpException('Password grant client not found.', Response::HTTP_NOT_FOUND);
         }
 
         $data['client_id'] = $passwordGrantClient->id;
@@ -96,7 +96,7 @@ class TokenRepository
         $jsonResponse = json_decode($tokenResponse->getContent(), true);
 
         if($tokenResponse->getStatusCode() === Response::HTTP_UNAUTHORIZED){
-            throw new Exception($jsonResponse['error_description'] . " Please relogin.");
+            throw new HttpException($jsonResponse['error_description'] . " Please relogin.");
         }
 
         return $jsonResponse;

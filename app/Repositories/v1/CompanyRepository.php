@@ -44,7 +44,7 @@ class CompanyRepository
         $data = Company::find($id);
 
         if (empty($data)) {
-            throw new Exception("Company does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Company does not exist.");
         }
 
         return $data;
@@ -55,7 +55,7 @@ class CompanyRepository
      *
      * @param array $params
      * @return Company
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Company
     {
@@ -65,7 +65,7 @@ class CompanyRepository
         $create = Company::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create company, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create company, Please try again.");
         }
 
         return $create->fresh();
