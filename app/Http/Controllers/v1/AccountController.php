@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\v1;
 
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Repositories\v1\AccountRepository;
+use App\Http\Requests\v1\Account\AccountIndexRequest;
+use App\Http\Requests\v1\Account\AccountUpdateRequest;
 use App\Http\Requests\v1\Account\AccountCreateRequest;
 use App\Http\Requests\v1\Account\AccountDeleteRequest;
 use App\Http\Requests\v1\Account\AccountGetRequest;
-use Exception;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\v1\AccountRequest;
-use App\Repositories\v1\AccountRepository;
-use App\Http\Requests\v1\Account\AccountIndexRequest;
-use App\Http\Requests\v1\Role\AccountUpdateRequest;
 
 class AccountController extends Controller
 {

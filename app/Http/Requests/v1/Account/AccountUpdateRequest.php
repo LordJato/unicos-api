@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\v1\Role;
+namespace App\Http\Requests\v1\Account;
 
 use App\Models\Account;
 use Illuminate\Validation\Rule;
