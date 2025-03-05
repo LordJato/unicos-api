@@ -18,9 +18,8 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
 
-
         Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-            Route::get('profile', [UserController::class, 'profile']);
+            Route::get('/', [UserController::class, 'profile']);
         });
 
         //Users
