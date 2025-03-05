@@ -2,9 +2,9 @@
 
 namespace App\Repositories\v1\Setup;
 
-use Exception;
 use Illuminate\Http\Response;
 use App\Models\Setup\Department;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DepartmentRepository
 {
@@ -36,7 +36,7 @@ class DepartmentRepository
      *
      * @param int $id
      * @return Department|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id = 0): ?Department
     {
@@ -44,7 +44,7 @@ class DepartmentRepository
         $data = Department::find($id);
 
         if (empty($data)) {
-            throw new Exception("Department does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Department does not exist.");
         }
 
         return $data;
@@ -55,7 +55,7 @@ class DepartmentRepository
      *
      * @param array $params
      * @return Department
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Department
     {
@@ -64,7 +64,7 @@ class DepartmentRepository
         $create = Department::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create department, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create department, Please try again.");
         }
 
         return $create->fresh();
@@ -113,7 +113,7 @@ class DepartmentRepository
         $companyId = $data['companyId'] ?? $model->company_id ?? $currentUser->company_id;
 
         if (!$companyId) {
-            throw new Exception("Company id not found.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Company id not found.");
         }
 
         //check if name exist in company

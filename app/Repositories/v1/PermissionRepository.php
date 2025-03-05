@@ -2,10 +2,10 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PermissionRepository
 {
@@ -38,14 +38,14 @@ class PermissionRepository
      *
      * @param int $id
      * @return Permission|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?Permission
     {
         $data = Permission::find($id);
 
         if (empty($data)) {
-            throw new Exception("Permission does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Permission does not exist.");
         }
 
         return $data;
@@ -56,7 +56,7 @@ class PermissionRepository
      *
      * @param array $params
      * @return Permission
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Permission
     {
@@ -66,7 +66,7 @@ class PermissionRepository
         $create = Permission::create($prepareData);
 
         if (!$create) {
-            throw new Exception("Could not create permission, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create permission, Please try again.");
         }
 
         return $create->fresh();

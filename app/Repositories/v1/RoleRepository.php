@@ -2,10 +2,10 @@
 
 namespace App\Repositories\v1;
 
-use Exception;
 use App\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RoleRepository
 {
@@ -39,14 +39,14 @@ class RoleRepository
      *
      * @param int $id
      * @return Role|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getById(int $id): ?Role
     {
         $data = Role::find($id);
 
         if (empty($data)) {
-            throw new Exception("Role does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Role does not exist.");
         }
 
         return $data;
@@ -57,7 +57,7 @@ class RoleRepository
      *
      * @param array $params
      * @return Permission
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Role
     {
@@ -67,7 +67,7 @@ class RoleRepository
         $create = Role::create($prepareData);
 
         if (!$create) {
-            throw new Exception("Could not create role, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create role, Please try again.");
         }
 
         return $create->fresh();

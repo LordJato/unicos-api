@@ -2,9 +2,9 @@
 
 namespace App\Repositories\v1\Recruitment;
 
-use Exception;
 use App\Models\Recruitment\Opportunity;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OpportunityRepository
 {
@@ -41,14 +41,14 @@ class OpportunityRepository
      *
      * @param int $id
      * @return OpportunityResponsibility|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?Opportunity
     {
         $data = Opportunity::find($id);
 
         if (empty($data)) {
-            throw new Exception("Opportunity does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Opportunity does not exist.");
         }
 
         return $data;
@@ -69,7 +69,7 @@ class OpportunityRepository
         $create = Opportunity::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create Opportunity, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Opportunity, Please try again.");
         }
 
         return $create->fresh();

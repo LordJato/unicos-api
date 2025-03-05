@@ -2,9 +2,9 @@
 
 namespace App\Repositories\v1\HR;
 
-use Exception;
 use App\Models\HR\Employee;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class EmployeeRepository
 {
@@ -37,14 +37,14 @@ class EmployeeRepository
      *
      * @param int $id
      * @return Employee|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?Employee
     {
         $data = Employee::find($id);
 
         if (empty($data)) {
-            throw new Exception("Employee does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Employee does not exist.");
         }
 
         return $data;
@@ -55,7 +55,7 @@ class EmployeeRepository
      *
      * @param array $params
      * @return Employee
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Employee
     {
@@ -65,7 +65,7 @@ class EmployeeRepository
         $create = Employee::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create employee, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create employee, Please try again.");
         }
 
         return $create->fresh();
