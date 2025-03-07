@@ -20,13 +20,13 @@ class AccountRepository
     {
         $search = $params['search'];
 
-        $accounts = Account::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $data = Account::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
         return [
-            'total' => $accounts->total(),
-            'records' => $accounts->items(),
+            'total' => $data->total(),
+            'records' => $data->items(),
             'offset' =>  $params['offset'],
             'limit' => $params['limit']
         ];

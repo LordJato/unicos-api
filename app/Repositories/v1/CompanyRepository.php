@@ -17,16 +17,16 @@ class CompanyRepository
     public function getAll(array $params): array
     {
         $search = $params['search'];
-        $accountIdFilter = getCurrentUser()->hasRolesTo('super-admin') ? $params['accountId'] ?? null : null;
+        $dataIdFilter = getCurrentUser()->hasRolesTo('super-admin') ? $params['accountId'] ?? null : null;
 
-        $accounts = Company::when($accountIdFilter, fn($query, $accountIdFilter) => $query->where('account_id', $accountIdFilter))
+        $data = Company::when($dataIdFilter, fn($query, $dataIdFilter) => $query->where('account_id', $dataIdFilter))
             ->when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
         return [
-            'total' => $accounts->total(),
-            'records' => $accounts->items(),
+            'total' => $data->total(),
+            'records' => $data->items(),
             'offset' =>  $params['offset'],
             'limit' => $params['limit']
         ];
