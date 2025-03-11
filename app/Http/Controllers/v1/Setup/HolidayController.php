@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\Setup\HolidayRepository;
 
-class CompanyeEventController extends Controller
+class HolidayController extends Controller
 {
 
     public function __construct(
