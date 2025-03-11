@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\Setup\CompanyEventRepository;
 
-class CompanyeEventController extends Controller
+class CompanyEventController extends Controller
 {
 
     public function __construct(
