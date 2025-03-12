@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Setup\Department;
 
 class DepartmentCreateRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class DepartmentCreateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('create-department');
+        return $this->user()->can('create', Department::class);
     }
 
     /**
