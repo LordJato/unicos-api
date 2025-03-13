@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Setup\Holiday;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class DepartmentDeleteRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class DepartmentDeleteRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-department');
+        return $this->user()->can('delete', Holiday::class);
     }
 
     /**

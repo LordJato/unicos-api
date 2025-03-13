@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use Illuminate\Support\Facades\Gate;
+use App\Models\Setup\Holiday;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class DepartmentIndexRequest extends ApiFormRequest
@@ -12,7 +12,7 @@ class DepartmentIndexRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-department');
+        return $this->user()->can('viewAny', Holiday::class);
     }
 
     /**
