@@ -3,7 +3,7 @@
 namespace App\Http\Requests\v1\Setup\Department;
 
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Gate;
+use App\Models\Setup\CompanyEvent;
 use App\Http\Requests\v1\ApiFormRequest;
 
 class DepartmentUpdateRequest extends ApiFormRequest
@@ -13,7 +13,7 @@ class DepartmentUpdateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-department');
+        return $this->user()->can('update', CompanyEvent::class);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Setup\CompanyEvent;
 
 class DepartmentDeleteRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class DepartmentDeleteRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-department');
+        return $this->user()->can('create', CompanyEvent::class);
     }
 
     /**
