@@ -10,10 +10,12 @@ abstract class Controller
 {
     use ResponseTrait;
     
-    protected function checkPermission(string $permission): void
-    {
-        if (!Gate::allows($permission)) {
-            abort(Response::HTTP_FORBIDDEN, 'Forbidden');
-        }
+    protected function checkPermission(string|array $permissions): void
+{
+    if (Gate::any((array) $permissions)) {
+        return;
     }
+
+    abort(Response::HTTP_FORBIDDEN, 'Forbidden');
+}
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Resources\v1\UserResource;
 use App\Repositories\v1\UserRepository;
 use App\Http\Requests\v1\User\UserCreateRequest;
+use App\Http\Requests\v1\User\UserGetRequest;
 use App\Http\Requests\v1\User\UserIndexRequest;
 use App\Http\Requests\v1\User\UserUpdateRequest;
 use App\Http\Requests\v1\User\UserUpdateRoleRequest;
@@ -19,7 +20,10 @@ class UserController extends Controller
 
     public function index(UserIndexRequest $request)
     {
+        $this->checkPermission('view-all-user');
+
         $validatedData = $request->validated();
+
         $data = $this->userRepository->getAll($validatedData);
 
 
@@ -31,6 +35,8 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
+        $this->checkPermission('create-user');
+
         $validatedData = $request->validated();
 
         $create = $this->userRepository->create($validatedData);
@@ -41,8 +47,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id): JsonResponse
+    public function show(UserGetRequest $request, int $id): JsonResponse
     {
+        $this->checkPermission('view-user');
+
+        $request->validated();
+
         $find = $this->userRepository->getByID($id);
 
         return $this->responseSuccess(new UserResource($find), "User find successfully");
@@ -51,8 +61,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, int $id)
     {
+        $this->checkPermission(['update-user', 'update-role']);
+
         $validatedData = $request->validated();
 
         $update = $this->userRepository->update($id, $validatedData);
@@ -65,6 +77,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->checkPermission('delete-user');
+
         $delete = $this->userRepository->softDelete($id);
 
         return $this->responseSuccess($delete, "User deleted successfully");
