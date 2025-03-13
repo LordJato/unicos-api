@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\User;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\User;
 
 class UserCreateRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class UserCreateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('create-user');
+        return $this->user()->can('create', User::class);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\User;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\User;
 
 class UserDeleteRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class UserDeleteRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('delete-company');
+        return $this->user()->can('delete', User::class);
     }
 
     /**

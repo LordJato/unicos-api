@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\v1\User;
 
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\User;
 
 class UserUpdateRoleRequest extends ApiFormRequest
 {
@@ -12,7 +12,7 @@ class UserUpdateRoleRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows(['update-user', 'update-role']);
+        return $this->user()->can('update', User::class);
     }
 
     /**

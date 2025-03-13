@@ -3,8 +3,8 @@
 namespace App\Http\Requests\v1\User;
 
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\User;
 
 class UserUpdateRequest extends ApiFormRequest
 {
@@ -13,7 +13,7 @@ class UserUpdateRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('update-user');
+        return $this->user()->can('update', User::class);
     }
 
     /**
