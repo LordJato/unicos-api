@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('shift_headers', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('account_id');
+            $table->string('name', 50);
+            $table->tinyInteger('grace_period');
+            $table->tinyInteger('lunch_break');
+            $table->softDeletes();
+
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 

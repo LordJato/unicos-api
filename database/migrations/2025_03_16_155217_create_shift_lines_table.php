@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shift_lines', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('shift_header_id');
+            $table->date('day');
+            $table->time('start');
+            $table->time('end');
+            $table->boolean('is_flexi_time');
+            $table->foreign('shift_header_id')->references('id')->on('shift_header')->onDelete('cascade');
         });
     }
 
