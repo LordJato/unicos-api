@@ -17,7 +17,7 @@ return new class extends Migration
             $table->time('start');
             $table->time('end');
             $table->boolean('is_flexi_time');
-            $table->foreign('shift_header_id')->references('id')->on('shift_header')->onDelete('cascade');
+            $table->foreign('shift_header_id')->references('id')->on('shift_headers')->onDelete('cascade');
         });
     }
 
