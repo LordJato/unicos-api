@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\v1\Setup\Department;
+namespace App\Http\Requests\v1\Setup\CompanyEvent;
 
 use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\Setup\CompanyEvent;
 
-class DepartmentDeleteRequest extends ApiFormRequest
+class CompanyEventDeleteRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

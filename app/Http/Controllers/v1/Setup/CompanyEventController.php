@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\v1\Setup;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
+use App\Http\Requests\v1\Company\CompanyDeleteRequest;
+use App\Http\Requests\v1\Company\CompanyIndexRequest;
+use App\Http\Requests\v1\Company\CompanyUpdateRequest;
+use App\Http\Requests\v1\Setup\CompanyEvent\CompanyEventCreateRequest;
 use App\Repositories\v1\Setup\CompanyEventRepository;
+use App\Http\Requests\v1\Setup\CompanyEvent\CompanyEventGetRequest;
 
 class CompanyEventController extends Controller
 {
@@ -14,7 +18,7 @@ class CompanyEventController extends Controller
         private readonly CompanyEventRepository $companyEventRepository
     ) {}
 
-    public function index(Request $request): JsonResponse
+    public function index(CompanyIndexRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-company-event');
 
@@ -25,7 +29,7 @@ class CompanyEventController extends Controller
         return $this->responseSuccess($data, "Company events fetched successfully");
     }
 
-    public function store(Request $request)
+    public function store(CompanyEventCreateRequest $request)
     {
         $this->checkPermission('create-company-event');
 
@@ -39,7 +43,7 @@ class CompanyEventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, $id): JsonResponse
+    public function show(CompanyEventGetRequest $request, $id): JsonResponse
     {
         $this->checkPermission('view-company-event');
 
@@ -53,7 +57,7 @@ class CompanyEventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CompanyUpdateRequest $request, $id)
     {
         $this->checkPermission('update-company');
 
@@ -67,7 +71,7 @@ class CompanyEventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, $id)
+    public function destroy(CompanyDeleteRequest $request, $id)
     {
         $this->checkPermission('delete-company-event');
 

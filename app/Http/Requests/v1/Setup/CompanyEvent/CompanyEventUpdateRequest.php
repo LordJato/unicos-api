@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\v1\Setup\Department;
+namespace App\Http\Requests\v1\Setup\CompanyEvent;
 
 use Illuminate\Validation\Rule;
 use App\Models\Setup\CompanyEvent;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class DepartmentUpdateRequest extends ApiFormRequest
+class CompanyEventUpdateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
