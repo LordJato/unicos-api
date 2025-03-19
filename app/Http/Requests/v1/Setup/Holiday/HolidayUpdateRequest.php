@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\v1\Setup\Department;
+namespace App\Http\Requests\v1\Setup\Holiday;
 
 use App\Models\Setup\Holiday;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class DepartmentUpdateRequest extends ApiFormRequest
+class HolidayUpdateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
