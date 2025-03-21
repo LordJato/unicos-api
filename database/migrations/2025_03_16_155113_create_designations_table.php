@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('designations', function (Blueprint $table) {
             $table->id();
             $table->string('title', 50);
-            $table->string('description', 200);
+            $table->string('description', 200)->nullable();
             $table->string('slug', 100);
         });
     }
