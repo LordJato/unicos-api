@@ -87,4 +87,14 @@ class AccountController extends Controller
 
         return $this->responseSuccess($delete, "Account deleted successfully");
     }
+
+        /**
+     * Remove the specified resource from storage.
+     */
+    public function showAllAccountType(): JsonResponse
+    {
+        $data = $this->accountRepository->getAllAccountType();
+
+        return $this->responseSuccess($data, "Account types fetched successfully");
+    }
 }

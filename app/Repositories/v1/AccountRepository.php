@@ -3,8 +3,9 @@
 namespace App\Repositories\v1;
 
 use App\Models\Account;
-use App\Enums\AccountType;
+use App\Models\AccountType;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AccountRepository
@@ -116,5 +117,15 @@ class AccountRepository
             'account_type_id' => $data['accountTypeId'] ?? $model->account_type_id,
             'name' => $data['name'] ?? $model->name,
         ];
+    }
+
+    /**
+     * Get all Account Type.
+     *
+     */
+
+    public function getAllAccountType(): Collection
+    {
+        return AccountType::all();
     }
 }
