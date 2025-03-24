@@ -20,7 +20,7 @@ class AccountRepository
     {
         $search = $params['search'];
 
-        $data = Account::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $data = Account::with('accountType')->when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
