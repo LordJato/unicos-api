@@ -4,6 +4,7 @@ namespace App\Models\HR;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Employee extends Model
 {
@@ -30,4 +31,25 @@ class Employee extends Model
         'basic_salary',
         'hourly_rate'
     ];
+
+    public function designation() : BelongsTo {
+
+        return $this->belongsTo(Designation::class);
+    }
+
+    public function employeeStatus() : BelongsTo {
+        
+        return $this->belongsTo(EmployeeStatus::class);
+    }
+
+    
+    public function employeeType() : BelongsTo {
+        
+        return $this->belongsTo(EmployeeType::class);
+    }
+
+    public function shift() : BelongsTo {
+        
+        return $this->belongsTo(ShiftHeader::class);
+    }
 }
