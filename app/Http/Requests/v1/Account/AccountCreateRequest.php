@@ -23,7 +23,7 @@ class AccountCreateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'accountTypeId' => ['required', 'integer', 'max:1'],
+            'accountTypeId' => ['required', 'integer'],
             'name' => ['required', 'string', 'max:150', 'unique:accounts'],
         ];
     }
