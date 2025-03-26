@@ -10,6 +10,7 @@ use App\Http\Requests\v1\Account\AccountUpdateRequest;
 use App\Http\Requests\v1\Account\AccountCreateRequest;
 use App\Http\Requests\v1\Account\AccountDeleteRequest;
 use App\Http\Requests\v1\Account\AccountGetRequest;
+use App\Http\Resources\v1\AccountResource;
 
 class AccountController extends Controller
 {
@@ -27,6 +28,8 @@ class AccountController extends Controller
         $validatedData = $request->validated();
 
         $data = $this->accountRepository->getAll($validatedData);
+        
+        $data['records'] = AccountResource::collection($data['records']);
 
         return $this->responseSuccess($data, "Account fetched successfully");
     }
@@ -42,7 +45,7 @@ class AccountController extends Controller
 
         $create = $this->accountRepository->create($validatedData);
 
-        return $this->responseSuccess($create, "Account created successfully");
+        return $this->responseSuccess(new AccountResource($create), "Account created successfully");
     }
 
     /**
@@ -56,7 +59,7 @@ class AccountController extends Controller
 
         $find = $this->accountRepository->getByID($id);
 
-        return $this->responseSuccess($find, "Account find successfully");
+        return $this->responseSuccess(new AccountResource($find), "Account found successfully");
     }
 
     /**
@@ -71,7 +74,7 @@ class AccountController extends Controller
 
         $update = $this->accountRepository->update($id, $validatedData);
 
-        return $this->responseSuccess($update, "Account updated successfully");
+        return $this->responseSuccess(new AccountResource($update), "Account updated successfully");
     }
 
     /**
