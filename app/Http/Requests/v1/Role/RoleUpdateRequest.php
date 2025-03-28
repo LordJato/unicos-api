@@ -8,6 +8,13 @@ use App\Http\Requests\v1\ApiFormRequest;
 
 class RoleUpdateRequest extends ApiFormRequest
 {
+    private $id;
+
+    public function __construct()
+    {
+        $this->id = $this->route('roles'); // Assign the ID from the route to $this->id
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */

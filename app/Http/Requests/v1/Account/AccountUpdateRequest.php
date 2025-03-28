@@ -8,6 +8,13 @@ use App\Http\Requests\v1\ApiFormRequest;
 
 class AccountUpdateRequest extends ApiFormRequest
 {
+    private $id;
+
+    public function __construct()
+    {
+        $this->id = $this->route('accounts');
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,6 +30,7 @@ class AccountUpdateRequest extends ApiFormRequest
      */
     public function rules(): array
     {
+        
         return [
             'accountTypeId' => ['required', 'integer'],
             //this is not working
