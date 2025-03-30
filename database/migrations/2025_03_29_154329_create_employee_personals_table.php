@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employee_personals', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_id');
-            $table->unsignedBigInteger('civil_status_id');
+            $table->tinyInteger('civil_status_id');
             $table->date('birth_date');
             $table->string('birth_place', 150);
             $table->tinyInteger('sex');
@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('mother_occupation', 50);
             $table->string('father', 150);
             $table->string('father_occupation', 50);
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

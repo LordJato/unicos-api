@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('employee_emergencies', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('employee_id');
+            $table->string('contact_no', 50);
+            $table->string('contact_person', 150);
+            $table->string('relationship', 50);
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
