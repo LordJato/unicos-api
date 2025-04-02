@@ -2,8 +2,10 @@
 
 namespace App\Models\Setup;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CompanyEvent extends Model
 {
@@ -11,8 +13,15 @@ class CompanyEvent extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'company_id',
         'title',
-        'compastart_dateny_id',
+        'description',
+        'start_date',
         'end_date'
     ];
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
