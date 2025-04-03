@@ -78,7 +78,7 @@ class EmployeeEmergencyRepository
      * @param array $params
      * @return EmployeeEmergency|null
      */
-    public function update(int $id, array $params): EmployeeEmergency
+    public function update(int $id, array $params): ?EmployeeEmergency
     {
         $update = $this->getById($id);
 

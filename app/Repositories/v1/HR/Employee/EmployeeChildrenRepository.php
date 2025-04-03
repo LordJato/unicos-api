@@ -76,9 +76,9 @@ class EmployeeChildrenRepository
      *
      * @param int $id
      * @param array $params
-     * @return Employee Children|null
+     * @return EmployeeChildren|null
      */
-    public function update(int $id, array $params): EmployeeChildren
+    public function update(int $id, array $params): ?EmployeeChildren
     {
         $update = $this->getById($id);
 
