@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('opportunity_types', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedMediumInteger('opportunity_category_id');
+        Schema::create('opportunity_categories', function (Blueprint $table) {
+            $table->mediumIncrements('id');
             $table->string('name', 100);
-            $table->string('slug', 150);
             $table->timestamps();
-
-
-            $table->foreign('opportunity_category_id')->references('id')->on('opportunity_categories')->onDelete('cascade');
         });
     }
 
