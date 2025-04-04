@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\v1\Recruitment;
+namespace App\Http\Controllers\v1\Recruitment\Opportunity;
 
 use Exception;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\v1\Recruitment\OpportunityController;
+use App\Http\Controllers\v1\Recruitment\Opportunity\OpportunityController;
 use Illuminate\Support\Facades\Route;
 
 
