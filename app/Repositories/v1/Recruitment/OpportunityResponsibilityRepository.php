@@ -2,14 +2,14 @@
 
 namespace App\Repositories\v1\Recruitment;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\Recruitment\OpportunityResponsibility;
 use Illuminate\Http\Response;
 
 class OpportunityResponsibilityRepository
 {
     /**
-     * Get all Employee.
+     * Get all Opportunity Responsibility.
      *
      * @param array $params
      * @return array
@@ -37,14 +37,14 @@ class OpportunityResponsibilityRepository
      *
      * @param int $id
      * @return OpportunityResponsibility|null
-     * @throws Exception
+     * @throws HttpException
      */
     public function getByID(int $id): ?OpportunityResponsibility
     {
         $data = OpportunityResponsibility::find($id);
 
         if (empty($data)) {
-            throw new Exception("Opportunity Responsibility does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Opportunity Responsibility does not exist.");
         }
 
         return $data;
@@ -65,7 +65,7 @@ class OpportunityResponsibilityRepository
         $create = OpportunityResponsibility::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create Opportunity Responsibility, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Opportunity Responsibility, Please try again.");
         }
 
         return $create->fresh();
@@ -74,12 +74,13 @@ class OpportunityResponsibilityRepository
     /**
      * Update Opportunity Responsibility.
      *
+     * @param int $id
      * @param array $params
      * @return OpportunityResponsibility|null
      */
-    public function update(array $params): OpportunityResponsibility
+    public function update(int $id, array $params): OpportunityResponsibility
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 
@@ -100,7 +101,22 @@ class OpportunityResponsibilityRepository
         return $data->delete();
     }
 
-        /**
+    /**
+     * Soft delete Opportunity Responsibility.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function forceDelete(int $id): bool
+    {
+
+        $data = $this->getByID($id);
+
+        return $data->forceDelete();
+    }
+
+
+    /**
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.
