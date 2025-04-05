@@ -55,7 +55,7 @@ class OpportunityRepository
      *
      * @param array $params
      * @return Opportunity
-     * @throws Exception
+     * @throws HttpException
      */
     public function create(array $params): Opportunity
     {
@@ -77,9 +77,9 @@ class OpportunityRepository
      * @param array $params
      * @return Opportunity|null
      */
-    public function update(array $params): Opportunity
+    public function update(int $id, array $params): Opportunity
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 

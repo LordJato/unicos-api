@@ -2,7 +2,7 @@
 
 namespace App\Repositories\v1\Recruitment;
 
-use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\Recruitment\OpportunityRequirement;
 use Illuminate\Http\Response;
 
@@ -44,7 +44,7 @@ class OpportunityRequirementRepository
         $data = OpportunityRequirement::find($id);
 
         if (empty($data)) {
-            throw new Exception("OOpportunity Requirement does not exist.", Response::HTTP_NOT_FOUND);
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Opportunity Requirement does not exist.");
         }
 
         return $data;
@@ -65,7 +65,7 @@ class OpportunityRequirementRepository
         $create = OpportunityRequirement::create($data);
 
         if (!$create) {
-            throw new Exception("Could not create Opportunity Requirement, Please try again.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Opportunity Requirement, Please try again.");
         }
 
         return $create->fresh();
@@ -74,12 +74,13 @@ class OpportunityRequirementRepository
     /**
      * Update Opportunity Requirement.
      *
+     * @param int $id
      * @param array $params
      * @return OpportunityRequirement|null
      */
-    public function update(array $params): OpportunityRequirement
+    public function update(int $id, array $params): OpportunityRequirement
     {
-        $update = $this->getById($params['id']);
+        $update = $this->getById($id);
 
         $update->update($this->prepareDataForDB($params, $update));
 
@@ -100,7 +101,22 @@ class OpportunityRequirementRepository
         return $data->delete();
     }
 
-        /**
+    /**
+     * Force delete Opportunity Requirement.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function forceDelete(int $id): bool
+    {
+
+        $data = $this->getByID($id);
+
+        return $data->forceDelete();
+    }
+
+
+    /**
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.

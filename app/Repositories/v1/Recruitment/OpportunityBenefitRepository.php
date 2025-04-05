@@ -74,6 +74,7 @@ class OpportunityBenefitRepository
     /**
      * Update Opportunity Benefit.
      *
+     * @param int $id
      * @param array $params
      * @return OpportunityBenefit
      */
