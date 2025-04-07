@@ -6,17 +6,16 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
-use App\Http\Requests\v1\Recruitment\Opportunity\OpportunityCreateRequest;
-use App\Http\Requests\v1\Recruitment\Opportunity\OpportunityIndexRequest;
-use App\Http\Requests\v1\Recruitment\Opportunity\OpportunityUpdateRequest;
-use App\Http\Requests\v1\Setup\OpportunityType\OpportunityTypeUpdateRequest;
+use App\Http\Requests\v1\Recruitment\Opportunity\CreateOpportunityRequest;
+use App\Http\Requests\v1\Recruitment\Opportunity\IndexOpportunityRequest;
+use App\Http\Requests\v1\Recruitment\Opportunity\UpdateOpportunityRequest;
 use App\Repositories\v1\Recruitment\OpportunityRepository;
 
 class OpportunityController extends Controller
 {
     public function __construct(private readonly OpportunityRepository $opportunityRepository) {}
 
-    public function index(OpportunityIndexRequest $request)
+    public function index(IndexOpportunityRequest $request)
     {
         $this->checkPermission('view-all-opportunity');
 
@@ -27,7 +26,7 @@ class OpportunityController extends Controller
         return $this->responseSuccess($data, "Opporyunity fetched successfully");
     }
 
-    public function store(OpportunityCreateRequest $request)
+    public function store(CreateOpportunityRequest $request)
     {
         $this->checkPermission('create-opportunity');
 
@@ -53,7 +52,7 @@ class OpportunityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, OpportunityUpdateRequest $request)
+    public function update($id, UpdateOpportunityRequest $request)
     {
         $this->checkPermission('update-opportunity');
 
