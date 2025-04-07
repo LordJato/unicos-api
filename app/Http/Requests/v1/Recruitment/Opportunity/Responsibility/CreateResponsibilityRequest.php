@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\v1\Recruitment\Opportunity\Requirement;
+namespace App\Http\Requests\v1\Recruitment\Opportunity\Responsibility;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequirementRequest extends FormRequest
+class CreateResponsibilityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
