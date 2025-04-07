@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\v1\Recruitment\OpportunityBenefit;
+namespace App\Http\Requests\v1\Recruitment\Opportunity\Benefit;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OpportunityBenefitCreateRequest extends FormRequest
+class CreateBenefitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
