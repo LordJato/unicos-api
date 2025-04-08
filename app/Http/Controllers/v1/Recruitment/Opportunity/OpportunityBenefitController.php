@@ -4,33 +4,33 @@ namespace App\Http\Controllers\v1\Recruitment;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
-use App\Http\Requests\v1\Recruitment\OpportunityBenefit\OpportunityBenefitCreateRequest;
-use App\Http\Requests\v1\Recruitment\OpportunityBenefit\OpportunityBenefitIndexRequest;
-use App\Http\Requests\v1\Recruitment\OpportunityBenefit\OpportunityBenefitUpdateRequest;
-use App\Repositories\v1\Recruitment\OpportunityBenefitRepository;
+use App\Http\Requests\v1\Recruitment\Opportunity\Benefit\CreateBenefitRequest;
+use App\Http\Requests\v1\Recruitment\Opportunity\Benefit\IndexBenefitRequest;
+use App\Http\Requests\v1\Recruitment\Opportunity\Benefit\UpdateBenefitRequest;
+use App\Repositories\v1\Recruitment\Opportunity\BenefitRepository;
 
 class OpportunityBenefitController extends Controller
 {
-    public function __construct(private readonly OpportunityBenefitRepository $opportunityBenefitRepository) {}
+    public function __construct(private readonly BenefitRepository $benefitRepository) {}
 
-    public function index(OpportunityBenefitIndexRequest $request)
+    public function index(IndexBenefitRequest $request)
     {
         $this->checkPermission('view-all-opportunity-benefit');
 
         $validatedData = $request->validated();
 
-        $data = $this->opportunityBenefitRepository->getAll($validatedData);
+        $data = $this->benefitRepository->getAll($validatedData);
 
         return $this->responseSuccess($data, "Opporyunity Benefits fetched successfully");
     }
 
-    public function store(OpportunityBenefitCreateRequest $request)
+    public function store(CreateBenefitRequest $request)
     {
         $this->checkPermission('create-opportunity-benefit');
 
         $validatedData = $request->validated();
 
-        $create = $this->opportunityBenefitRepository->create($validatedData);
+        $create = $this->benefitRepository->create($validatedData);
 
         return $this->responseSuccess($create, "Opportunity Benefit created successfully");
     }
@@ -42,7 +42,7 @@ class OpportunityBenefitController extends Controller
     {
         $this->checkPermission('view-opportunity-benefit');
 
-        $find = $this->opportunityBenefitRepository->getByID($id);
+        $find = $this->benefitRepository->getByID($id);
 
         return $this->responseSuccess($find, "Opportunity Benefit find successfully");
     }
@@ -50,13 +50,13 @@ class OpportunityBenefitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, OpportunityBenefitUpdateRequest $request)
+    public function update($id, UpdateBenefitRequest $request)
     {
         $this->checkPermission('update-opportunity-benefit');
 
         $validatedData = $request->validated();
 
-        $update = $this->opportunityBenefitRepository->update($id, $validatedData);
+        $update = $this->benefitRepository->update($id, $validatedData);
 
         return $this->responseSuccess($update, "Opportunity Benefit updated successfully");
     }
@@ -68,7 +68,7 @@ class OpportunityBenefitController extends Controller
     {
         $this->checkPermission('delete-opportunity-benefit');
 
-        $delete = $this->opportunityBenefitRepository->softDelete($id);
+        $delete = $this->benefitRepository->softDelete($id);
 
         return $this->responseSuccess($delete, "Opportunity Benefit deleted successfully");
     }
