@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\v1\Recruitment;
+namespace App\Repositories\v1\Recruitment\Opportunity;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\Recruitment\OpportunityResponsibility;
 use Illuminate\Http\Response;
 
-class OpportunityResponsibilityRepository
+class ResponsibilityRepository
 {
     /**
      * Get all Opportunity Responsibility.

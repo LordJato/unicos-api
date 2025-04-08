@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\v1\Recruitment;
+namespace App\Repositories\v1\Recruitment\Opportunity;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Models\Recruitment\OpportunityBenefit;
 use Illuminate\Http\Response;
 
-class OpportunityBenefitRepository
+class BenefitRepository
 {
     /**
      * Get all Opportunity Benefit.
