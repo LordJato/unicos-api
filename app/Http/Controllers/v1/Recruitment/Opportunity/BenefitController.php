@@ -21,7 +21,7 @@ class BenefitController extends Controller
 
         $data = $this->benefitRepository->getAll($validatedData);
 
-        return $this->responseSuccess($data, "Opporyunity Benefits fetched successfully");
+        return $this->responseSuccess($data, "Opportunity Benefit fetched successfully");
     }
 
     public function store(CreateBenefitRequest $request)

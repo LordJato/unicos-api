@@ -22,18 +22,18 @@ class RequirementController extends Controller
 
         $data = $this->requirementRepository->getAll($validatedData);
 
-        return $this->responseSuccess($data, "Opporyunity Benefits fetched successfully");
+        return $this->responseSuccess($data, "Opporyunity Requirement fetched successfully");
     }
 
     public function store(CreateRequirementRequest $request)
     {
-        $this->checkPermission('create-opportunity-benefit');
+        $this->checkPermission('create-opportunity-requirement');
 
         $validatedData = $request->validated();
 
         $create = $this->requirementRepository->create($validatedData);
 
-        return $this->responseSuccess($create, "Opportunity Benefit created successfully");
+        return $this->responseSuccess($create, "Opportunity Requirement created successfully");
     }
 
     /**
@@ -41,11 +41,11 @@ class RequirementController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $this->checkPermission('view-opportunity-benefit');
+        $this->checkPermission('view-opportunity-requirement');
 
         $find = $this->requirementRepository->getByID($id);
 
-        return $this->responseSuccess($find, "Opportunity Benefit find successfully");
+        return $this->responseSuccess($find, "Opportunity Requirement find successfully");
     }
 
     /**
@@ -53,13 +53,13 @@ class RequirementController extends Controller
      */
     public function update($id, UpdateRequirementRequest $request)
     {
-        $this->checkPermission('update-opportunity-benefit');
+        $this->checkPermission('update-opportunity-requirement');
 
         $validatedData = $request->validated();
 
         $update = $this->requirementRepository->update($id, $validatedData);
 
-        return $this->responseSuccess($update, "Opportunity Benefit updated successfully");
+        return $this->responseSuccess($update, "Opportunity Requirement updated successfully");
     }
 
     /**
@@ -67,10 +67,10 @@ class RequirementController extends Controller
      */
     public function destroy($id)
     {
-        $this->checkPermission('delete-opportunity-benefit');
+        $this->checkPermission('delete-opportunity-requirement');
 
         $delete = $this->requirementRepository->softDelete($id);
 
-        return $this->responseSuccess($delete, "Opportunity Benefit deleted successfully");
+        return $this->responseSuccess($delete, "Opportunity Requirement deleted successfully");
     }
 }
