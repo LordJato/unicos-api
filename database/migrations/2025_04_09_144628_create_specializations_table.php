@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('specializations', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('title', 50);
+            $table->string('description', 200);
+            $table->string('slug', 150);
         });
     }
 
