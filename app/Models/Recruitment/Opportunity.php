@@ -5,6 +5,7 @@ namespace App\Models\Recruitment;
 use App\Traits\TenantCompany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Opportunity extends Model
 {
@@ -24,4 +25,19 @@ class Opportunity extends Model
         'years_of_experience',
         'vacancy',
     ];
+
+    public function benefits(): HasMany
+    {
+        return $this->hasMany(OpportunityBenefit::class);
+    }
+
+    public function requirements(): HasMany
+    {
+        return $this->hasMany(OpportunityRequirement::class);
+    }
+
+    public function responsibilites(): HasMany
+    {
+        return $this->hasMany(OpportunityResponsibility::class);
+    }
 }
