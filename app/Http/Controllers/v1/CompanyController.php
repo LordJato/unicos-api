@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\v1;
 
-use Exception;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\CompanyRepository;
-use App\Http\Requests\v1\Company\CompanyIndexRequest;
-use App\Http\Requests\v1\Company\CompanyCreateRequest;
-use App\Http\Requests\v1\Company\CompanyUpdateRequest;
+use App\Http\Requests\v1\Company\IndexCompanyRequest;
+use App\Http\Requests\v1\Company\CreateCompanyRequest;
+use App\Http\Requests\v1\Company\UpdateCompanyRequest;
 
 class CompanyController extends Controller
 {
@@ -19,7 +16,7 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(CompanyIndexRequest $request): JsonResponse
+    public function index(IndexCompanyRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-company');
 
@@ -33,7 +30,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CompanyCreateRequest $request)
+    public function store(CreateCompanyRequest $request)
     {
         $this->checkPermission('create-company');
 
@@ -59,7 +56,7 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, CompanyUpdateRequest $request)
+    public function update($id, UpdateCompanyRequest $request)
     {
         $this->checkPermission('update-company');
 
