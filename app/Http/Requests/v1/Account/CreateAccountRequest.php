@@ -5,14 +5,14 @@ namespace App\Http\Requests\v1\Account;
 use App\Models\Account;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class AccountGetRequest extends ApiFormRequest
+class CreateAccountRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('view', Account::class);
+        return $this->user()->can('create', Account::class);
     }
 
     /**
@@ -22,6 +22,9 @@ class AccountGetRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'accountTypeId' => ['required', 'integer'],
+            'name' => ['required', 'string', 'max:150', 'unique:accounts'],
+        ];
     }
 }

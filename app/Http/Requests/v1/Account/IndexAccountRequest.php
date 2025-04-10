@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Account;
 use App\Models\Account;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class AccountIndexRequest extends ApiFormRequest
+class IndexAccountRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

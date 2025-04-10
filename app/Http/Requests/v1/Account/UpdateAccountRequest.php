@@ -6,7 +6,7 @@ use App\Models\Account;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class AccountUpdateRequest extends ApiFormRequest
+class UpdateAccountRequest extends ApiFormRequest
 {
     private $id;
 

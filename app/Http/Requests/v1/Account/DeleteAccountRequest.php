@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Account;
 use App\Models\Account;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class AccountDeleteRequest extends ApiFormRequest
+class DeleteAccountRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
