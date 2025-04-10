@@ -4,13 +4,16 @@ namespace App\Http\Controllers\v1;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use App\Repositories\v1\AccountRepository;
-use App\Http\Requests\v1\Account\AccountIndexRequest;
-use App\Http\Requests\v1\Account\AccountUpdateRequest;
-use App\Http\Requests\v1\Account\AccountCreateRequest;
-use App\Http\Requests\v1\Account\AccountDeleteRequest;
-use App\Http\Requests\v1\Account\AccountGetRequest;
 use App\Http\Resources\v1\AccountResource;
+use App\Repositories\v1\AccountRepository;
+use App\Http\Requests\v1\Account\AccountGetRequest;
+use App\Http\Requests\v1\Account\GetAccountRequest;
+use App\Http\Requests\v1\Account\IndexAccountRequest;
+use App\Http\Requests\v1\Account\AccountDeleteRequest;
+use App\Http\Requests\v1\Account\AccountUpdateRequest;
+use App\Http\Requests\v1\Account\CreateAccountRequest;
+use App\Http\Requests\v1\Account\DeleteAccountRequest;
+use App\Http\Requests\v1\Account\UpdateAccountRequest;
 
 class AccountController extends Controller
 {
@@ -20,7 +23,7 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(AccountIndexRequest $request): JsonResponse
+    public function index(IndexAccountRequest $request): JsonResponse
     {
 
         $this->checkPermission('view-all-account');
@@ -37,7 +40,7 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountCreateRequest $request): JsonResponse
+    public function store(CreateAccountRequest $request): JsonResponse
     {
         $this->checkPermission('create-account');
 
@@ -51,7 +54,7 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AccountGetRequest $request, $id): JsonResponse
+    public function show(GetAccountRequest $request, $id): JsonResponse
     {
         $this->checkPermission('view-account');
 
@@ -65,7 +68,7 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AccountUpdateRequest $request, $id): JsonResponse
+    public function update(UpdateAccountRequest $request, $id): JsonResponse
     {
 
         $this->checkPermission('update-account');
@@ -80,7 +83,7 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccountDeleteRequest $request, $id): JsonResponse
+    public function destroy(DeleteAccountRequest $request, $id): JsonResponse
     {
         $this->checkPermission('delete-account');
 
