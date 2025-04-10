@@ -6,7 +6,7 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyCreateRequest extends ApiFormRequest
+class CreateCompanyRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

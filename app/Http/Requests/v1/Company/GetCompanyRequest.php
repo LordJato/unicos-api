@@ -6,14 +6,14 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyDeleteRequest extends ApiFormRequest
+class GetCompanyRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', Company::class);
+        return $this->user()->can('view', Company::class);
     }
 
     /**
