@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Role;
 use App\Models\Role;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class RoleIndexRequest extends ApiFormRequest
+class IndexRoleRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

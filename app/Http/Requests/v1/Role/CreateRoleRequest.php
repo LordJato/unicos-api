@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests\v1\Role;
 
-use App\Models\Role;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Role;
 
-class RoleDeleteRequest extends ApiFormRequest
+class CreateRoleRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', Role::class);
+        return $this->user()->can('create', Role::class);
     }
 
     /**
@@ -22,6 +22,8 @@ class RoleDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:50', 'unique:roles'],
+        ];
     }
 }
