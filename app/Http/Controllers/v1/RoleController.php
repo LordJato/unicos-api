@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers\v1;
 
-use Exception;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\RoleRepository;
-use App\Http\Requests\v1\Role\RoleGetRequest;
-use App\Http\Requests\v1\Role\RoleIndexRequest;
-use App\Http\Requests\v1\Role\RoleCreateRequest;
-use App\Http\Requests\v1\Role\RoleDeleteRequest;
-use App\Http\Requests\v1\Role\RoleUpdateRequest;
-use Illuminate\Http\Response;
+use App\Http\Requests\v1\Role\GetRoleRequest;
+use App\Http\Requests\v1\Role\IndexRoleRequest;
+use App\Http\Requests\v1\Role\CreateRoleRequest;
+use App\Http\Requests\v1\Role\DeleteRoleRequest;
+use App\Http\Requests\v1\Role\UpdateRoleRequest;
 
 class RoleController extends Controller
 {
     public function __construct(private readonly RoleRepository $roleRepository) {}
 
-    public function index(RoleIndexRequest $request): JsonResponse
+    public function index(IndexRoleRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-role');
 
@@ -30,7 +27,7 @@ class RoleController extends Controller
         return $this->responseSuccess($data, "Roles fetched successfully");
     }
 
-    public function show(RoleGetRequest $request, int $id): JsonResponse
+    public function show(GetRoleRequest $request, int $id): JsonResponse
     {
         $this->checkPermission('view-role');
 
@@ -41,7 +38,7 @@ class RoleController extends Controller
         return $this->responseSuccess($role, "Role found successfully");
     }
 
-    public function store(RoleCreateRequest $request): JsonResponse
+    public function store(CreateRoleRequest $request): JsonResponse
     {
         $this->checkPermission('create-role');
 
@@ -52,7 +49,7 @@ class RoleController extends Controller
         return $this->responseSuccess($role, "Role created successfully");
     }
 
-    public function update(RoleUpdateRequest $request, int $id): JsonResponse
+    public function update(UpdateRoleRequest $request, int $id): JsonResponse
     {
         $this->checkPermission('update-role');
 
@@ -63,7 +60,7 @@ class RoleController extends Controller
         return $this->responseSuccess($role, "Role updated successfully");
     }
 
-    public function destroy(RoleDeleteRequest $request, int $id): JsonResponse
+    public function destroy(DeleteRoleRequest $request, int $id): JsonResponse
     {
         $this->checkPermission('delete-role');
 
