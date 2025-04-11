@@ -3,16 +3,17 @@
 namespace App\Http\Requests\v1\Permission;
 
 use App\Models\Permission;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class PermissionGetRequest extends ApiFormRequest
+class UpdatePermissionRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('view', Permission::class);
+        return $this->user()->can('update', Permission::class);
     }
 
     /**
@@ -22,6 +23,8 @@ class PermissionGetRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($this->id, 'id')],
+        ];
     }
 }

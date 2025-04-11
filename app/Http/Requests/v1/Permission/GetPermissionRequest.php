@@ -5,14 +5,14 @@ namespace App\Http\Requests\v1\Permission;
 use App\Models\Permission;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class PermissionDeleteRequest extends ApiFormRequest
+class GetPermissionRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', Permission::class);
+        return $this->user()->can('view', Permission::class);
     }
 
     /**

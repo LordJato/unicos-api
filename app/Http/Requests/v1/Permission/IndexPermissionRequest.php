@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Permission;
 use App\Models\Permission;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class PermissionIndexRequest extends ApiFormRequest
+class IndexPermissionRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
