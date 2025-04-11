@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\v1;
 
-use Exception;
-use Illuminate\Support\Facades\Gate;
 use App\Repositories\v1\PermissionRepository;
-use App\Http\Requests\v1\Permission\PermissionGetRequest;
-use App\Http\Requests\v1\Permission\PermissionIndexRequest;
-use App\Http\Requests\v1\Permission\PermissionCreateRequest;
-use App\Http\Requests\v1\Permission\PermissionDeleteRequest;
-use App\Http\Requests\v1\Permission\PermissionUpdateRequest;
+use App\Http\Requests\v1\Permission\GetPermissionRequest;
+use App\Http\Requests\v1\Permission\IndexPermissionRequest;
+use App\Http\Requests\v1\Permission\CreatePermissionRequest;
+use App\Http\Requests\v1\Permission\DeletePermissionRequest;
+use App\Http\Requests\v1\Permission\UpdatePermissionRequest;
 
 class PermissionController extends Controller
 {
     public function __construct(private readonly PermissionRepository $permissionRepository) {}
 
-    public function index(PermissionIndexRequest $request)
+    public function index(IndexPermissionRequest $request)
     {
         $this->checkPermission('view-all-permission');
 
@@ -26,7 +24,7 @@ class PermissionController extends Controller
         return $this->responseSuccess($data, "Permissions fetched successfully");
     }
 
-    public function show(PermissionGetRequest $request, $id)
+    public function show(GetPermissionRequest $request, $id)
     {
         $this->checkPermission('create-permission');
 
@@ -38,7 +36,7 @@ class PermissionController extends Controller
     }
 
 
-    public function store(PermissionCreateRequest $request)
+    public function store(CreatePermissionRequest $request)
     {
         $this->checkPermission('view-permission');
 
@@ -49,7 +47,7 @@ class PermissionController extends Controller
         return $this->responseSuccess($create, "Permission created successfully");
     }
 
-    public function update(PermissionUpdateRequest $request, $id)
+    public function update(UpdatePermissionRequest $request, $id)
     {
         $this->checkPermission('update-permission');
 
@@ -60,7 +58,7 @@ class PermissionController extends Controller
         return $this->responseSuccess($update, "Permission updated successfully");
     }
 
-    public function destroy(PermissionDeleteRequest $request, $id)
+    public function destroy(DeletePermissionRequest $request, $id)
     {
         $this->checkPermission('delete-permission');
 
