@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use App\Models\Setup\Department;
 use App\Http\Requests\v1\ApiFormRequest;
+use App\Models\Setup\Department;
 
-class DepartmentDeleteRequest extends ApiFormRequest
+class CreateDepartmentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', Department::class);
+        return $this->user()->can('create', Department::class);
     }
 
     /**
@@ -22,6 +22,8 @@ class DepartmentDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:50', 'unique:departments'],
+        ];
     }
 }

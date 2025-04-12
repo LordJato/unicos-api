@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Setup\Department;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class DepartmentUpdateRequest extends ApiFormRequest
+class UpdateDepartmentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

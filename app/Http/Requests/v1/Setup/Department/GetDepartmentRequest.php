@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests\v1\Setup\Department;
 
-use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\Setup\Department;
+use App\Http\Requests\v1\ApiFormRequest;
 
-class DepartmentCreateRequest extends ApiFormRequest
+class GetDepartmentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('create', Department::class);
+        return $this->user()->can('view', Department::class);
     }
 
     /**
@@ -22,8 +22,6 @@ class DepartmentCreateRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'max:50', 'unique:departments'],
-        ];
+        return [];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Setup\Department;
 use App\Models\Setup\Department;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class DepartmentIndexRequest extends ApiFormRequest
+class IndexDepartmentRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
