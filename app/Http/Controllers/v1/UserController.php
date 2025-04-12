@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\v1;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\v1\UserResource;
 use App\Repositories\v1\UserRepository;
-use App\Http\Requests\v1\User\UserCreateRequest;
-use App\Http\Requests\v1\User\UserGetRequest;
-use App\Http\Requests\v1\User\UserIndexRequest;
-use App\Http\Requests\v1\User\UserUpdateRequest;
-use App\Http\Requests\v1\User\UserUpdateRoleRequest;
+use App\Http\Requests\v1\User\GetUserRequest;
+use App\Http\Requests\v1\User\IndexUserRequest;
+use App\Http\Requests\v1\User\CreateUserRequest;
+use App\Http\Requests\v1\User\UpdateUserRequest;
+use App\Http\Requests\v1\User\UpdateRoleUserRequest;
 
 class UserController extends Controller
 {
@@ -18,7 +17,7 @@ class UserController extends Controller
     public function __construct(private readonly UserRepository $userRepository) {}
 
 
-    public function index(UserIndexRequest $request)
+    public function index(IndexUserRequest $request)
     {
         $this->checkPermission('view-all-user');
 
@@ -33,7 +32,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserCreateRequest $request)
+    public function store(CreateUserRequest $request)
     {
         $this->checkPermission('create-user');
 
@@ -47,7 +46,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserGetRequest $request, int $id): JsonResponse
+    public function show(GetUserRequest $request, int $id): JsonResponse
     {
         $this->checkPermission('view-user');
 
@@ -61,7 +60,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, int $id)
+    public function update(UpdateUserRequest $request, int $id)
     {
         $this->checkPermission(['update-user', 'update-role']);
 
@@ -91,7 +90,7 @@ class UserController extends Controller
         return $this->responseSuccess($profile, 'User fetched successfully');
     }
 
-    public function updateRoles(UserUpdateRoleRequest $request)
+    public function updateRoles(UpdateRoleUserRequest $request)
     {
         $validatedData = $request->validated();
 
