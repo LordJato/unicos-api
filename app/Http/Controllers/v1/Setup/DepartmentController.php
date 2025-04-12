@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\v1\Setup;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\CompanyRepository;
 use App\Repositories\v1\Setup\DepartmentRepository;
-use App\Http\Requests\v1\Setup\Department\DepartmentCreateRequest;
-use App\Http\Requests\v1\Setup\Department\DepartmentDeleteRequest;
-use App\Http\Requests\v1\Setup\Department\DepartmentGetRequest;
-use App\Http\Requests\v1\Setup\Department\DepartmentIndexRequest;
-use App\Http\Requests\v1\Setup\Department\DepartmentUpdateRequest;
+use App\Http\Requests\v1\Setup\Department\GetDepartmentRequest;
+use App\Http\Requests\v1\Setup\Department\IndexDepartmentRequest;
+use App\Http\Requests\v1\Setup\Department\CreateDepartmentRequest;
+use App\Http\Requests\v1\Setup\Department\DeleteDepartmentRequest;
+use App\Http\Requests\v1\Setup\Department\UpdateDepartmentRequest;
 
 class DepartmentController extends Controller
 {
@@ -21,7 +20,7 @@ class DepartmentController extends Controller
         private readonly CompanyRepository $companyRepository
     ) {}
 
-    public function index(DepartmentIndexRequest $request): JsonResponse
+    public function index(IndexDepartmentRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-department');
 
@@ -32,7 +31,7 @@ class DepartmentController extends Controller
         return $this->responseSuccess($data, "Department fetched successfully");
     }
 
-    public function store(DepartmentCreateRequest $request)
+    public function store(CreateDepartmentRequest $request)
     {
         $this->checkPermission('create-department');
 
@@ -46,7 +45,7 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DepartmentGetRequest $request, $id): JsonResponse
+    public function show(GetDepartmentRequest $request, $id): JsonResponse
     {
         $this->checkPermission('view-department');
 
@@ -60,7 +59,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartmentUpdateRequest $request, $id)
+    public function update(UpdateDepartmentRequest $request, $id)
     {
         $this->checkPermission('update-department');
 
@@ -74,7 +73,7 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DepartmentDeleteRequest $request, $id)
+    public function destroy(DeleteDepartmentRequest $request, $id)
     {
         $this->checkPermission('delete-department');
 
