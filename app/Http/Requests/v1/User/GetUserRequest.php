@@ -5,14 +5,14 @@ namespace App\Http\Requests\v1\User;
 use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\User;
 
-class UserDeleteRequest extends ApiFormRequest
+class GetUserRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', User::class);
+        return $this->user()->can('view', User::class);
     }
 
     /**
@@ -22,8 +22,6 @@ class UserDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => 'required'
-        ];
+        return [];
     }
 }

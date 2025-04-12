@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\v1\User;
 
-use Illuminate\Validation\Rule;
 use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\User;
 
-class UserUpdateRequest extends ApiFormRequest
+class UpdateRoleUserRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +23,18 @@ class UserUpdateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($this->id, 'id')],
+            'userId' => ['required', 'integer', 'exists:users,id'],
+            'roles' => ['required', 'array'],
         ];
+    }
+
+     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'userId' => $this->query('userId'),
+        ]);
     }
 }
