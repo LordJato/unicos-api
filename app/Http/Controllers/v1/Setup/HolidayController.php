@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\v1\Setup;
 
 use Illuminate\Http\JsonResponse;
-use App\Repositories\v1\Setup\HolidayRepository;
 use App\Http\Controllers\v1\Controller;
-use App\Http\Requests\v1\Setup\Holiday\HolidayCreateRequest;
-use App\Http\Requests\v1\Setup\Holiday\HolidayDeleteRequest;
-use App\Http\Requests\v1\Setup\Holiday\HolidayGetRequest;
-use App\Http\Requests\v1\Setup\Holiday\HolidayIndexRequest;
-use App\Http\Requests\v1\Setup\Holiday\HolidayUpdateRequest;
+use App\Repositories\v1\Setup\HolidayRepository;
+use App\Http\Requests\v1\Setup\Holiday\GetHolidayRequest;
+use App\Http\Requests\v1\Setup\Holiday\IndexHolidayRequest;
+use App\Http\Requests\v1\Setup\Holiday\CreateHolidayRequest;
+use App\Http\Requests\v1\Setup\Holiday\DeleteHolidayRequest;
+use App\Http\Requests\v1\Setup\Holiday\UpdateHolidayRequest;
 
 class HolidayController extends Controller
 {
@@ -18,7 +18,7 @@ class HolidayController extends Controller
         private readonly HolidayRepository $holidayRepository
     ) {}
 
-    public function index(HolidayIndexRequest $request): JsonResponse
+    public function index(IndexHolidayRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-holiday');
 
@@ -29,7 +29,7 @@ class HolidayController extends Controller
         return $this->responseSuccess($data, "Holiday fetched successfully");
     }
 
-    public function store(HolidayCreateRequest $request)
+    public function store(CreateHolidayRequest $request)
     {
         $this->checkPermission('create-holiday');
 
@@ -43,7 +43,7 @@ class HolidayController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HolidayGetRequest $request, $id): JsonResponse
+    public function show(GetHolidayRequest $request, $id): JsonResponse
     {
         $this->checkPermission('view-holiday');
 
@@ -57,7 +57,7 @@ class HolidayController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(HolidayUpdateRequest $request, $id)
+    public function update(UpdateHolidayRequest $request, $id)
     {
         $this->checkPermission('update-holiday');
 
@@ -71,7 +71,7 @@ class HolidayController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HolidayDeleteRequest $request, $id)
+    public function destroy(DeleteHolidayRequest $request, $id)
     {
         $this->checkPermission('delete-holiday');
 
