@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Setup\CompanyEvent;
 use App\Models\Setup\CompanyEvent;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyEventIndexRequest extends ApiFormRequest
+class IndexCompanyEventRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -2,17 +2,18 @@
 
 namespace App\Http\Requests\v1\Setup\CompanyEvent;
 
+use Illuminate\Validation\Rule;
 use App\Models\Setup\CompanyEvent;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyEventGetRequest extends ApiFormRequest
+class UpdateCompanyEventRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('view', CompanyEvent::class);
+        return $this->user()->can('update', CompanyEvent::class);
     }
 
     /**
@@ -22,6 +23,8 @@ class CompanyEventGetRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:50', Rule::unique('departments')->ignore($this->id, 'id')],
+        ];
     }
 }

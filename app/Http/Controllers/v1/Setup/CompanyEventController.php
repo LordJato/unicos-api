@@ -4,12 +4,13 @@ namespace App\Http\Controllers\v1\Setup;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
-use App\Http\Requests\v1\Company\CompanyDeleteRequest;
-use App\Http\Requests\v1\Company\CompanyIndexRequest;
-use App\Http\Requests\v1\Company\CompanyUpdateRequest;
-use App\Http\Requests\v1\Setup\CompanyEvent\CompanyEventCreateRequest;
+use App\Http\Requests\v1\Company\IndexCompanyRequest;
 use App\Repositories\v1\Setup\CompanyEventRepository;
+use App\Http\Requests\v1\Company\CompanyDeleteRequest;
+use App\Http\Requests\v1\Company\CompanyUpdateRequest;
+use App\Http\Requests\v1\Company\DeleteCompanyRequest;
 use App\Http\Requests\v1\Setup\CompanyEvent\CompanyEventGetRequest;
+use App\Http\Requests\v1\Setup\CompanyEvent\CompanyEventCreateRequest;
 
 class CompanyEventController extends Controller
 {
@@ -18,7 +19,7 @@ class CompanyEventController extends Controller
         private readonly CompanyEventRepository $companyEventRepository
     ) {}
 
-    public function index(CompanyIndexRequest $request): JsonResponse
+    public function index(IndexCompanyRequest $request): JsonResponse
     {
         $this->checkPermission('view-all-company-event');
 
@@ -57,7 +58,7 @@ class CompanyEventController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CompanyUpdateRequest $request, $id)
+    public function update(UpdateCompanyRequest $request, $id)
     {
         $this->checkPermission('update-company');
 
@@ -71,7 +72,7 @@ class CompanyEventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompanyDeleteRequest $request, $id)
+    public function destroy(DeleteCompanyRequest $request, $id)
     {
         $this->checkPermission('delete-company-event');
 

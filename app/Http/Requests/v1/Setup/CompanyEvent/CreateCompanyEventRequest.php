@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\v1\Setup\CompanyEvent;
 
-use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\Setup\CompanyEvent;
+use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyEventDeleteRequest extends ApiFormRequest
+class CreateCompanyEventRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,6 +22,8 @@ class CompanyEventDeleteRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'name' => ['required', 'string', 'max:50', 'unique:departments'],
+        ];
     }
 }

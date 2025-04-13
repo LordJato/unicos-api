@@ -5,14 +5,14 @@ namespace App\Http\Requests\v1\Setup\CompanyEvent;
 use App\Models\Setup\CompanyEvent;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class CompanyEventCreateRequest extends ApiFormRequest
+class GetCompanyEventRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('create', CompanyEvent::class);
+        return $this->user()->can('view', CompanyEvent::class);
     }
 
     /**
@@ -22,8 +22,6 @@ class CompanyEventCreateRequest extends ApiFormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'max:50', 'unique:departments'],
-        ];
+        return [];
     }
 }
