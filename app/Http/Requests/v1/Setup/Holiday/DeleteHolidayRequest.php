@@ -5,7 +5,7 @@ namespace App\Http\Requests\v1\Setup\Holiday;
 use App\Models\Setup\Holiday;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class HolidayDeleteRequest extends ApiFormRequest
+class DeleteHolidayRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -2,17 +2,18 @@
 
 namespace App\Http\Requests\v1\Setup\Holiday;
 
-use App\Http\Requests\v1\ApiFormRequest;
 use App\Models\Setup\Holiday;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\v1\ApiFormRequest;
 
-class HolidayCreateRequest extends ApiFormRequest
+class UpdateHolidayRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('create', Holiday::class);
+        return $this->user()->can('update', Holiday::class);
     }
 
     /**
@@ -23,7 +24,7 @@ class HolidayCreateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:50', 'unique:departments'],
+            'name' => ['required', 'string', 'max:50', Rule::unique('departments')->ignore($this->id, 'id')],
         ];
     }
 }
