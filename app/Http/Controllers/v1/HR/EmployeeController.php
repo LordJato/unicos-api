@@ -5,17 +5,17 @@ namespace App\Http\Controllers\v1\HR;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\EmployeeRepository;
-use App\Http\Requests\v1\HR\Employee\EmployeeGetRequest;
-use App\Http\Requests\v1\HR\Employee\EmployeeIndexRequest;
-use App\Http\Requests\v1\HR\Employee\EmployeeCreateRequest;
-use App\Http\Requests\v1\HR\Employee\EmployeeUpdateRequest;
+use App\Http\Requests\v1\HR\Employee\GetEmployeeRequest;
+use App\Http\Requests\v1\HR\Employee\IndexEmployeeRequest;
+use App\Http\Requests\v1\HR\Employee\CreateEmployeeRequest;
+use App\Http\Requests\v1\HR\Employee\UpdateEmployeeRequest;
 
 class EmployeeController extends Controller
 {
     public function __construct(private readonly EmployeeRepository $employeeRepository) {}
 
 
-    public function index(EmployeeIndexRequest $request)
+    public function index(IndexEmployeeRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -24,7 +24,7 @@ class EmployeeController extends Controller
         return $this->responseSuccess($data, "Employees fetched successfully");
     }
 
-    public function store(EmployeeCreateRequest $request)
+    public function store(CreateEmployeeRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -36,7 +36,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmployeeGetRequest $request): JsonResponse
+    public function show(GetEmployeeRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
 
@@ -48,7 +48,7 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update($id, EmployeeUpdateRequest $request)
+    public function update($id, UpdateEmployeeRequest $request)
     {
         $validatedData = $request->validated();
 
