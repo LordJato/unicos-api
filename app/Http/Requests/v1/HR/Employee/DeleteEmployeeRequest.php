@@ -5,14 +5,14 @@ namespace App\Http\Requests\v1\HR\Employee;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\v1\ApiFormRequest;
 
-class EmployeeIndexRequest extends ApiFormRequest
+class DeleteEmployeeRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Gate::allows('view-all-employee');
+        return Gate::allows('delete-employee');
     }
 
     /**
