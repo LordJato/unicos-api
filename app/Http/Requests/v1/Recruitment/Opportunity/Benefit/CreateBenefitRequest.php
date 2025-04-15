@@ -11,7 +11,7 @@ class CreateBenefitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class CreateBenefitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'opportunity_id' => [
+                'required',
+                'integer',
+                'exists:opportunities,id',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'max:255',
+            ],
         ];
     }
 }
