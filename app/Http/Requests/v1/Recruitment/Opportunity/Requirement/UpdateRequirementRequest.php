@@ -22,7 +22,16 @@ class UpdateRequirementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'opportunity_id' => [
+                'sometimes', // Only validate if the field is present
+                'integer',
+                'exists:opportunities,id',
+            ],
+            'description' => [
+                'sometimes', // Only validate if the field is present
+                'string',
+                'max:255',
+            ],
         ];
     }
 }
