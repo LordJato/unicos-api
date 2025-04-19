@@ -2,7 +2,7 @@
 
 namespace App\Repositories\v1\HR;
 
-use App\Models\HR\ShiftHeader;
+use App\Models\HR\EmployeeStatus;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -20,7 +20,7 @@ class EmployeeStatusRepository
     {
         $search = $params['search'];
 
-        $data = ShiftHeader::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $data = EmployeeStatus::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
@@ -33,52 +33,52 @@ class EmployeeStatusRepository
     }
 
     /**
-     * Get ShiftHeader by ID.
+     * Get Employee Status by ID.
      *
      * @param int $id
-     * @return Designation|null
+     * @return EmployeeStatus|null
      * @throws HttpException
      */
-    public function getByID(int $id): ?ShiftHeader
+    public function getByID(int $id): ?EmployeeStatus
     {
-        $data = ShiftHeader::find($id);
+        $data = EmployeeStatus::find($id);
 
         if (empty($data)) {
-            throw new HttpException(Response::HTTP_NOT_FOUND, "Shift Header does not exist.");
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Employee Status does not exist.");
         }
 
         return $data;
     }
 
     /**
-     * Create ShiftHeader.
+     * Create EmployeeStatus.
      *
      * @param array $params
-     * @return ShiftHeader
+     * @return EmployeeStatus
      * @throws HttpException
      */
-    public function create(array $params): ShiftHeader
+    public function create(array $params): EmployeeStatus
     {
 
         $data = $this->prepareDataForDB($params);
 
-        $create = ShiftHeader::create($data);
+        $create = EmployeeStatus::create($data);
 
         if (!$create) {
-            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Shift Header, Please try again.");
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Employee Status, Please try again.");
         }
 
         return $create->fresh();
     }
 
     /**
-     * Update ShiftHeader.
+     * Update Employee Status.
      *
      * @param int $id
      * @param array $params
-     * @return ShiftHeader|null
+     * @return EmployeeStatus|null
      */
-    public function update(int $id, array $params): ?ShiftHeader
+    public function update(int $id, array $params): ?EmployeeStatus
     {
         $update = $this->getById($id);
 
@@ -88,7 +88,7 @@ class EmployeeStatusRepository
     }
 
     /**
-     * Soft delete ShiftHeader.
+     * Soft delete Employee Status.
      *
      * @param int $id
      * @return bool
@@ -105,11 +105,11 @@ class EmployeeStatusRepository
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.
-     * @param ShiftHeader|null $model Existing account model (optional).
+     * @param EmployeeStatus|null $model Existing account model (optional).
      *
      * @return array Prepared data.
      */
-    public function prepareDataForDB(array $data, ?ShiftHeader $model = null): array
+    public function prepareDataForDB(array $data, ?EmployeeStatus $model = null): array
     {
         return [
             'account_id' =>  $data['account_id'] ?? $model->account_id,
