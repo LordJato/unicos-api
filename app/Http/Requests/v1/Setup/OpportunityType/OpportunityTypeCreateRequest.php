@@ -23,7 +23,6 @@ class OpportunityTypeCreateRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'observance_type_id' => ['required', 'integer', 'max:1',],
             'title' => ['required', 'string', 'max:100', 'unique:observances'],
             'description' => ['required', 'string', 'max:200',],
             'start_date' => ['required', 'date', 'before:end_date'],
