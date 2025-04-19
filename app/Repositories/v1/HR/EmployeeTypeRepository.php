@@ -2,14 +2,14 @@
 
 namespace App\Repositories\v1\HR;
 
-use App\Models\HR\ShiftHeader;
+use App\Models\HR\EmployeeType;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class EmployeeTypeRepository
 {
     /**
-     * Get all ShiftHeader.
+     * Get all Employee Type.
      *
      * @param array $params
      * @return array
@@ -20,7 +20,7 @@ class EmployeeTypeRepository
     {
         $search = $params['search'];
 
-        $data = ShiftHeader::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $data = EmployeeType::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
@@ -33,52 +33,52 @@ class EmployeeTypeRepository
     }
 
     /**
-     * Get ShiftHeader by ID.
+     * Get Employee Type by ID.
      *
      * @param int $id
-     * @return Designation|null
+     * @return EmployeeType|null
      * @throws HttpException
      */
-    public function getByID(int $id): ?ShiftHeader
+    public function getByID(int $id): ?EmployeeType
     {
-        $data = ShiftHeader::find($id);
+        $data = EmployeeType::find($id);
 
         if (empty($data)) {
-            throw new HttpException(Response::HTTP_NOT_FOUND, "Shift Header does not exist.");
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Employee Type does not exist.");
         }
 
         return $data;
     }
 
     /**
-     * Create ShiftHeader.
+     * Create EmployeeType.
      *
      * @param array $params
-     * @return ShiftHeader
+     * @return EmployeeType
      * @throws HttpException
      */
-    public function create(array $params): ShiftHeader
+    public function create(array $params): EmployeeType
     {
 
         $data = $this->prepareDataForDB($params);
 
-        $create = ShiftHeader::create($data);
+        $create = EmployeeType::create($data);
 
         if (!$create) {
-            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Shift Header, Please try again.");
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Employee Type, Please try again.");
         }
 
         return $create->fresh();
     }
 
     /**
-     * Update ShiftHeader.
+     * Update Employee Type.
      *
      * @param int $id
      * @param array $params
-     * @return ShiftHeader|null
+     * @return EmployeeType|null
      */
-    public function update(int $id, array $params): ?ShiftHeader
+    public function update(int $id, array $params): ?EmployeeType
     {
         $update = $this->getById($id);
 
@@ -88,7 +88,7 @@ class EmployeeTypeRepository
     }
 
     /**
-     * Soft delete ShiftHeader.
+     * Soft delete Employee Type.
      *
      * @param int $id
      * @return bool
@@ -105,11 +105,11 @@ class EmployeeTypeRepository
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.
-     * @param ShiftHeader|null $model Existing account model (optional).
+     * @param EmployeeType|null $model Existing account model (optional).
      *
      * @return array Prepared data.
      */
-    public function prepareDataForDB(array $data, ?ShiftHeader $model = null): array
+    public function prepareDataForDB(array $data, ?EmployeeType $model = null): array
     {
         return [
             'account_id' =>  $data['account_id'] ?? $model->account_id,
