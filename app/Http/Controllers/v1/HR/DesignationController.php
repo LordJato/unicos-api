@@ -16,6 +16,15 @@ class DesignationController extends Controller
 
         $data = $this->designationRepository->getAll($validatedData);
 
-        return $this->responseSuccess($data, "Employees fetched successfully");
+        return $this->responseSuccess($data, "Designation fetched successfully");
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $create = $this->designationRepository->create($validatedData);
+
+        return $this->responseSuccess($create, "Designation created successfully");
     }
 }
