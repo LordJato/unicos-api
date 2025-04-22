@@ -18,4 +18,14 @@ class EmployeeEmergencyController extends Controller
 
         return $this->responseSuccess($data, "Employees fetched successfully");
     }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $create = $this->employeeEmergencyRepository->create($validatedData);
+
+        return $this->responseSuccess($create, "Employee Emergency created successfully");
+    }
+
 }
