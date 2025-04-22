@@ -16,7 +16,16 @@ class EmployeeChildrenController extends Controller
 
         $data = $this->employeeChildrenRepository->getAll($validatedData);
 
-        return $this->responseSuccess($data, "Employees fetched successfully");
+        return $this->responseSuccess($data, "Employee Children fetched successfully");
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $create = $this->employeeChildrenRepository->create($validatedData);
+
+        return $this->responseSuccess($create, "Employee Children created successfully");
     }
 
 }
