@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\v1\HR;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\Employee\EmployeeChildrenRepository;
-use Illuminate\Http\Request;
 
 class EmployeeChildrenController extends Controller
 {
@@ -28,4 +29,17 @@ class EmployeeChildrenController extends Controller
         return $this->responseSuccess($create, "Employee Children created successfully");
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, $id): JsonResponse
+    {
+        $this->checkPermission('view-designation');
+
+        $request->validated();
+
+        $find = $this->employeeChildrenRepository->getByID($id);
+
+        return $this->responseSuccess($find, "Employee Children find successfully");
+    }
 }
