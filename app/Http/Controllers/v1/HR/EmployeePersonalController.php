@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\v1\HR;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\Employee\EmployeePersonalRepository;
-use Illuminate\Http\Request;
 
 class EmployeePersonalController extends Controller
 {
@@ -27,6 +28,20 @@ class EmployeePersonalController extends Controller
         $create = $this->employeePersonalRepository->create($validatedData);
 
         return $this->responseSuccess($create, "Employee Personal created successfully");
+    }
+
+     /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, $id): JsonResponse
+    {
+        $this->checkPermission('view-designation');
+
+        $request->validated();
+
+        $find = $this->employeePersonalRepository->getByID($id);
+
+        return $this->responseSuccess($find, "Employee Personal find successfully");
     }
 
 }
