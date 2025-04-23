@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\v1\HR;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
 use App\Repositories\v1\HR\Employee\EmployeeEmergencyRepository;
-use Illuminate\Http\Request;
 
 class EmployeeEmergencyController extends Controller
 {
@@ -26,6 +27,21 @@ class EmployeeEmergencyController extends Controller
         $create = $this->employeeEmergencyRepository->create($validatedData);
 
         return $this->responseSuccess($create, "Employee Emergency created successfully");
+    }
+
+    
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request, $id): JsonResponse
+    {
+        $this->checkPermission('view-designation');
+
+        $request->validated();
+
+        $find = $this->employeeEmergencyRepository->getByID($id);
+
+        return $this->responseSuccess($find, "Employee Emergency find successfully");
     }
 
 }
