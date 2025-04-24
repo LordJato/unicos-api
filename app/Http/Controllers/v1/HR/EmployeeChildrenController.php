@@ -42,4 +42,16 @@ class EmployeeChildrenController extends Controller
 
         return $this->responseSuccess($find, "Employee Children find successfully");
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update($id, Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $update = $this->employeeChildrenRepository->update($id, $validatedData);
+
+        return $this->responseSuccess($update, "Employee Children updated successfully");
+    }
 }
