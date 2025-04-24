@@ -29,7 +29,7 @@ class DesignationController extends Controller
         return $this->responseSuccess($create, "Designation created successfully");
     }
 
-       /**
+    /**
      * Display the specified resource.
      */
     public function show(Request $request, $id): JsonResponse
@@ -41,5 +41,17 @@ class DesignationController extends Controller
         $find = $this->designationRepository->getByID($id);
 
         return $this->responseSuccess($find, "Designation find successfully");
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update($id, Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $update = $this->designationRepository->update($id, $validatedData);
+
+        return $this->responseSuccess($update, "Designation updated successfully");
     }
 }
