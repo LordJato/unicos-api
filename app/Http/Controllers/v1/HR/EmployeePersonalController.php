@@ -20,7 +20,7 @@ class EmployeePersonalController extends Controller
         return $this->responseSuccess($data, "Employee Personal fetched successfully");
     }
 
-    
+
     public function store(Request $request)
     {
         $validatedData = $request->validated();
@@ -30,7 +30,7 @@ class EmployeePersonalController extends Controller
         return $this->responseSuccess($create, "Employee Personal created successfully");
     }
 
-     /**
+    /**
      * Display the specified resource.
      */
     public function show(Request $request, $id): JsonResponse
@@ -44,4 +44,15 @@ class EmployeePersonalController extends Controller
         return $this->responseSuccess($find, "Employee Personal find successfully");
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update($id, Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $update = $this->employeePersonalRepository->update($id, $validatedData);
+
+        return $this->responseSuccess($update, "Employee Personal updated successfully");
+    }
 }
