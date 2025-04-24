@@ -44,4 +44,16 @@ class EmployeeEmergencyController extends Controller
         return $this->responseSuccess($find, "Employee Emergency find successfully");
     }
 
+     /**
+     * Update the specified resource in storage.
+     */
+    public function update($id, Request $request)
+    {
+        $validatedData = $request->validated();
+
+        $update = $this->employeeEmergencyRepository->update($id, $validatedData);
+
+        return $this->responseSuccess($update, "Employee Emergency updated successfully");
+    }
+
 }
