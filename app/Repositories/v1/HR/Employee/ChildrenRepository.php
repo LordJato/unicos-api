@@ -6,7 +6,7 @@ use App\Models\HR\EmployeeChildren;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class EmployeeChildrenRepository
+class ChildrenRepository
 {
     /**
      * Get all Employee Children.

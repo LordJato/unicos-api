@@ -5,11 +5,11 @@ namespace App\Http\Controllers\v1\HR;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
-use App\Repositories\v1\HR\Employee\EmployeeChildrenRepository;
+use App\Repositories\v1\HR\Employee\ChildrenRepository;
 
-class EmployeeChildrenController extends Controller
+class ChildrenController extends Controller
 {
-    public function __construct(private readonly EmployeeChildrenRepository $employeeChildrenRepository) {}
+    public function __construct(private readonly ChildrenRepository $employeeChildrenRepository) {}
 
     public function index(Request $request)
     {
