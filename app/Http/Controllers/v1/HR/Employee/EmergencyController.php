@@ -5,11 +5,11 @@ namespace App\Http\Controllers\v1\HR;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\v1\Controller;
-use App\Repositories\v1\HR\Employee\EmployeeEmergencyRepository;
+use App\Repositories\v1\HR\Employee\EmergencyRepository;
 
-class EmployeeEmergencyController extends Controller
+class EmergencyController extends Controller
 {
-    public function __construct(private readonly EmployeeEmergencyRepository $employeeEmergencyRepository) {}
+    public function __construct(private readonly EmergencyRepository $employeeEmergencyRepository) {}
 
     public function index(Request $request)
     {
