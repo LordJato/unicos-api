@@ -2,11 +2,11 @@
 
 namespace App\Repositories\v1\HR\Employee;
 
-use App\Models\HR\EmployeePersonal;
+use App\Models\HR\EmployeeEmergency;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class EmployeePersonalRepository
+class EmergencyRepository
 {
     /**
      * Get all Employee Personal.
@@ -20,7 +20,7 @@ class EmployeePersonalRepository
     {
         $search = $params['search'];
 
-        $data = EmployeePersonal::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
+        $data = EmployeeEmergency::when($search, fn($query, $search) => $query->where('name', 'like', $search . '%'))
             ->orderBy($params['orderBy'], $params['orderDesc'])
             ->paginate($params['limit'], ['*'], 'page', floor($params['offset'] / $params['limit']) + 1);
 
@@ -33,52 +33,52 @@ class EmployeePersonalRepository
     }
 
     /**
-     * Get Employee Personal by ID.
+     * Get Employee Emergency by ID.
      *
      * @param int $id
      * @return EmployeePersonal|null
      * @throws HttpException
      */
-    public function getByID(int $id): ?EmployeePersonal
+    public function getByID(int $id): ?EmployeeEmergency
     {
-        $data = EmployeePersonal::find($id);
+        $data = EmployeeEmergency::find($id);
 
         if (empty($data)) {
-            throw new HttpException(Response::HTTP_NOT_FOUND, "Employee Personal does not exist.");
+            throw new HttpException(Response::HTTP_NOT_FOUND, "Employee Emergency does not exist.");
         }
 
         return $data;
     }
 
     /**
-     * Create Employee Personal.
+     * Create Employee Emergency.
      *
      * @param array $params
      * @return EmployeePersonal
-     * @throws HttpException
+     * @throws EmployeeEmergency
      */
-    public function create(array $params): EmployeePersonal
+    public function create(array $params): EmployeeEmergency
     {
 
         $data = $this->prepareDataForDB($params);
 
-        $create = EmployeePersonal::create($data);
+        $create = EmployeeEmergency::create($data);
 
         if (!$create) {
-            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Employee Personal, Please try again.");
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, "Could not create Employee Emergency, Please try again.");
         }
 
         return $create->fresh();
     }
 
     /**
-     * Update Employee Personal.
+     * Update Employee Emergency.
      *
      * @param int $id
      * @param array $params
-     * @return EmployeePersonal|null
+     * @return EmployeeEmergency|null
      */
-    public function update(int $id, array $params): EmployeePersonal
+    public function update(int $id, array $params): ?EmployeeEmergency
     {
         $update = $this->getById($id);
 
@@ -88,7 +88,7 @@ class EmployeePersonalRepository
     }
 
     /**
-     * Soft delete Employee Personal.
+     * Soft delete Employee Emergency.
      *
      * @param int $id
      * @return bool
@@ -105,11 +105,11 @@ class EmployeePersonalRepository
      * Prepares data for database insertion/update.
      *
      * @param array $data Incoming data.
-     * @param EmployeePersonal|null $model Existing account model (optional).
+     * @param EmployeeEmergency|null $model Existing account model (optional).
      *
      * @return array Prepared data.
      */
-    public function prepareDataForDB(array $data, ?EmployeePersonal $model = null): array
+    public function prepareDataForDB(array $data, ?EmployeeEmergency $model = null): array
     {
         return [
             'title' =>  $data['title'] ?? $model->title,
