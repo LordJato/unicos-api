@@ -20,8 +20,6 @@ class HolidayController extends Controller
 
     public function index(IndexHolidayRequest $request): JsonResponse
     {
-        $this->checkPermission('view-all-holiday');
-
         $validatedData = $request->validated();
 
         $data = $this->holidayRepository->getAll($validatedData);
