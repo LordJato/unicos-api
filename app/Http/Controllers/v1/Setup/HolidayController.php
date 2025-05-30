@@ -20,8 +20,6 @@ class HolidayController extends Controller
 
     public function index(IndexHolidayRequest $request): JsonResponse
     {
-        $this->checkPermission('view-all-holiday');
-
         $validatedData = $request->validated();
 
         $data = $this->holidayRepository->getAll($validatedData);
@@ -31,8 +29,6 @@ class HolidayController extends Controller
 
     public function store(CreateHolidayRequest $request)
     {
-        $this->checkPermission('create-holiday');
-
         $validatedData = $request->validated();
 
         $create = $this->holidayRepository->create($validatedData);
@@ -45,8 +41,6 @@ class HolidayController extends Controller
      */
     public function show(GetHolidayRequest $request, $id): JsonResponse
     {
-        $this->checkPermission('view-holiday');
-
         $request->validated();
 
         $find = $this->holidayRepository->getByID($id);
@@ -59,8 +53,6 @@ class HolidayController extends Controller
      */
     public function update(UpdateHolidayRequest $request, $id)
     {
-        $this->checkPermission('update-holiday');
-
         $validatedData = $request->validated();
 
         $update = $this->holidayRepository->update($id, $validatedData);
@@ -73,8 +65,6 @@ class HolidayController extends Controller
      */
     public function destroy(DeleteHolidayRequest $request, $id)
     {
-        $this->checkPermission('delete-holiday');
-
         $request->validated();
 
         $delete = $this->holidayRepository->softDelete($id);

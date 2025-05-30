@@ -34,8 +34,6 @@ class DesignationController extends Controller
      */
     public function show(Request $request, $id): JsonResponse
     {
-        $this->checkPermission('view-department');
-
         $request->validated();
 
         $find = $this->designationRepository->getByID($id);
