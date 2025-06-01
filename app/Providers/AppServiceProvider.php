@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
 
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
-            // Extract model name without namespace
             $modelName = class_basename($modelClass);
         
             // Return the flattened policy class
