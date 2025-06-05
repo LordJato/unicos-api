@@ -29,8 +29,6 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
             $modelName = class_basename($modelClass);
-        
-            // Return the flattened policy class
             return 'App\\Policies\\' . $modelName . 'Policy';
         });
     }
