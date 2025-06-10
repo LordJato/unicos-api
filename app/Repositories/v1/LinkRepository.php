@@ -10,8 +10,7 @@ class LinkRepository
     public static function generateRegisterLink(array $params): string
     {
         $defaults = [
-            'expiration' => 1,
-            // Add other required keys here
+            'expiration' => 1
         ];
 
         $params = array_merge($defaults, $params);
