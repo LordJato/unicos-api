@@ -24,9 +24,6 @@ class CompanyPolicy
         return $user->account_id === $company->account_id;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         return true;
