@@ -8,17 +8,12 @@ use Illuminate\Auth\Access\Response;
 
 class CompanyEventPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+
     public function viewAny(User $user): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
     public function view(User $user, CompanyEvent $companyEvent): bool
     {
         return true;
