@@ -20,12 +20,6 @@ class ResetPasswordNotification extends Notification
         $this->name = $name;
     }
 
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
         return ['mail'];
