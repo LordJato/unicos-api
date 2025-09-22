@@ -7,14 +7,7 @@ use Illuminate\Http\Response;
 
 trait ResponseTrait
 {
-    /**
-     * Success response.
-     *
-     * @param array|object $data
-     * @param string $message
-     *
-     * @return JsonResponse
-     */
+    
     public function responseSuccess($data, $message = "Successful"): JsonResponse
     {
         return response()->json([
