@@ -11,12 +11,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AccountRepository
 {
-    /**
-     * Get all Accounts.
-     *
-     * @param array $params
-     * @return array
-     */
 
     public function getAll(array $params): array
     {
