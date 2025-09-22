@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 trait TenantAccount {
     public static function bootTenantAccount(){
 
-        $currentUser = getCurrentUser();
-
         if(Auth::check() && !$currentUser->hasRolesTo('super-admin')){
             
             static::creating(function ($model) use ($currentUser){
