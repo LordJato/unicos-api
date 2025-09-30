@@ -6,11 +6,8 @@ use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class RoleSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
+class RoleSeeder extends Seed
+    {
     public function run(): void
     {
         Role::insert([
