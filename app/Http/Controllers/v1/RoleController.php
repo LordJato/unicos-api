@@ -71,19 +71,5 @@ class RoleController extends Controller
         return $this->responseSuccess($role, "Role deleted successfully");
     }
 
-    public function attachPermissions(Request $request)
-    {
-        $role = $this->roleRepository->getByID($request->roleID);
-
-        $attach = $role->setPermissionsWihtoutDetaching($request->permissions);
-
-        return $this->responseSuccess($attach, "Permissions attached successfully.");
-    }
-
-    public function rolesPermissions()
-    {
-        $rolesPermissions = Role::with('permissions')->get();
-
-        return $this->responseSuccess($rolesPermissions, "Roles fetched successfully");
-    }
+    
 }
